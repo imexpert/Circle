@@ -98,7 +98,7 @@ namespace Circle.Library.Business
             services.AddTransient<IGroupClaimRepository, GroupClaimRepository>();
 
 
-            services.AddDbContext<ProjectDbContext>();
+            services.AddDbContext<ProjectDbContext,MsDbContext>();
         }
 
 

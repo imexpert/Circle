@@ -1,40 +1,140 @@
+using Circle.Core.CrossCuttingConcerns.Logging.Serilog.Loggers;
+using Circle.Core.Extensions;
+using Circle.Core.Utilities.IoC;
+using Circle.Core.Utilities.Security.Encyption;
+using Circle.Core.Utilities.Security.Jwt;
+using Circle.Library.Business;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Localization;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
+using Swashbuckle.AspNetCore.SwaggerUI;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
+using System.IO;
 using System.Linq;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace Circle.Library.Api
 {
-    public class Startup
+    public class Startup : BusinessStartup
     {
-        // This method gets called by the runtime. Use this method to add services to the container.
-        // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
-        public void ConfigureServices(IServiceCollection services)
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="configuration"></param>
+        /// <param name="hostEnvironment"></param>
+        public Startup(IConfiguration configuration, IHostEnvironment hostEnvironment)
+            : base(configuration, hostEnvironment)
         {
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        /// <summary>
+        /// This method gets called by the runtime. Use this method to add services to the container.
+        /// </summary>
+        /// <remarks>
+        /// It is common to all configurations and must be called. Aspnet core does not call this method because there are other methods.
+        /// </remarks>
+        /// <param name="services"></param>
+        public override void ConfigureServices(IServiceCollection services)
+        {
+            // Business katmanýnda olan dependency tanýmlarýnýn bir metot üzerinden buraya implemente edilmesi.
+
+            services.AddControllers()
+                .AddJsonOptions(options =>
+                {
+                    options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+                    options.JsonSerializerOptions.IgnoreNullValues = true;
+                });
+
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy(
+                    "AllowOrigin",
+                    builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+            });
+
+            var tokenOptions = Configuration.GetSection("TokenOptions").Get<TokenOptions>();
+
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = true,
+                        ValidateAudience = true,
+                        ValidateLifetime = true,
+                        ValidIssuer = tokenOptions.Issuer,
+                        ValidAudience = tokenOptions.Audience,
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = SecurityKeyHelper.CreateSecurityKey(tokenOptions.SecurityKey),
+                        ClockSkew = TimeSpan.Zero
+                    };
+                });
+            services.AddSwaggerGen();
+
+            services.AddTransient<MsSqlLogger>();
+
+            base.ConfigureProductionServices(services);
+        }
+
+
+        /// <summary>
+        /// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        /// </summary>
+        /// <param name="app"></param>
+        /// <param name="env"></param>
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
+            // VERY IMPORTANT. Since we removed the build from AddDependencyResolvers, let's set the Service provider manually.
+            // By the way, we can construct with DI by taking type to avoid calling static methods in aspects.
+            ServiceTool.ServiceProvider = app.ApplicationServices;
+
+
+            var configurationManager = app.ApplicationServices.GetService<ConfigurationManager>();
+            
+            app.UseDeveloperExceptionPage();
+
+            app.ConfigureCustomExceptionMiddleware();
+            app.UseSwagger();
+
+            app.UseSwaggerUI(c => {
+                c.SwaggerEndpoint("v1/swagger.json", "Circle Api");
+                c.DocExpansion(DocExpansion.None);
+            });
+            app.UseCors("AllowOrigin");
+
+            app.UseHttpsRedirection();
 
             app.UseRouting();
 
-            app.UseEndpoints(endpoints =>
+            app.UseAuthentication();
+
+            app.UseAuthorization();
+
+            // Make Turkish your default language. It shouldn't change according to the server.
+            app.UseRequestLocalization(new RequestLocalizationOptions
             {
-                endpoints.MapGet("/", async context =>
-                {
-                    await context.Response.WriteAsync("Hello World!");
-                });
+                DefaultRequestCulture = new RequestCulture("tr-TR"),
             });
+
+            var cultureInfo = new CultureInfo("tr-TR");
+            cultureInfo.DateTimeFormat.ShortTimePattern = "HH:mm";
+
+            CultureInfo.DefaultThreadCurrentCulture = cultureInfo;
+            CultureInfo.DefaultThreadCurrentUICulture = cultureInfo;
+
+            app.UseStaticFiles();
+
+            app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
         }
     }
 }

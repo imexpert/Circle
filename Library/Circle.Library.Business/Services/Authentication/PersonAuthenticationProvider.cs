@@ -10,7 +10,7 @@ using Circle.Library.Business.Services.Authentication.Model;
 namespace Circle.Library.Business.Services.Authentication
 {
     /// <summary>
-    /// Provider that logs in using the DevArchitecture database.
+    /// Provider that logs in using the Circle Api database.
     /// </summary>
     public class PersonAuthenticationProvider : AuthenticationProviderBase, IAuthenticationProvider
     {

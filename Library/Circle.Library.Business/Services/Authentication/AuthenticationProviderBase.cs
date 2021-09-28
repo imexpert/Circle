@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Circle.Core.Entities.Concrete;
 using Circle.Core.Utilities.Results;
 using Circle.Library.Business.Services.Authentication.Model;
-using DataAccess.Abstract;
+using Circle.Library.DataAccess.Abstract;
 using Microsoft.EntityFrameworkCore;
 
 namespace Circle.Library.Business.Services.Authentication

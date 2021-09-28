@@ -2,7 +2,7 @@
 using System;
 using System.Linq;
 
-namespace DataAccess.Concrete.EntityFramework
+namespace Circle.Library.DataAccess.Concrete.EntityFramework
 {
     public static class ContextExtensions
     {

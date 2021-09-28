@@ -1,9 +1,20 @@
+using Circle.Core.CrossCuttingConcerns.Caching;
+using Circle.Core.CrossCuttingConcerns.Caching.Microsoft;
 using Circle.Core.CrossCuttingConcerns.Logging.Serilog.Loggers;
+using Circle.Core.DependencyResolvers;
 using Circle.Core.Extensions;
 using Circle.Core.Utilities.IoC;
+using Circle.Core.Utilities.MessageBrokers.RabbitMq;
 using Circle.Core.Utilities.Security.Encyption;
 using Circle.Core.Utilities.Security.Jwt;
 using Circle.Library.Business;
+using Circle.Library.Business.Constants;
+using Circle.Library.Business.Services.Authentication;
+using Circle.Library.DataAccess.Abstract;
+using Circle.Library.DataAccess.Concrete.EntityFramework;
+using Circle.Library.DataAccess.Concrete.EntityFramework.Contexts;
+using FluentValidation;
+using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -16,9 +27,13 @@ using Microsoft.IdentityModel.Tokens;
 using Swashbuckle.AspNetCore.SwaggerUI;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Reflection;
+using System.Security.Claims;
+using System.Security.Principal;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
@@ -79,11 +94,13 @@ namespace Circle.Library.Api
                         ClockSkew = TimeSpan.Zero
                     };
                 });
-            services.AddSwaggerGen();
+            services.AddSwaggerGen(c =>
+            {
+            });
 
             services.AddTransient<MsSqlLogger>();
 
-            base.ConfigureProductionServices(services);
+            base.ConfigureServices(services);
         }
 
 
@@ -98,16 +115,14 @@ namespace Circle.Library.Api
             // By the way, we can construct with DI by taking type to avoid calling static methods in aspects.
             ServiceTool.ServiceProvider = app.ApplicationServices;
 
-
-            var configurationManager = app.ApplicationServices.GetService<ConfigurationManager>();
-            
             app.UseDeveloperExceptionPage();
 
             app.ConfigureCustomExceptionMiddleware();
+
             app.UseSwagger();
 
             app.UseSwaggerUI(c => {
-                c.SwaggerEndpoint("v1/swagger.json", "Circle Api");
+                c.SwaggerEndpoint("v1/swagger.json", "DevArchitecture");
                 c.DocExpansion(DocExpansion.None);
             });
             app.UseCors("AllowOrigin");

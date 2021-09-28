@@ -3,7 +3,7 @@ using Circle.Core.Entities.Concrete;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
-namespace DataAccess.Concrete.EntityFramework.Contexts
+namespace Circle.Library.DataAccess.Concrete.EntityFramework.Contexts
 {
     /// <summary>
     /// Because this context is followed by migration for more than one provider

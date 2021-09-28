@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Circle.Library.Business.Constants;
 using Circle.Core.Entities.Concrete;
 using Circle.Core.Utilities.Security.Jwt;
-using DataAccess.Abstract;
+using Circle.Library.DataAccess.Abstract;
 using Microsoft.EntityFrameworkCore;
 using Circle.Library.Business.Services.Authentication.Model;
 

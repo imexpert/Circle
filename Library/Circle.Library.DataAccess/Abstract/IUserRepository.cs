@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Circle.Core.DataAccess;
 using Circle.Core.Entities.Concrete;
 
-namespace DataAccess.Abstract
+namespace Circle.Library.DataAccess.Abstract
 {
     public interface IUserRepository : IEntityRepository<User>
     {

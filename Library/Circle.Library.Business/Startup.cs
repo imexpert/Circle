@@ -14,15 +14,16 @@ using Circle.Core.Extensions;
 using Circle.Core.Utilities.IoC;
 using Circle.Core.Utilities.MessageBrokers.RabbitMq;
 using Circle.Core.Utilities.Security.Jwt;
-using DataAccess.Abstract;
-using DataAccess.Concrete.EntityFramework;
-using DataAccess.Concrete.EntityFramework.Contexts;
+using Circle.Library.DataAccess.Abstract;
 using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Circle.Core.CrossCuttingConcerns.Logging.Serilog.Loggers;
+using Circle.Library.DataAccess.Concrete.EntityFramework;
+using Circle.Library.DataAccess.Concrete.EntityFramework.Contexts;
 
 namespace Circle.Library.Business
 {
@@ -78,15 +79,7 @@ namespace Circle.Library.Business
                 return memberInfo.GetCustomAttribute<DisplayAttribute>()
                     ?.GetName();
             };
-        }
 
-        /// <summary>
-        /// This method gets called by the Production
-        /// </summary>
-        /// <param name="services"></param>
-        public void ConfigureProductionServices(IServiceCollection services)
-        {
-            ConfigureServices(services);
             services.AddTransient<ILogRepository, LogRepository>();
             services.AddTransient<ITranslateRepository, TranslateRepository>();
             services.AddTransient<ILanguageRepository, LanguageRepository>();
@@ -98,9 +91,8 @@ namespace Circle.Library.Business
             services.AddTransient<IGroupClaimRepository, GroupClaimRepository>();
 
 
-            services.AddDbContext<ProjectDbContext,MsDbContext>();
+            services.AddDbContext<ProjectDbContext, MsDbContext>();
         }
-
 
         /// <summary>
         ///

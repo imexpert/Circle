@@ -10,7 +10,7 @@ using Circle.Core.Aspects.Autofac.Performance;
 using Circle.Core.CrossCuttingConcerns.Caching;
 using Circle.Core.CrossCuttingConcerns.Logging.Serilog.Loggers;
 using Circle.Core.Utilities.Results;
-using DataAccess.Abstract;
+using Circle.Library.DataAccess.Abstract;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 

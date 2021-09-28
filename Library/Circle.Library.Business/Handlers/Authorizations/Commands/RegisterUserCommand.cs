@@ -9,7 +9,7 @@ using Circle.Core.CrossCuttingConcerns.Logging.Serilog.Loggers;
 using Circle.Core.Entities.Concrete;
 using Circle.Core.Utilities.Results;
 using Circle.Core.Utilities.Security.Hashing;
-using DataAccess.Abstract;
+using Circle.Library.DataAccess.Abstract;
 using MediatR;
 using Circle.Library.Business.Handlers.Authorizations.ValidationRules;
 

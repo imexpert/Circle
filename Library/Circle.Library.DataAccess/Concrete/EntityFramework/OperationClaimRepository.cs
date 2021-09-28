@@ -1,9 +1,9 @@
 ﻿using Circle.Core.DataAccess.EntityFramework;
 using Circle.Core.Entities.Concrete;
-using DataAccess.Abstract;
-using DataAccess.Concrete.EntityFramework.Contexts;
+using Circle.Library.DataAccess.Abstract;
+using Circle.Library.DataAccess.Concrete.EntityFramework.Contexts;
 
-namespace DataAccess.Concrete.EntityFramework
+namespace Circle.Library.DataAccess.Concrete.EntityFramework
 {
     public class OperationClaimRepository : EntityRepositoryBase<OperationClaim, ProjectDbContext>,
         IOperationClaimRepository

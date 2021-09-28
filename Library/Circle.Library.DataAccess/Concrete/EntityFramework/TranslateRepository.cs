@@ -4,12 +4,12 @@ using System.Threading.Tasks;
 using Circle.Core.DataAccess.EntityFramework;
 using Circle.Core.Entities.Concrete;
 using Circle.Core.Entities.Dtos;
-using DataAccess.Abstract;
-using DataAccess.Concrete.EntityFramework.Contexts;
+using Circle.Library.DataAccess.Abstract;
+using Circle.Library.DataAccess.Concrete.EntityFramework.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 
-namespace DataAccess.Concrete.EntityFramework
+namespace Circle.Library.DataAccess.Concrete.EntityFramework
 {
     public class TranslateRepository : EntityRepositoryBase<Translate, ProjectDbContext>, ITranslateRepository
     {

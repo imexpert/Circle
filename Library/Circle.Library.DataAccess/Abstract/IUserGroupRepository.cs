@@ -4,7 +4,7 @@ using Circle.Core.DataAccess;
 using Circle.Core.Entities.Concrete;
 using Circle.Core.Entities.Dtos;
 
-namespace DataAccess.Abstract
+namespace Circle.Library.DataAccess.Abstract
 {
     public interface IUserGroupRepository : IEntityRepository<UserGroup>
     {

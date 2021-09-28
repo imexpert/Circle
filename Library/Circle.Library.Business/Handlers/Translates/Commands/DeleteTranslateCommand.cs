@@ -6,7 +6,7 @@ using Circle.Core.Aspects.Autofac.Caching;
 using Circle.Core.Aspects.Autofac.Logging;
 using Circle.Core.CrossCuttingConcerns.Logging.Serilog.Loggers;
 using Circle.Core.Utilities.Results;
-using DataAccess.Abstract;
+using Circle.Library.DataAccess.Abstract;
 using MediatR;
 
 namespace Circle.Library.Business.Handlers.Translates.Commands

@@ -10,7 +10,7 @@ using Circle.Core.CrossCuttingConcerns.Logging.Serilog.Loggers;
 using Circle.Core.Utilities.Results;
 using Circle.Core.Utilities.Security.Hashing;
 using Circle.Core.Utilities.Security.Jwt;
-using DataAccess.Abstract;
+using Circle.Library.DataAccess.Abstract;
 using MediatR;
 
 namespace Circle.Library.Business.Handlers.Authorizations.Queries

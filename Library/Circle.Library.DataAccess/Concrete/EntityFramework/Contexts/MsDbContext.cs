@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
-namespace DataAccess.Concrete.EntityFramework.Contexts
+namespace Circle.Library.DataAccess.Concrete.EntityFramework.Contexts
 {
     public sealed class MsDbContext : ProjectDbContext
     {

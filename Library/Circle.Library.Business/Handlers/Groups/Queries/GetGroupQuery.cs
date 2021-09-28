@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Circle.Library.Business.BusinessAspects;
 using Circle.Core.Entities.Concrete;
 using Circle.Core.Utilities.Results;
-using DataAccess.Abstract;
+using Circle.Library.DataAccess.Abstract;
 using MediatR;
 
 namespace Circle.Library.Business.Handlers.Groups.Queries

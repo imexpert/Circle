@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace DataAccess.Concrete.Configurations
+namespace Circle.Library.DataAccess.Concrete.Configurations
 {
     public class OperationClaimEntityConfiguration : IEntityTypeConfiguration<OperationClaim>
     {

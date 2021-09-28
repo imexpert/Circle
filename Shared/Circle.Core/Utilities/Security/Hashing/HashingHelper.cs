@@ -12,7 +12,7 @@ namespace Circle.Core.Utilities.Security.Hashing
 
         public static bool VerifyPasswordHash(string inputPassword, string userPassword)
         {
-            return ToMd5(inputPassword).Equals(userPassword);
+            return ToMd5(inputPassword).ToUpper().Equals(userPassword.ToUpper());
         }
 
         private static string ToMd5(string plainText)

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Circle.Core.Entities.Concrete;
 using Circle.Core.Entities.Dtos;
@@ -42,7 +43,7 @@ namespace Circle.Library.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<UserClaim>))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(string))]
         [HttpGet("getbyuserid")]
-        public async Task<IActionResult> GetByUserId(int userid)
+        public async Task<IActionResult> GetByUserId(Guid userid)
         {
             return GetResponseOnlyResultData(await Mediator.Send(new GetUserClaimLookupQuery { UserId = userid }));
         }
@@ -57,7 +58,7 @@ namespace Circle.Library.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<SelectionItem>))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(string))]
         [HttpGet("getoperationclaimbyuserid")]
-        public async Task<IActionResult> GetOperationClaimByUserId(int id)
+        public async Task<IActionResult> GetOperationClaimByUserId(Guid id)
         {
             return GetResponseOnlyResultData(await Mediator.Send(new GetUserClaimLookupByUserIdQuery { Id = id }));
         }

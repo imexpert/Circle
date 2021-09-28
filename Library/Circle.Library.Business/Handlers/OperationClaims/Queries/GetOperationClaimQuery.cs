@@ -7,12 +7,13 @@ using Circle.Core.Entities.Concrete;
 using Circle.Core.Utilities.Results;
 using Circle.Library.DataAccess.Abstract;
 using MediatR;
+using System;
 
 namespace Circle.Library.Business.Handlers.OperationClaims.Queries
 {
     public class GetOperationClaimQuery : IRequest<IDataResult<OperationClaim>>
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
 
         public class
             GetOperationClaimQueryHandler : IRequestHandler<GetOperationClaimQuery, IDataResult<OperationClaim>>

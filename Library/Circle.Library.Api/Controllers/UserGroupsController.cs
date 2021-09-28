@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Circle.Core.Entities.Concrete;
 using Circle.Core.Entities.Dtos;
@@ -43,7 +44,7 @@ namespace Circle.Library.Api.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(string))]
         [HttpGet("getbyuserid")]
         [AllowAnonymous]
-        public async Task<IActionResult> GetByUserId(int userId)
+        public async Task<IActionResult> GetByUserId(Guid userId)
         {
             return GetResponseOnlyResultData(await Mediator.Send(new GetUserGroupLookupQuery { UserId = userId }));
         }
@@ -58,7 +59,7 @@ namespace Circle.Library.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<UserGroup>))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(string))]
         [HttpGet("getusergroupbyuserid")]
-        public async Task<IActionResult> GetGroupClaimsByUserId(int id)
+        public async Task<IActionResult> GetGroupClaimsByUserId(Guid id)
         {
             return GetResponseOnlyResultData(await Mediator.Send(new GetUserGroupLookupByUserIdQuery { UserId = id }));
         }
@@ -73,7 +74,7 @@ namespace Circle.Library.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<UserGroup>))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(string))]
         [HttpGet("getusersingroupbygroupid")]
-        public async Task<IActionResult> GetUsersInGroupByGroupid(int id)
+        public async Task<IActionResult> GetUsersInGroupByGroupid(Guid id)
         {
             return GetResponseOnlyResultData(await Mediator.Send(new GetUsersInGroupLookupByGroupIdQuery
                 { GroupId = id }));

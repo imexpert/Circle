@@ -8,12 +8,13 @@ using Circle.Core.CrossCuttingConcerns.Logging.Serilog.Loggers;
 using Circle.Core.Utilities.Results;
 using Circle.Library.DataAccess.Abstract;
 using MediatR;
+using System;
 
 namespace Circle.Library.Business.Handlers.Users.Commands
 {
     public class DeleteUserCommand : IRequest<IResult>
     {
-        public int UserId { get; set; }
+        public Guid UserId { get; set; }
 
         public class DeleteUserCommandHandler : IRequestHandler<DeleteUserCommand, IResult>
         {
@@ -29,7 +30,7 @@ namespace Circle.Library.Business.Handlers.Users.Commands
             [LogAspect(typeof(MsSqlLogger))]
             public async Task<IResult> Handle(DeleteUserCommand request, CancellationToken cancellationToken)
             {
-                var userToDelete = _userRepository.Get(p => p.UserId == request.UserId);
+                var userToDelete = _userRepository.Get(p => p.Id == request.UserId);
 
                 userToDelete.Status = false;
                 _userRepository.Update(userToDelete);

@@ -8,12 +8,13 @@ using Circle.Core.Entities.Dtos;
 using Circle.Core.Utilities.Results;
 using Circle.Library.DataAccess.Abstract;
 using MediatR;
+using System;
 
 namespace Circle.Library.Business.Handlers.GroupClaims.Queries
 {
     public class GetGroupClaimsLookupByGroupIdQuery : IRequest<IDataResult<IEnumerable<SelectionItem>>>
     {
-        public int GroupId { get; set; }
+        public Guid GroupId { get; set; }
 
         public class GetGroupClaimsLookupByGroupIdQueryHandler : IRequestHandler<GetGroupClaimsLookupByGroupIdQuery,
             IDataResult<IEnumerable<SelectionItem>>>

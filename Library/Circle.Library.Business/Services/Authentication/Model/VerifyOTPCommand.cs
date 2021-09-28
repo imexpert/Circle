@@ -15,6 +15,7 @@ namespace Circle.Library.Business.Services.Authentication.Model
         /// Specifies the subtype so that the same provider user can enter from different systems.
         /// </summary>
         public string ProviderSubType { get; set; }
+        public string Email { get; set; }
 
         public string ExternalUserId { get; set; }
         public int Code { get; set; }

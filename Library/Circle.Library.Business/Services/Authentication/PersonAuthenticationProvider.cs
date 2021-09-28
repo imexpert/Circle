@@ -29,9 +29,8 @@ namespace Circle.Library.Business.Services.Authentication
 
         public override async Task<LoginUserResult> Login(LoginUserCommand command)
         {
-            var citizenId = command.AsCitizenId();
             var user = await _users.Query()
-                .Where(u => u.CitizenId == citizenId)
+                .Where(u => u.Email == command.Email)
                 .FirstOrDefaultAsync();
 
 
@@ -46,11 +45,10 @@ namespace Circle.Library.Business.Services.Authentication
 
         public override async Task<DArchToken> CreateToken(VerifyOtpCommand command)
         {
-            var citizenId = long.Parse(command.ExternalUserId);
-            var user = await _users.GetAsync(u => u.CitizenId == citizenId);
-            user.AuthenticationProviderType = ProviderType.ToString();
+            var user = await _users.GetAsync(u => u.Email == command.Email);
+            //user.AuthenticationProviderType = ProviderType.ToString();
 
-            var claims = _users.GetClaims(user.UserId);
+            var claims = _users.GetClaims(user.Id);
             var accessToken = _tokenHelper.CreateToken<DArchToken>(user);
             accessToken.Provider = ProviderType;
             return accessToken;

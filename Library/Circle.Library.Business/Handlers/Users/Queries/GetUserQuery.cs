@@ -8,12 +8,13 @@ using Circle.Core.Entities.Dtos;
 using Circle.Core.Utilities.Results;
 using Circle.Library.DataAccess.Abstract;
 using MediatR;
+using System;
 
 namespace Circle.Library.Business.Handlers.Users.Queries
 {
     public class GetUserQuery : IRequest<IDataResult<UserDto>>
     {
-        public int UserId { get; set; }
+        public Guid UserId { get; set; }
 
         public class GetUserQueryHandler : IRequestHandler<GetUserQuery, IDataResult<UserDto>>
         {
@@ -30,7 +31,7 @@ namespace Circle.Library.Business.Handlers.Users.Queries
             [LogAspect(typeof(MsSqlLogger))]
             public async Task<IDataResult<UserDto>> Handle(GetUserQuery request, CancellationToken cancellationToken)
             {
-                var user = await _userRepository.GetAsync(p => p.UserId == request.UserId);
+                var user = await _userRepository.GetAsync(p => p.Id == request.UserId);
                 var userDto = _mapper.Map<UserDto>(user);
                 return new SuccessDataResult<UserDto>(userDto);
             }

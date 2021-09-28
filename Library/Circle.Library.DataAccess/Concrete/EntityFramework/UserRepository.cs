@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -16,20 +17,20 @@ namespace Circle.Library.DataAccess.Concrete.EntityFramework
         {
         }
 
-        public List<OperationClaim> GetClaims(int userId)
+        public List<OperationClaim> GetClaims(Guid userId)
         {
             var result = (from user in Context.Users
-                join userGroup in Context.UserGroups on user.UserId equals userGroup.UserId
+                join userGroup in Context.UserGroups on user.Id equals userGroup.UserId
                 join groupClaim in Context.GroupClaims on userGroup.GroupId equals groupClaim.GroupId
                 join operationClaim in Context.OperationClaims on groupClaim.ClaimId equals operationClaim.Id
-                where user.UserId == userId
+                where user.Id == userId
                 select new
                 {
                     operationClaim.Name
                 }).Union(from user in Context.Users
-                join userClaim in Context.UserClaims on user.UserId equals userClaim.UserId
+                join userClaim in Context.UserClaims on user.Id equals userClaim.UserId
                 join operationClaim in Context.OperationClaims on userClaim.ClaimId equals operationClaim.Id
-                where user.UserId == userId
+                where user.Id == userId
                 select new
                 {
                     operationClaim.Name

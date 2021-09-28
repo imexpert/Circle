@@ -5,6 +5,7 @@ using Circle.Core.Entities.Dtos;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Circle.Library.Business.Handlers.Users.Queries;
+using System;
 
 namespace Circle.Library.Api.Controllers
 {
@@ -55,7 +56,7 @@ namespace Circle.Library.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UserDto))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(string))]
         [HttpGet("getbyid")]
-        public async Task<IActionResult> GetById(int userId)
+        public async Task<IActionResult> GetById(Guid userId)
         {
             return GetResponseOnlyResultData(await Mediator.Send(new GetUserQuery { UserId = userId }));
         }

@@ -8,12 +8,13 @@ using Circle.Core.CrossCuttingConcerns.Logging.Serilog.Loggers;
 using Circle.Core.Utilities.Results;
 using Circle.Library.DataAccess.Abstract;
 using MediatR;
+using System;
 
 namespace Circle.Library.Business.Handlers.OperationClaims.Commands
 {
     public class UpdateOperationClaimCommand : IRequest<IResult>
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
         public string Alias { get; set; }
         public string Description { get; set; }
 

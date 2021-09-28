@@ -45,12 +45,12 @@ namespace Circle.Library.Business.Handlers.Authorizations.Queries
                     return new ErrorDataResult<AccessToken>(Messages.UserNotFound);
                 }
 
-                if (!HashingHelper.VerifyPasswordHash(request.Password, user.PasswordSalt, user.PasswordHash))
+                if (!HashingHelper.VerifyPasswordHash(request.Password, user.Password))
                 {
                     return new ErrorDataResult<AccessToken>(Messages.PasswordError);
                 }
 
-                var claims = _userRepository.GetClaims(user.UserId);
+                var claims = _userRepository.GetClaims(user.Id);
 
                 var accessToken = _tokenHelper.CreateToken<DArchToken>(user);
                 accessToken.Claims = claims.Select(x => x.Name).ToList();
@@ -59,7 +59,7 @@ namespace Circle.Library.Business.Handlers.Authorizations.Queries
                 _userRepository.Update(user);
                 await _userRepository.SaveChangesAsync();
 
-                _cacheManager.Add($"{CacheKeys.UserIdForClaim}={user.UserId}", claims.Select(x => x.Name));
+                _cacheManager.Add($"{CacheKeys.UserIdForClaim}={user.Id}", claims.Select(x => x.Name));
 
                 return new SuccessDataResult<AccessToken>(accessToken, Messages.SuccessfulLogin);
             }

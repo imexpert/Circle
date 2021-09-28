@@ -6,6 +6,7 @@ using Circle.Core.Entities.Dtos;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Circle.Library.Business.Handlers.Groups.Queries;
+using System;
 
 namespace Circle.Library.Api.Controllers
 {
@@ -43,7 +44,7 @@ namespace Circle.Library.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Group))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(string))]
         [HttpGet("getbyid")]
-        public async Task<IActionResult> GetById(int groupId)
+        public async Task<IActionResult> GetById(Guid groupId)
         {
             return GetResponseOnlyResultData(await Mediator.Send(new GetGroupQuery { GroupId = groupId }));
         }

@@ -10,14 +10,15 @@ using Circle.Core.Entities.Concrete;
 using Circle.Core.Utilities.Results;
 using Circle.Library.DataAccess.Abstract;
 using MediatR;
+using System;
 
 namespace Circle.Library.Business.Handlers.GroupClaims.Commands
 {
     public class UpdateGroupClaimCommand : IRequest<IResult>
     {
-        public int Id { get; set; }
-        public int GroupId { get; set; }
-        public int[] ClaimIds { get; set; }
+        public Guid Id { get; set; }
+        public Guid GroupId { get; set; }
+        public Guid[] ClaimIds { get; set; }
 
         public class UpdateGroupClaimCommandHandler : IRequestHandler<UpdateGroupClaimCommand, IResult>
         {

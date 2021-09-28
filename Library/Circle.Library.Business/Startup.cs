@@ -81,7 +81,6 @@ namespace Circle.Library.Business
             };
 
             services.AddTransient<ILogRepository, LogRepository>();
-            services.AddTransient<ITranslateRepository, TranslateRepository>();
             services.AddTransient<ILanguageRepository, LanguageRepository>();
 
             services.AddTransient<IUserRepository, UserRepository>();

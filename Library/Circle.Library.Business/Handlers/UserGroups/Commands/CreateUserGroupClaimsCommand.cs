@@ -10,12 +10,13 @@ using Circle.Core.Entities.Concrete;
 using Circle.Core.Utilities.Results;
 using Circle.Library.DataAccess.Abstract;
 using MediatR;
+using System;
 
 namespace Circle.Library.Business.Handlers.UserGroups.Commands
 {
     public class CreateUserGroupClaimsCommand : IRequest<IResult>
     {
-        public int UserId { get; set; }
+        public Guid UserId { get; set; }
         public IEnumerable<UserGroup> UserGroups { get; set; }
 
         public class CreateGroupClaimsCommandHandler : IRequestHandler<CreateUserGroupClaimsCommand, IResult>

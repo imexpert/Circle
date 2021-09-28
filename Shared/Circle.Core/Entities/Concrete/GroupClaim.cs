@@ -1,8 +1,15 @@
-﻿namespace Circle.Core.Entities.Concrete
+﻿using System;
+
+namespace Circle.Core.Entities.Concrete
 {
-    public class GroupClaim : AuditEntity
+    public class GroupClaim : LightEntity
     {
-        public int GroupId { get; set; }
-        public int ClaimId { get; set; }
+        public Guid GroupId { get; set; }
+        public Guid ClaimId { get; set; }
+        public string RecordUsername { get; set; }
+        public DateTime RecordDate { get; set; }
+        public string UpdateUsername { get; set; }
+        public DateTime UpdateDate { get; set; }
+        public string Ip { get; set; }
     }
 }

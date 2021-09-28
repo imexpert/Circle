@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Circle.Core.DataAccess.EntityFramework;
@@ -17,7 +18,7 @@ namespace Circle.Library.DataAccess.Concrete.EntityFramework
         {
         }
 
-        public async Task BulkInsert(int userId, IEnumerable<UserGroup> userGroups)
+        public async Task BulkInsert(Guid userId, IEnumerable<UserGroup> userGroups)
         {
             var DbUserGroupList = Context.UserGroups.Where(x => x.UserId == userId);
 
@@ -25,7 +26,7 @@ namespace Circle.Library.DataAccess.Concrete.EntityFramework
             await Context.UserGroups.AddRangeAsync(userGroups);
         }
 
-        public async Task BulkInsertByGroupId(int groupId, IEnumerable<UserGroup> userGroups)
+        public async Task BulkInsertByGroupId(Guid groupId, IEnumerable<UserGroup> userGroups)
         {
             var DbUserGroupList = Context.UserGroups.Where(x => x.GroupId == groupId);
 
@@ -33,7 +34,7 @@ namespace Circle.Library.DataAccess.Concrete.EntityFramework
             await Context.UserGroups.AddRangeAsync(userGroups);
         }
 
-        public async Task<IEnumerable<SelectionItem>> GetUserGroupSelectedList(int userId)
+        public async Task<IEnumerable<SelectionItem>> GetUserGroupSelectedList(Guid userId)
         {
             var list = await (from grp in Context.Groups
                 join userGroup in Context.UserGroups on grp.Id equals userGroup.GroupId
@@ -47,15 +48,15 @@ namespace Circle.Library.DataAccess.Concrete.EntityFramework
             return list;
         }
 
-        public async Task<IEnumerable<SelectionItem>> GetUsersInGroupSelectedListByGroupId(int groupId)
+        public async Task<IEnumerable<SelectionItem>> GetUsersInGroupSelectedListByGroupId(Guid groupId)
         {
             var list = await (from usr in Context.Users
-                join grpUser in Context.UserGroups on usr.UserId equals grpUser.UserId
+                join grpUser in Context.UserGroups on usr.Id equals grpUser.UserId
                 where grpUser.GroupId == groupId
                 select new SelectionItem()
                 {
-                    Id = usr.UserId.ToString(),
-                    Label = usr.FullName
+                    Id = usr.Id.ToString(),
+                    Label = $"{usr.Firstname} {usr.Lastname}"
                 }).ToListAsync();
 
             return list;

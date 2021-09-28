@@ -43,7 +43,6 @@ namespace Circle.Library.DataAccess.Concrete.EntityFramework.Contexts
         public DbSet<GroupClaim> GroupClaims { get; set; }
         public DbSet<Log> Logs { get; set; }
         public DbSet<Language> Languages { get; set; }
-        public DbSet<Translate> Translates { get; set; }
 
         protected IConfiguration Configuration { get; }
 

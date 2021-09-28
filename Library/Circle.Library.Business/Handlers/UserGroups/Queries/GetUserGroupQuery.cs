@@ -8,12 +8,13 @@ using Circle.Core.Entities.Concrete;
 using Circle.Core.Utilities.Results;
 using Circle.Library.DataAccess.Abstract;
 using MediatR;
+using System;
 
 namespace Circle.Library.Business.Handlers.UserGroups.Queries
 {
     public class GetUserGroupQuery : IRequest<IDataResult<UserGroup>>
     {
-        public int UserId { get; set; }
+        public Guid UserId { get; set; }
 
         public class GetUserGroupQueryHandler : IRequestHandler<GetUserGroupQuery, IDataResult<UserGroup>>
         {

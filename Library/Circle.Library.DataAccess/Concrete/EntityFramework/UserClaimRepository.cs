@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Circle.Core.DataAccess.EntityFramework;
@@ -17,7 +18,7 @@ namespace Circle.Library.DataAccess.Concrete.EntityFramework
         {
         }
 
-        public async Task<IEnumerable<UserClaim>> BulkInsert(int userId, IEnumerable<UserClaim> userClaims)
+        public async Task<IEnumerable<UserClaim>> BulkInsert(Guid userId, IEnumerable<UserClaim> userClaims)
         {
             var DbClaimList = Context.UserClaims.Where(x => x.UserId == userId);
 
@@ -26,7 +27,7 @@ namespace Circle.Library.DataAccess.Concrete.EntityFramework
             return userClaims;
         }
 
-        public async Task<IEnumerable<SelectionItem>> GetUserClaimSelectedList(int userId)
+        public async Task<IEnumerable<SelectionItem>> GetUserClaimSelectedList(Guid userId)
         {
             var list = await (from oc in Context.OperationClaims
                 join userClaims in Context.UserClaims on oc.Id equals userClaims.ClaimId

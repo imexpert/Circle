@@ -4,7 +4,7 @@ namespace Circle.Core.Entities.Concrete
 {
     public class Log : LightEntity
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
         public string MessageTemplate { get; set; }
         public string Level { get; set; }
         public DateTime TimeStamp { get; set; }

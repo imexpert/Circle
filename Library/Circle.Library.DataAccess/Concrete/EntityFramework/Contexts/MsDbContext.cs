@@ -5,6 +5,8 @@ namespace Circle.Library.DataAccess.Concrete.EntityFramework.Contexts
 {
     public sealed class MsDbContext : ProjectDbContext
     {
+        public const string DEFAULT_SCHEMA = "dbo";
+
         public MsDbContext(DbContextOptions<MsDbContext> options, IConfiguration configuration)
             : base(options, configuration)
         {

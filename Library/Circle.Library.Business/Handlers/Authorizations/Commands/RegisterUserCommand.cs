@@ -19,7 +19,8 @@ namespace Circle.Library.Business.Handlers.Authorizations.Commands
     {
         public string Email { get; set; }
         public string Password { get; set; }
-        public string FullName { get; set; }
+        public string Firstname { get; set; }
+        public string Lastname { get; set; }
 
 
         public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, IResult>
@@ -46,14 +47,13 @@ namespace Circle.Library.Business.Handlers.Authorizations.Commands
                     return new ErrorResult(Messages.NameAlreadyExist);
                 }
 
-                HashingHelper.CreatePasswordHash(request.Password, out var passwordSalt, out var passwordHash);
+                string hashPassword = HashingHelper.CreatePasswordHash(request.Password);
                 var user = new User
                 {
                     Email = request.Email,
-
-                    FullName = request.FullName,
-                    PasswordHash = passwordHash,
-                    PasswordSalt = passwordSalt,
+                    Password = hashPassword,
+                    Firstname = request.Firstname,
+                    Lastname = request.Lastname,
                     Status = true
                 };
 

@@ -16,7 +16,6 @@ namespace Circle.Library.Business.Handlers.Authorizations.Commands
 {
     public class ForgotPasswordCommand : IRequest<IResult>
     {
-        public string TcKimlikNo { get; set; }
         public string Email { get; set; }
 
         public class ForgotPasswordCommandHandler : IRequestHandler<ForgotPasswordCommand, IResult>
@@ -38,7 +37,7 @@ namespace Circle.Library.Business.Handlers.Authorizations.Commands
             [LogAspect(typeof(MsSqlLogger))]
             public async Task<IResult> Handle(ForgotPasswordCommand request, CancellationToken cancellationToken)
             {
-                var user = await _userRepository.GetAsync(u => u.CitizenId == Convert.ToInt64(request.TcKimlikNo));
+                var user = await _userRepository.GetAsync(u => u.Email == request.Email);
 
                 if (user == null)
                 {
@@ -46,8 +45,9 @@ namespace Circle.Library.Business.Handlers.Authorizations.Commands
                 }
 
                 var generatedPassword = RandomPassword.CreateRandomPassword(14);
-                HashingHelper.CreatePasswordHash(generatedPassword, out var passwordSalt, out var passwordHash);
+                string hashPassword = HashingHelper.CreatePasswordHash(generatedPassword);
 
+                user.Password = hashPassword;
                 _userRepository.Update(user);
 
                 return new SuccessResult(Messages.SendPassword + Messages.NewPassword + generatedPassword);

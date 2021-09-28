@@ -5,12 +5,13 @@ using Circle.Core.Entities.Concrete;
 using Circle.Core.Utilities.Results;
 using Circle.Library.DataAccess.Abstract;
 using MediatR;
+using System;
 
 namespace Circle.Library.Business.Handlers.Groups.Queries
 {
     public class GetGroupQuery : IRequest<IDataResult<Group>>
     {
-        public int GroupId { get; set; }
+        public Guid GroupId { get; set; }
 
         public class GetGroupQueryHandler : IRequestHandler<GetGroupQuery, IDataResult<Group>>
         {

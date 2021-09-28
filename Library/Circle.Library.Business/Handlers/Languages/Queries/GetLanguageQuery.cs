@@ -7,12 +7,13 @@ using Circle.Core.Entities.Concrete;
 using Circle.Core.Utilities.Results;
 using Circle.Library.DataAccess.Abstract;
 using MediatR;
+using System;
 
 namespace Circle.Library.Business.Handlers.Languages.Queries
 {
     public class GetLanguageQuery : IRequest<IDataResult<Language>>
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
 
         public class GetLanguageQueryHandler : IRequestHandler<GetLanguageQuery, IDataResult<Language>>
         {

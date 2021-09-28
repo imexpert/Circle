@@ -29,6 +29,11 @@ namespace Circle.Library.Business.Services.Authentication.Model
         /// </summary>
         public string Password { get; set; }
 
+        /// <summary>
+        /// It is used for personnel and external personal logins.
+        /// </summary>
+        public string Email { get; set; }
+
         public AuthenticationProviderType Provider { get; set; }
 
         public bool IsPhoneValid

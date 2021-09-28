@@ -80,18 +80,23 @@ namespace Circle.Core.Utilities.Security.Jwt
         private IEnumerable<Claim> SetClaims(User user)
         {
             var claims = new List<Claim>();
-            claims.AddNameIdentifier(user.UserId.ToString());
-            if (user.CitizenId > 0)
+            claims.AddNameIdentifier(user.Id.ToString());
+            if (user.DepartmentId != Guid.Empty)
             {
-                claims.AddNameUniqueIdentifier(user.CitizenId.ToString());
+                claims.AddNameUniqueIdentifier(user.DepartmentId.ToString());
             }
 
-            if (!string.IsNullOrEmpty(user.FullName))
+            if (!string.IsNullOrEmpty(user.Firstname))
             {
-                claims.AddName($"{user.FullName}");
+                claims.AddName($"{user.Firstname}");
             }
 
-            claims.Add(new Claim(ClaimTypes.Role, user.AuthenticationProviderType));
+            if (!string.IsNullOrEmpty(user.Lastname))
+            {
+                claims.AddName($"{user.Lastname}");
+            }
+
+            //claims.Add(new Claim(ClaimTypes.Role, user.AuthenticationProviderType));
 
 
             return claims;

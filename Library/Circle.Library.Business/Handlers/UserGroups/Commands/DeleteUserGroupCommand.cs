@@ -8,12 +8,13 @@ using Circle.Core.CrossCuttingConcerns.Logging.Serilog.Loggers;
 using Circle.Core.Utilities.Results;
 using Circle.Library.DataAccess.Abstract;
 using MediatR;
+using System;
 
 namespace Circle.Library.Business.Handlers.UserGroups.Commands
 {
     public class DeleteUserGroupCommand : IRequest<IResult>
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
 
         public class DeleteUserGroupCommandHandler : IRequestHandler<DeleteUserGroupCommand, IResult>
         {

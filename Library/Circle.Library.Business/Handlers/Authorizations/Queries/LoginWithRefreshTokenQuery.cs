@@ -41,9 +41,9 @@ namespace Circle.Library.Business.Handlers.Authorizations.Queries
                 }
 
 
-				var claims = _userRepository.GetClaims(userToCheck.UserId);
-				_cacheManager.Remove($"{CacheKeys.UserIdForClaim}={userToCheck.UserId}");
-				_cacheManager.Add($"{CacheKeys.UserIdForClaim}={userToCheck.UserId}", claims.Select(x => x.Name));
+				var claims = _userRepository.GetClaims(userToCheck.Id);
+				_cacheManager.Remove($"{CacheKeys.UserIdForClaim}={userToCheck.Id}");
+				_cacheManager.Add($"{CacheKeys.UserIdForClaim}={userToCheck.Id}", claims.Select(x => x.Name));
 				var accessToken = _tokenHelper.CreateToken<AccessToken>(userToCheck);
 				userToCheck.RefreshToken = accessToken.RefreshToken;
 				_userRepository.Update(userToCheck);

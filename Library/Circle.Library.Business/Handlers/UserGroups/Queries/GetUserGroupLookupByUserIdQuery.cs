@@ -9,12 +9,13 @@ using Circle.Core.Entities.Dtos;
 using Circle.Core.Utilities.Results;
 using Circle.Library.DataAccess.Abstract;
 using MediatR;
+using System;
 
 namespace Circle.Library.Business.Handlers.UserGroups.Queries
 {
     public class GetUserGroupLookupByUserIdQuery : IRequest<IDataResult<IEnumerable<SelectionItem>>>
     {
-        public int UserId { get; set; }
+        public Guid UserId { get; set; }
 
         public class GetUserGroupLookupByUserIdQueryHandler : IRequestHandler<GetUserGroupLookupByUserIdQuery,
             IDataResult<IEnumerable<SelectionItem>>>

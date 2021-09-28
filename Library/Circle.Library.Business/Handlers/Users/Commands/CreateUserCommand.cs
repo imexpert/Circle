@@ -16,8 +16,9 @@ namespace Circle.Library.Business.Handlers.Users.Commands
     public class CreateUserCommand : IRequest<IResult>
     {
         public int UserId { get; set; }
-        public long CitizenId { get; set; }
-        public string FullName { get; set; }
+        public Guid DepartmentId { get; set; }
+        public string Firstname { get; set; }
+        public string Lastname { get; set; }
         public string Email { get; set; }
         public string MobilePhones { get; set; }
         public bool Status { get; set; }
@@ -54,11 +55,12 @@ namespace Circle.Library.Business.Handlers.Users.Commands
                 var user = new User
                 {
                     Email = request.Email,
-                    FullName = request.FullName,
+                    Firstname = request.Firstname,
+                    Lastname = request.Lastname,
                     Status = true,
                     Address = request.Address,
                     BirthDate = request.BirthDate,
-                    CitizenId = request.CitizenId,
+                    DepartmentId = request.DepartmentId,
                     Gender = request.Gender,
                     Notes = request.Notes,
                     MobilePhones = request.MobilePhones

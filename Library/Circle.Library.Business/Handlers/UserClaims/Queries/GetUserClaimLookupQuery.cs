@@ -10,12 +10,13 @@ using Circle.Core.Entities.Concrete;
 using Circle.Core.Utilities.Results;
 using Circle.Library.DataAccess.Abstract;
 using MediatR;
+using System;
 
 namespace Circle.Library.Business.Handlers.UserClaims.Queries
 {
     public class GetUserClaimLookupQuery : IRequest<IDataResult<IEnumerable<UserClaim>>>
     {
-        public int UserId { get; set; }
+        public Guid UserId { get; set; }
 
         public class
             GetUserClaimQueryHandler : IRequestHandler<GetUserClaimLookupQuery, IDataResult<IEnumerable<UserClaim>>>

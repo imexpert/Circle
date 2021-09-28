@@ -8,12 +8,13 @@ using Circle.Core.Utilities.Results;
 using Circle.Core.Utilities.Security.Hashing;
 using Circle.Library.DataAccess.Abstract;
 using MediatR;
+using System;
 
 namespace Circle.Library.Business.Handlers.Users.Commands
 {
     public class UserChangePasswordCommand : IRequest<IResult>
     {
-        public int UserId { get; set; }
+        public Guid UserId { get; set; }
         public string Password { get; set; }
 
         public class UserChangePasswordCommandHandler : IRequestHandler<UserChangePasswordCommand, IResult>
@@ -31,16 +32,13 @@ namespace Circle.Library.Business.Handlers.Users.Commands
             [LogAspect(typeof(MsSqlLogger))]
             public async Task<IResult> Handle(UserChangePasswordCommand request, CancellationToken cancellationToken)
             {
-                var isThereAnyUser = await _userRepository.GetAsync(u => u.UserId == request.UserId);
+                var isThereAnyUser = await _userRepository.GetAsync(u => u.Id == request.UserId);
                 if (isThereAnyUser == null)
                 {
                     return new ErrorResult(Messages.UserNotFound);
                 }
 
-                HashingHelper.CreatePasswordHash(request.Password, out var passwordSalt, out var passwordHash);
-
-                isThereAnyUser.PasswordHash = passwordHash;
-                isThereAnyUser.PasswordSalt = passwordSalt;
+                isThereAnyUser.Password = HashingHelper.CreatePasswordHash(request.Password);
 
                 _userRepository.Update(isThereAnyUser);
                 await _userRepository.SaveChangesAsync();

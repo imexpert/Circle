@@ -10,13 +10,14 @@ using Circle.Core.Entities.Concrete;
 using Circle.Core.Utilities.Results;
 using Circle.Library.DataAccess.Abstract;
 using MediatR;
+using System;
 
 namespace Circle.Library.Business.Handlers.UserClaims.Commands
 {
     public class CreateUserClaimCommand : IRequest<IResult>
     {
-        public int UserId { get; set; }
-        public int ClaimId { get; set; }
+        public Guid UserId { get; set; }
+        public Guid ClaimId { get; set; }
 
         public class CreateUserClaimCommandHandler : IRequestHandler<CreateUserClaimCommand, IResult>
         {

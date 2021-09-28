@@ -10,12 +10,13 @@ using Circle.Core.Utilities.Results;
 using Circle.Library.DataAccess.Abstract;
 using MediatR;
 using Circle.Library.Business.Handlers.Languages.ValidationRules;
+using System;
 
 namespace Circle.Library.Business.Handlers.Languages.Commands
 {
     public class UpdateLanguageCommand : IRequest<IResult>
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
         public string Name { get; set; }
         public string Code { get; set; }
 

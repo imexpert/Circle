@@ -6,6 +6,7 @@ using Circle.Core.Entities.Concrete;
 using Circle.Core.Entities.Dtos;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
 
 namespace Circle.Library.Api.Controllers
 {
@@ -43,7 +44,7 @@ namespace Circle.Library.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(GroupClaim))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(string))]
         [HttpGet("getbyid")]
-        public async Task<IActionResult> GetById(int id)
+        public async Task<IActionResult> GetById(Guid id)
         {
             return GetResponseOnlyResultMessage(await Mediator.Send(new GetGroupClaimQuery { Id = id }));
         }
@@ -58,7 +59,7 @@ namespace Circle.Library.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<SelectionItem>))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(string))]
         [HttpGet("getgroupclaimsbygroupid")]
-        public async Task<IActionResult> GetGroupClaimsByGroupId(int id)
+        public async Task<IActionResult> GetGroupClaimsByGroupId(Guid id)
         {
             return GetResponseOnlyResultData(
                 await Mediator.Send(new GetGroupClaimsLookupByGroupIdQuery { GroupId = id }));

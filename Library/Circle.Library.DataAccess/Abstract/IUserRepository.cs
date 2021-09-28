@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Circle.Core.DataAccess;
@@ -7,7 +8,7 @@ namespace Circle.Library.DataAccess.Abstract
 {
     public interface IUserRepository : IEntityRepository<User>
     {
-        List<OperationClaim> GetClaims(int userId);
+        List<OperationClaim> GetClaims(Guid userId);
         Task<User> GetByRefreshToken(string refreshToken);
     }
 }

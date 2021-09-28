@@ -9,12 +9,13 @@ using Circle.Core.Entities.Concrete;
 using Circle.Core.Utilities.Results;
 using Circle.Library.DataAccess.Abstract;
 using MediatR;
+using System;
 
 namespace Circle.Library.Business.Handlers.Groups.Commands
 {
     public class UpdateGroupCommand : IRequest<IResult>
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
         public string GroupName { get; set; }
 
         public class UpdateGroupCommandHandler : IRequestHandler<UpdateGroupCommand, IResult>

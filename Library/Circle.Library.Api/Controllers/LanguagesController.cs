@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Circle.Core.Entities.Concrete;
 using Circle.Core.Entities.Dtos;
@@ -73,7 +74,7 @@ namespace Circle.Library.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Language))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(string))]
         [HttpGet("getbyid")]
-        public async Task<IActionResult> GetById(int languageId)
+        public async Task<IActionResult> GetById(Guid languageId)
         {
             return GetResponseOnlyResultData(await Mediator.Send(new GetLanguageQuery { Id = languageId }));
         }

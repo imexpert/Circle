@@ -4,7 +4,7 @@ namespace Circle.Core.Entities.Dtos
 {
     public class LogDto : IEntity
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
         public string Level { get; set; }
         public string ExceptionMessage { get; set; }
         public DateTime TimeStamp { get; set; }

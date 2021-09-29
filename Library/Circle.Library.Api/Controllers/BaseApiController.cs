@@ -45,6 +45,12 @@ namespace Circle.Library.Api.Controllers
             return result.Success ? Ok(result.Data) : BadRequest(result.Message);
         }
 
+        [ApiExplorerSettings(IgnoreApi = true)]
+        public IActionResult CreateActionResultInstance<T>(ResponseMessage<T> response)
+        {
+            return new ObjectResult(response) { StatusCode = response.StatusCode };
+        }
+
         /// <summary>
         ///
         /// </summary>

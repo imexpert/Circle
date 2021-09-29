@@ -12,15 +12,17 @@ using Circle.Core.Utilities.Security.Hashing;
 using Circle.Core.Utilities.Security.Jwt;
 using Circle.Library.DataAccess.Abstract;
 using MediatR;
+using Circle.Core.Aspects.Autofac.Validation;
+using Circle.Library.Business.Handlers.Authorizations.ValidationRules;
+using Circle.Library.Entities.ComplexTypes;
 
 namespace Circle.Library.Business.Handlers.Authorizations.Queries
 {
-    public class LoginUserQuery : IRequest<IDataResult<AccessToken>>
+    public class LoginUserQuery : IRequest<ResponseMessage<AccessToken>>
     {
-        public string Email { get; set; }
-        public string Password { get; set; }
+        public LoginModel LoginModel { get; set; }
 
-        public class LoginUserQueryHandler : IRequestHandler<LoginUserQuery, IDataResult<AccessToken>>
+        public class LoginUserQueryHandler : IRequestHandler<LoginUserQuery, ResponseMessage<AccessToken>>
         {
             private readonly IUserRepository _userRepository;
             private readonly ITokenHelper _tokenHelper;
@@ -35,19 +37,19 @@ namespace Circle.Library.Business.Handlers.Authorizations.Queries
                 _cacheManager = cacheManager;
             }
 
-            [LogAspect(typeof(MsSqlLogger))]
-            public async Task<IDataResult<AccessToken>> Handle(LoginUserQuery request, CancellationToken cancellationToken)
+            [ValidationAspect(typeof(LoginUserValidator), Priority = 1)]
+            public async Task<ResponseMessage<AccessToken>> Handle(LoginUserQuery request, CancellationToken cancellationToken)
             {
-                var user = await _userRepository.GetAsync(u => u.Email == request.Email && u.Status);
+                var user = await _userRepository.GetAsync(u => u.Email == request.LoginModel.Email && u.Status);
 
                 if (user == null)
                 {
-                    return new ErrorDataResult<AccessToken>(Messages.UserNotFound);
+                    return ResponseMessage<AccessToken>.NoDataFound("Kullanıcı bulunamadı.");
                 }
 
-                if (!HashingHelper.VerifyPasswordHash(request.Password, user.Password))
+                if (!HashingHelper.VerifyPasswordHash(request.LoginModel.Password, user.Password))
                 {
-                    return new ErrorDataResult<AccessToken>(Messages.PasswordError);
+                    return ResponseMessage<AccessToken>.NoDataFound("Kullanıcı adı yada şifre hatalı.");
                 }
 
                 var claims = _userRepository.GetClaims(user.Id);
@@ -61,7 +63,7 @@ namespace Circle.Library.Business.Handlers.Authorizations.Queries
 
                 _cacheManager.Add($"{CacheKeys.UserIdForClaim}={user.Id}", claims.Select(x => x.Name));
 
-                return new SuccessDataResult<AccessToken>(accessToken, Messages.SuccessfulLogin);
+                return ResponseMessage<AccessToken>.Success(accessToken);
             }
         }
     }

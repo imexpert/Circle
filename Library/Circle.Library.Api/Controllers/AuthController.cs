@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using Circle.Library.Entities.ComplexTypes;
 
 namespace Circle.Library.Api.Controllers
 {
@@ -40,10 +41,14 @@ namespace Circle.Library.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IDataResult<AccessToken>))]
         [ProducesResponseType(StatusCodes.Status401Unauthorized, Type = typeof(string))]
         [HttpPost("Login")]
-        public async Task<IActionResult> Login([FromBody] LoginUserQuery loginModel)
+        public async Task<IActionResult> Login([FromBody] LoginModel loginModel)
         {
-            var result = await Mediator.Send(loginModel);
-            return result.Success ? Ok(result) : Unauthorized(result.Message);
+            LoginUserQuery query = new LoginUserQuery()
+            {
+                LoginModel = loginModel
+            };
+
+            return CreateActionResultInstance(await Mediator.Send(query));
         }
 
         [AllowAnonymous]
@@ -52,10 +57,14 @@ namespace Circle.Library.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IDataResult<AccessToken>))]
         [ProducesResponseType(StatusCodes.Status401Unauthorized, Type = typeof(string))]
         [HttpPost("RefreshToken")]
-        public async Task<IActionResult> LoginWithRefreshToken([FromBody] LoginWithRefreshTokenQuery command)
+        public async Task<IActionResult> LoginWithRefreshToken(string refreshToken)
         {
-            var result = await Mediator.Send(command);
-            return result.Success ? Ok(result) : BadRequest(result);
+            LoginWithRefreshTokenQuery query = new LoginWithRefreshTokenQuery()
+            {
+                RefreshToken = refreshToken
+            };
+
+            return CreateActionResultInstance(await Mediator.Send(query));
         }
 
         /// <summary>

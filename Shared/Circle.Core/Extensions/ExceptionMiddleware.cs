@@ -45,6 +45,12 @@ namespace Circle.Core.Extensions
                 result.DeveloperMessage = e.GetBaseException().Message;
                 httpContext.Response.StatusCode = result.StatusCode = (int)HttpStatusCode.BadRequest;
             }
+            else if (e.GetType() == typeof(SecurityException))
+            {
+                result.Message = e.GetBaseException().Message;
+                result.DeveloperMessage = e.GetBaseException().Message;
+                httpContext.Response.StatusCode = result.StatusCode = (int)HttpStatusCode.Forbidden;
+            }
             else
             {
                 result.Message = "Hata oluştu. Lütfen tekrar deneyiniz.";

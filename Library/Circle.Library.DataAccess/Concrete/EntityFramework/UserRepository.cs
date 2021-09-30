@@ -27,13 +27,6 @@ namespace Circle.Library.DataAccess.Concrete.EntityFramework
                 select new
                 {
                     operationClaim.Name
-                }).Union(from user in Context.Users
-                join userClaim in Context.UserClaims on user.Id equals userClaim.UserId
-                join operationClaim in Context.OperationClaims on userClaim.ClaimId equals operationClaim.Id
-                where user.Id == userId
-                select new
-                {
-                    operationClaim.Name
                 });
 
             return result.Select(x => new OperationClaim { Name = x.Name }).Distinct()

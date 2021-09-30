@@ -7,6 +7,7 @@ using Circle.Core.Entities.Dtos;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using Circle.Library.Entities.ComplexTypes;
 
 namespace Circle.Library.Api.Controllers
 {
@@ -18,6 +19,25 @@ namespace Circle.Library.Api.Controllers
     [ApiController]
     public class OperationClaimsController : BaseApiController
     {
+        /// <summary>
+        /// List OperationClaims
+        /// </summary>
+        /// <remarks>bla bla bla OperationClaims</remarks>
+        /// <return>OperationClaims List</return>
+        /// <response code="200"></response>
+        [Produces("application/json", "text/plain")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<OperationClaim>))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(string))]
+        [ProducesResponseType(StatusCodes.Status403Forbidden, Type = typeof(string))]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized, Type = typeof(string))]
+        [HttpPost("Add")]
+        public async Task<IActionResult> Add([FromBody] CreateOperationClaimModel model)
+        {
+            CreateOperationClaimCommand command = new CreateOperationClaimCommand();
+            command.Model = model;
+            return CreateActionResultInstance(await Mediator.Send(command));
+        }
+
         /// <summary>
         /// List OperationClaims
         /// </summary>

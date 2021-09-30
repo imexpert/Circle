@@ -13,11 +13,11 @@ using MediatR;
 
 namespace Circle.Library.Business.Handlers.Groups.Commands
 {
-    public class CreateGroupCommand : IRequest<IResult>
+    public class CreateGroupCommand : IRequest<ResponseMessage<Group>>
     {
         public string GroupName { get; set; }
 
-        public class CreateGroupCommandHandler : IRequestHandler<CreateGroupCommand, IResult>
+        public class CreateGroupCommandHandler : IRequestHandler<CreateGroupCommand, ResponseMessage<Group>>
         {
             private readonly IGroupRepository _groupRepository;
 
@@ -30,22 +30,15 @@ namespace Circle.Library.Business.Handlers.Groups.Commands
             [SecuredOperation(Priority = 1)]
             [CacheRemoveAspect("Get")]
             [LogAspect(typeof(MsSqlLogger))]
-            public async Task<IResult> Handle(CreateGroupCommand request, CancellationToken cancellationToken)
+            public async Task<ResponseMessage<Group>> Handle(CreateGroupCommand request, CancellationToken cancellationToken)
             {
-                try
+                var group = new Group
                 {
-                    var group = new Group
-                    {
-                        GroupName = request.GroupName
-                    };
-                    _groupRepository.Add(group);
-                    await _groupRepository.SaveChangesAsync();
-                    return new SuccessResult(Messages.Added);
-                }
-                catch (Exception ex)
-                {
-                    throw ex;
-                }
+                    GroupName = request.GroupName
+                };
+                _groupRepository.Add(group);
+                await _groupRepository.SaveChangesAsync();
+                return ResponseMessage<Group>.Success(group);
             }
         }
     }

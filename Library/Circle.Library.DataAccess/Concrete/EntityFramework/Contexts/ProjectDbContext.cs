@@ -36,7 +36,6 @@ namespace Circle.Library.DataAccess.Concrete.EntityFramework.Contexts
         }
 
         public DbSet<OperationClaim> OperationClaims { get; set; }
-        public DbSet<UserClaim> UserClaims { get; set; }
         public DbSet<Group> Groups { get; set; }
         public DbSet<UserGroup> UserGroups { get; set; }
         public DbSet<User> Users { get; set; }

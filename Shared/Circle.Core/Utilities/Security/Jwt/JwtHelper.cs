@@ -80,11 +80,7 @@ namespace Circle.Core.Utilities.Security.Jwt
         private IEnumerable<Claim> SetClaims(User user)
         {
             var claims = new List<Claim>();
-            claims.AddNameIdentifier(user.Id.ToString());
-            if (user.DepartmentId != Guid.Empty)
-            {
-                claims.AddNameUniqueIdentifier(user.DepartmentId.ToString());
-            }
+            claims.AddNameIdentifier(user.Email);
 
             if (!string.IsNullOrEmpty(user.Firstname))
             {

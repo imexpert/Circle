@@ -41,12 +41,13 @@ namespace Circle.Library.Business.BusinessAspects
             var oprClaims = _cacheManager.Get($"{CacheKeys.UserIdForClaim}={userId}") as IEnumerable<string>;
 
             var operationName = invocation.TargetType.ReflectedType.Name;
-            if (oprClaims.Contains(operationName))
+            if (oprClaims != null && oprClaims.Contains(operationName))
             {
                 return;
             }
 
-            throw new SecurityException(Messages.AuthorizationsDenied);
+            string message = $"Bu işlemi yapmaya yetkiniz yok. İşlem Adı : {operationName}";
+            throw new SecurityException(message);
         }
     }
 }

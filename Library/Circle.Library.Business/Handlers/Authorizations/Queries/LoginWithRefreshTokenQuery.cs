@@ -14,11 +14,11 @@ using MediatR;
 
 namespace Circle.Library.Business.Handlers.Authorizations.Queries
 {
-    public class LoginWithRefreshTokenQuery : IRequest<IResult>
+    public class LoginWithRefreshTokenQuery : IRequest<ResponseMessage<AccessToken>>
     {
         public string RefreshToken { get; set; }
 
-        public class LoginWithRefreshTokenQueryHandler : IRequestHandler<LoginWithRefreshTokenQuery, IResult>
+        public class LoginWithRefreshTokenQueryHandler : IRequestHandler<LoginWithRefreshTokenQuery, ResponseMessage<AccessToken>>
         {
             private readonly IUserRepository _userRepository;
             private readonly ITokenHelper _tokenHelper;
@@ -31,13 +31,12 @@ namespace Circle.Library.Business.Handlers.Authorizations.Queries
                 _cacheManager = cacheManager;
             }
 
-            [LogAspect(typeof(MsSqlLogger))]
-            public async Task<IResult> Handle(LoginWithRefreshTokenQuery request, CancellationToken cancellationToken)
+            public async Task<ResponseMessage<AccessToken>> Handle(LoginWithRefreshTokenQuery request, CancellationToken cancellationToken)
             {
                 var userToCheck = await _userRepository.GetByRefreshToken(request.RefreshToken);
                 if (userToCheck == null)
                 {
-                    return new ErrorDataResult<User>(Messages.UserNotFound);
+                    return ResponseMessage<AccessToken>.NoDataFound("Kullanýcý bulunamadý.");
                 }
 
 
@@ -48,7 +47,7 @@ namespace Circle.Library.Business.Handlers.Authorizations.Queries
 				userToCheck.RefreshToken = accessToken.RefreshToken;
 				_userRepository.Update(userToCheck);
 				await _userRepository.SaveChangesAsync();
-				return new SuccessDataResult<AccessToken>(accessToken, Messages.SuccessfulLogin);
+                return ResponseMessage<AccessToken>.Success(accessToken);
 			}
 		}
 	}

@@ -2,35 +2,16 @@
 using Circle.Core.Entities.Concrete;
 using FluentValidation;
 using Circle.Library.Business.Services.Authentication.Model;
+using Circle.Library.Business.Handlers.Authorizations.Queries;
 
 namespace Circle.Library.Business.Handlers.Authorizations.ValidationRules
 {
-    public class LoginUserValidator : AbstractValidator<LoginUserCommand>
+    public class LoginUserValidator : AbstractValidator<LoginUserQuery>
     {
         public LoginUserValidator()
         {
-            RuleFor(m => m.Password).NotEmpty()
-                .When((i) => i.Provider != AuthenticationProviderType.Person);
-            RuleFor(m => m.ExternalUserId).NotEmpty().Must((instance, value) =>
-                {
-                    switch (instance.Provider)
-                    {
-                        case AuthenticationProviderType.Person:
-                            return true;
-                        case AuthenticationProviderType.Staff:
-                            return true;
-                        case AuthenticationProviderType.Agent:
-                            break;
-                        case AuthenticationProviderType.Unknown:
-                            break;
-                        default:
-                            break;
-                    }
-
-                    return false;
-                })
-                .WithMessage(Messages.InvalidCode)
-                .OverridePropertyName(Messages.CitizenNumber);
+            RuleFor(m => m.LoginModel.Password).NotNull().WithMessage("Şifre boş olamaz");
+            RuleFor(m => m.LoginModel.Email).NotNull().WithMessage("E-Mail adresi boş olamaz");
         }
     }
 }

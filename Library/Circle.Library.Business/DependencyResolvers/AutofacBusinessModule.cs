@@ -3,7 +3,6 @@ using Autofac;
 using Autofac.Extras.DynamicProxy;
 using Castle.DynamicProxy;
 using Circle.Core.Utilities.Interceptors;
-using Circle.Library.Business;
 using FluentValidation;
 using MediatR;
 using Module = Autofac.Module;

@@ -7,7 +7,7 @@ namespace Circle.Library.Business.Handlers.Authorizations.ValidationRules
     {
         public RegisterUserValidator()
         {
-            RuleFor(p => p.Password).Password();
+            
         }
     }
 }

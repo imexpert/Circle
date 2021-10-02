@@ -4,9 +4,8 @@ using System.Reflection;
 using System.Security.Claims;
 using System.Security.Principal;
 using Autofac;
-using Circle.Library.Business.Constants;
+
 using Circle.Library.Business.DependencyResolvers;
-using Circle.Library.Business.Services.Authentication;
 using Circle.Core.CrossCuttingConcerns.Caching;
 using Circle.Core.CrossCuttingConcerns.Caching.Microsoft;
 using Circle.Core.DependencyResolvers;
@@ -21,7 +20,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Circle.Core.CrossCuttingConcerns.Logging.Serilog.Loggers;
 using Circle.Library.DataAccess.Concrete.EntityFramework;
 using Circle.Library.DataAccess.Concrete.EntityFramework.Contexts;
 
@@ -50,7 +48,7 @@ namespace Circle.Library.Business
         {
             Func<IServiceProvider, ClaimsPrincipal> getPrincipal = (sp) =>
                 sp.GetService<IHttpContextAccessor>().HttpContext?.User ??
-                new ClaimsPrincipal(new ClaimsIdentity(Messages.Unknown));
+                new ClaimsPrincipal(new ClaimsIdentity(""));
 
             services.AddScoped<IPrincipal>(getPrincipal);
             services.AddMemoryCache();
@@ -58,8 +56,6 @@ namespace Circle.Library.Business
             var coreModule = new CoreModule();
 
             services.AddDependencyResolvers(Configuration, new ICoreModule[] { coreModule });
-
-            services.AddTransient<IAuthenticationCoordinator, AuthenticationCoordinator>();
 
             services.AddSingleton<ConfigurationManager>();
 
@@ -87,6 +83,7 @@ namespace Circle.Library.Business
             services.AddTransient<IOperationClaimRepository, OperationClaimRepository>();
             services.AddTransient<IGroupRepository, GroupRepository>();
             services.AddTransient<IGroupClaimRepository, GroupClaimRepository>();
+            services.AddTransient<IMessageRepository, MessageRepository>();
 
 
             services.AddDbContext<ProjectDbContext, MsDbContext>();

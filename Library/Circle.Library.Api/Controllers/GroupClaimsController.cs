@@ -7,6 +7,7 @@ using Circle.Core.Entities.Dtos;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using Circle.Library.Entities.ComplexTypes;
 
 namespace Circle.Library.Api.Controllers
 {
@@ -68,16 +69,22 @@ namespace Circle.Library.Api.Controllers
         /// <summary>
         /// Addded GroupClaim .
         /// </summary>
-        /// <param name="createGroupClaim"></param>
+        /// <param name="model"></param>
         /// <returns></returns>
         [Consumes("application/json")]
         [Produces("application/json", "text/plain")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(string))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(string))]
-        [HttpPost]
-        public async Task<IActionResult> Add([FromBody] CreateGroupClaimCommand createGroupClaim)
+        [ProducesResponseType(StatusCodes.Status403Forbidden, Type = typeof(string))]
+        [HttpPost("Add")]
+        public async Task<IActionResult> Add([FromBody] CreateGroupClaimModel model)
         {
-            return GetResponseOnlyResultMessage(await Mediator.Send(createGroupClaim));
+            CreateGroupClaimCommand command = new CreateGroupClaimCommand()
+            {
+                Model = model
+            };
+
+            return CreateActionResultInstance(await Mediator.Send(command));
         }
 
         /// <summary>

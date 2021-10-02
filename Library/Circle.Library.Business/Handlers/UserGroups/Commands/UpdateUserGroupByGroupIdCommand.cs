@@ -2,7 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Circle.Library.Business.BusinessAspects;
-using Circle.Library.Business.Constants;
+
 using Circle.Core.Aspects.Autofac.Caching;
 using Circle.Core.Aspects.Autofac.Logging;
 using Circle.Core.CrossCuttingConcerns.Logging.Serilog.Loggers;
@@ -38,7 +38,7 @@ namespace Circle.Library.Business.Handlers.UserGroups.Commands
                 await _userGroupRepository.BulkInsertByGroupId(request.GroupId, list);
                 await _userGroupRepository.SaveChangesAsync();
 
-                return new SuccessResult(Messages.Updated);
+                return new SuccessResult(null);
             }
         }
     }

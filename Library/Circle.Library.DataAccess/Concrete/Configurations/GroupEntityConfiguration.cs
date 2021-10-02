@@ -12,7 +12,12 @@ namespace Circle.Library.DataAccess.Concrete.Configurations
             builder.ToTable("Groups", MsDbContext.DEFAULT_SCHEMA);
 
             builder.HasKey(x => x.Id);
-            builder.Property(x => x.GroupName).HasMaxLength(50).IsRequired();
+
+            builder.HasIndex(s => s.GroupName).IsUnique();
+
+            builder.Property(x => x.GroupName)
+                .HasMaxLength(50)
+                .IsRequired();
 
             builder.Property(s => s.RecordDate)
                .UsePropertyAccessMode(PropertyAccessMode.Field)

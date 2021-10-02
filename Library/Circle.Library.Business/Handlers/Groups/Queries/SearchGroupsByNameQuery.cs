@@ -2,7 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Circle.Library.Business.BusinessAspects;
-using Circle.Library.Business.Constants;
+
 using Circle.Core.Aspects.Autofac.Logging;
 using Circle.Core.CrossCuttingConcerns.Logging.Serilog.Loggers;
 using Circle.Core.Entities.Concrete;
@@ -50,7 +50,7 @@ namespace Circle.Library.Business.Handlers.Groups.Queries
                     return new SuccessResult();
                 }
 
-                return new ErrorResult(Messages.StringLengthMustBeGreaterThanThree);
+                return new ErrorResult(null);
             }
         }
     }

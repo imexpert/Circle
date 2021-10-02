@@ -1,7 +1,7 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using Circle.Library.Business.BusinessAspects;
-using Circle.Library.Business.Constants;
+
 using Circle.Core.Aspects.Autofac.Caching;
 using Circle.Core.Aspects.Autofac.Logging;
 using Circle.Core.CrossCuttingConcerns.Logging.Serilog.Loggers;
@@ -35,7 +35,7 @@ namespace Circle.Library.Business.Handlers.GroupClaims.Commands
                 _groupClaimRepository.Delete(groupClaimToDelete);
                 await _groupClaimRepository.SaveChangesAsync();
 
-                return new SuccessResult(Messages.Deleted);
+                return new SuccessResult(null);
             }
         }
     }

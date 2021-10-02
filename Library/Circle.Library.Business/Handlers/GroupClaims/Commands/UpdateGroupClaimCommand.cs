@@ -2,7 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Circle.Library.Business.BusinessAspects;
-using Circle.Library.Business.Constants;
+
 using Circle.Core.Aspects.Autofac.Caching;
 using Circle.Core.Aspects.Autofac.Logging;
 using Circle.Core.CrossCuttingConcerns.Logging.Serilog.Loggers;
@@ -34,12 +34,12 @@ namespace Circle.Library.Business.Handlers.GroupClaims.Commands
             [LogAspect(typeof(MsSqlLogger))]
             public async Task<IResult> Handle(UpdateGroupClaimCommand request, CancellationToken cancellationToken)
             {
-                var list = request.ClaimIds.Select(x => new GroupClaim() { ClaimId = x, GroupId = request.GroupId });
+                var list = request.ClaimIds.Select(x => new GroupClaim() { OperationClaimId = x, GroupId = request.GroupId });
 
                 await _groupClaimRepository.BulkInsert(request.GroupId, list);
                 await _groupClaimRepository.SaveChangesAsync();
 
-                return new SuccessResult(Messages.Updated);
+                return null;
             }
         }
     }

@@ -12,9 +12,11 @@ namespace Circle.Library.DataAccess.Concrete.Configurations
             builder.ToTable("OperationClaims", MsDbContext.DEFAULT_SCHEMA);
 
             builder.HasKey(x => x.Id);
-            builder.Property(x => x.Name).HasMaxLength(50).IsRequired();
-            builder.Property(x => x.Alias).HasMaxLength(50);
-            builder.Property(x => x.Description).HasMaxLength(100);
+            builder.HasIndex(s => s.Name).IsUnique();
+
+            builder.Property(x => x.Name).HasMaxLength(200).IsRequired();
+            builder.Property(x => x.Alias).HasMaxLength(200);
+            builder.Property(x => x.Description).HasMaxLength(200);
 
             builder.Property(s => s.RecordDate)
                .UsePropertyAccessMode(PropertyAccessMode.Field)

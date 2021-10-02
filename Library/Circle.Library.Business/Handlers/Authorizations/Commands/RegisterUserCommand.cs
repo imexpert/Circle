@@ -1,7 +1,7 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using Circle.Library.Business.BusinessAspects;
-using Circle.Library.Business.Constants;
+
 using Circle.Core.Aspects.Autofac.Caching;
 using Circle.Core.Aspects.Autofac.Logging;
 using Circle.Core.Aspects.Autofac.Validation;
@@ -44,7 +44,7 @@ namespace Circle.Library.Business.Handlers.Authorizations.Commands
 
                 if (isThereAnyUser != null)
                 {
-                    return new ErrorResult(Messages.NameAlreadyExist);
+                    return new ErrorResult(null);
                 }
 
                 string hashPassword = HashingHelper.CreatePasswordHash(request.Password);
@@ -59,7 +59,7 @@ namespace Circle.Library.Business.Handlers.Authorizations.Commands
 
                 _userRepository.Add(user);
                 await _userRepository.SaveChangesAsync();
-                return new SuccessResult(Messages.Added);
+                return new SuccessResult(null);
             }
         }
     }

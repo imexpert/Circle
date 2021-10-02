@@ -19,4 +19,7 @@
 	<ItemGroup>
 	  <ProjectReference Include="..\..\Shared\Circle.Core\Circle.Core.csproj" />
 	</ItemGroup>
+	<ItemGroup>
+	  <Folder Include="Migrations\Ms\" />
+	</ItemGroup>
 </Project>

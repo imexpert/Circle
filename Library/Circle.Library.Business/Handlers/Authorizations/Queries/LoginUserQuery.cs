@@ -1,12 +1,8 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Circle.Library.Business.Constants;
-using Circle.Library.Business.Services.Authentication;
-using Circle.Core.Aspects.Autofac.Logging;
+
 using Circle.Core.CrossCuttingConcerns.Caching;
-using Circle.Core.CrossCuttingConcerns.Logging.Serilog.Loggers;
 using Circle.Core.Utilities.Results;
 using Circle.Core.Utilities.Security.Hashing;
 using Circle.Core.Utilities.Security.Jwt;
@@ -54,7 +50,7 @@ namespace Circle.Library.Business.Handlers.Authorizations.Queries
 
                 var claims = _userRepository.GetClaims(user.Id);
 
-                var accessToken = _tokenHelper.CreateToken<DArchToken>(user);
+                var accessToken = _tokenHelper.CreateToken<AccessToken>(user);
                 accessToken.Claims = claims.Select(x => x.Name).ToList();
 
                 user.RefreshToken = accessToken.RefreshToken;

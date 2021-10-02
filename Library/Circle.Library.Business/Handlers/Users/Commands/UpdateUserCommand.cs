@@ -1,7 +1,7 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using Circle.Library.Business.BusinessAspects;
-using Circle.Library.Business.Constants;
+
 using Circle.Core.Aspects.Autofac.Caching;
 using Circle.Core.Aspects.Autofac.Logging;
 using Circle.Core.CrossCuttingConcerns.Logging.Serilog.Loggers;
@@ -48,7 +48,7 @@ namespace Circle.Library.Business.Handlers.Users.Commands
 
                 _userRepository.Update(isThereAnyUser);
                 await _userRepository.SaveChangesAsync();
-                return new SuccessResult(Messages.Updated);
+                return new SuccessResult(null);
             }
         }
     }

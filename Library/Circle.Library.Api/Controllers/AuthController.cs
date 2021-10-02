@@ -9,25 +9,31 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Circle.Library.Entities.ComplexTypes;
+using Microsoft.Extensions.Localization;
 
 namespace Circle.Library.Api.Controllers
 {
     /// <summary>
     /// Make it Authorization operations
     /// </summary>
-    [Route("api/[controller]")]
+    //[Route("api/[controller]")]
+    [Route("{culture:culture}/api/[controller]")]
     [ApiController]
     public class AuthController : BaseApiController
     {
+        private readonly IHttpContextAccessor _localizer;
+
         private readonly IConfiguration _configuration;
 
         /// <summary>
         /// Dependency injection is provided by constructor injection.
         /// </summary>
         /// <param name="configuration"></param>
-        public AuthController(IConfiguration configuration)
+        public AuthController(IConfiguration configuration,
+            IHttpContextAccessor localizer)
         {
             _configuration = configuration;
+            _localizer = localizer;
         }
 
         /// <summary>

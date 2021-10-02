@@ -53,21 +53,28 @@ namespace Circle.Library.DataAccess.Migrations.Ms
 
                     b.HasKey("Id");
 
+                    b.HasIndex("GroupName")
+                        .IsUnique();
+
                     b.ToTable("Groups", "dbo");
                 });
 
             modelBuilder.Entity("Circle.Core.Entities.Concrete.GroupClaim", b =>
                 {
-                    b.Property<Guid>("GroupId")
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("ClaimId")
+                    b.Property<Guid>("GroupId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Ip")
                         .IsRequired()
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
+
+                    b.Property<Guid>("OperationClaimId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("RecordDate")
                         .HasColumnType("datetime2");
@@ -85,7 +92,11 @@ namespace Circle.Library.DataAccess.Migrations.Ms
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.HasKey("GroupId", "ClaimId");
+                    b.HasKey("Id");
+
+                    b.HasIndex("GroupId");
+
+                    b.HasIndex("OperationClaimId");
 
                     b.ToTable("GroupClaims", "dbo");
                 });
@@ -108,8 +119,8 @@ namespace Circle.Library.DataAccess.Migrations.Ms
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(10)
-                        .HasColumnType("nvarchar(10)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<DateTime>("RecordDate")
                         .HasColumnType("datetime2");
@@ -129,29 +140,32 @@ namespace Circle.Library.DataAccess.Migrations.Ms
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Name")
+                        .IsUnique();
+
                     b.ToTable("Languages", "dbo");
 
                     b.HasData(
                         new
                         {
-                            Id = new Guid("9a151e2d-5358-4c0a-9a54-73ea87123293"),
+                            Id = new Guid("08e5f51c-c82a-4eaa-8fd7-dbc28101fb5c"),
                             Code = "tr-TR",
                             Ip = "1:1",
                             Name = "Türkçe",
-                            RecordDate = new DateTime(2021, 9, 28, 23, 39, 43, 945, DateTimeKind.Local).AddTicks(1407),
+                            RecordDate = new DateTime(2021, 10, 1, 23, 23, 33, 780, DateTimeKind.Local).AddTicks(971),
                             RecordUsername = "admin",
-                            UpdateDate = new DateTime(2021, 9, 28, 23, 39, 43, 947, DateTimeKind.Local).AddTicks(3277),
+                            UpdateDate = new DateTime(2021, 10, 1, 23, 23, 33, 781, DateTimeKind.Local).AddTicks(9981),
                             UpdateUsername = "admin"
                         },
                         new
                         {
-                            Id = new Guid("49066bc4-f2a5-4258-9140-e5468e642105"),
+                            Id = new Guid("e008b199-8d63-4906-b2ab-021ae6aebd90"),
                             Code = "en-US",
                             Ip = "1:1",
                             Name = "English",
-                            RecordDate = new DateTime(2021, 9, 28, 23, 39, 43, 947, DateTimeKind.Local).AddTicks(3834),
+                            RecordDate = new DateTime(2021, 10, 1, 23, 23, 33, 782, DateTimeKind.Local).AddTicks(483),
                             RecordUsername = "admin",
-                            UpdateDate = new DateTime(2021, 9, 28, 23, 39, 43, 947, DateTimeKind.Local).AddTicks(3846),
+                            UpdateDate = new DateTime(2021, 10, 1, 23, 23, 33, 782, DateTimeKind.Local).AddTicks(495),
                             UpdateUsername = "admin"
                         });
                 });
@@ -179,29 +193,27 @@ namespace Circle.Library.DataAccess.Migrations.Ms
                     b.ToTable("Logs", "dbo");
                 });
 
-            modelBuilder.Entity("Circle.Core.Entities.Concrete.OperationClaim", b =>
+            modelBuilder.Entity("Circle.Core.Entities.Concrete.Message", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Alias")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("Description")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                    b.Property<int>("Code")
+                        .HasColumnType("int");
 
                     b.Property<string>("Ip")
                         .IsRequired()
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
 
-                    b.Property<string>("Name")
+                    b.Property<Guid>("LanguageId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("MessageDetail")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
                     b.Property<DateTime>("RecordDate")
                         .HasColumnType("datetime2");
@@ -220,6 +232,57 @@ namespace Circle.Library.DataAccess.Migrations.Ms
                         .HasColumnType("nvarchar(50)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("LanguageId", "Code")
+                        .IsUnique();
+
+                    b.ToTable("Messages", "dbo");
+                });
+
+            modelBuilder.Entity("Circle.Core.Entities.Concrete.OperationClaim", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Alias")
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("Ip")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<DateTime>("RecordDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("RecordUsername")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<DateTime>("UpdateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UpdateUsername")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
 
                     b.ToTable("OperationClaims", "dbo");
                 });
@@ -303,43 +366,10 @@ namespace Circle.Library.DataAccess.Migrations.Ms
                     b.ToTable("Users", "dbo");
                 });
 
-            modelBuilder.Entity("Circle.Core.Entities.Concrete.UserClaim", b =>
-                {
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("ClaimId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Ip")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
-
-                    b.Property<DateTime>("RecordDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("RecordUsername")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<DateTime>("UpdateDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("UpdateUsername")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.HasKey("UserId", "ClaimId");
-
-                    b.ToTable("UserClaims", "dbo");
-                });
-
             modelBuilder.Entity("Circle.Core.Entities.Concrete.UserGroup", b =>
                 {
-                    b.Property<Guid>("UserId")
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("GroupId")
@@ -366,9 +396,65 @@ namespace Circle.Library.DataAccess.Migrations.Ms
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.HasKey("UserId", "GroupId");
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("GroupId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("UserGroups", "dbo");
+                });
+
+            modelBuilder.Entity("Circle.Core.Entities.Concrete.GroupClaim", b =>
+                {
+                    b.HasOne("Circle.Core.Entities.Concrete.Group", "Group")
+                        .WithMany()
+                        .HasForeignKey("GroupId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Circle.Core.Entities.Concrete.OperationClaim", "OperationClaim")
+                        .WithMany()
+                        .HasForeignKey("OperationClaimId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Group");
+
+                    b.Navigation("OperationClaim");
+                });
+
+            modelBuilder.Entity("Circle.Core.Entities.Concrete.Message", b =>
+                {
+                    b.HasOne("Circle.Core.Entities.Concrete.Language", "Language")
+                        .WithMany()
+                        .HasForeignKey("LanguageId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Language");
+                });
+
+            modelBuilder.Entity("Circle.Core.Entities.Concrete.UserGroup", b =>
+                {
+                    b.HasOne("Circle.Core.Entities.Concrete.Group", "Group")
+                        .WithMany()
+                        .HasForeignKey("GroupId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Circle.Core.Entities.Concrete.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Group");
+
+                    b.Navigation("User");
                 });
 #pragma warning restore 612, 618
         }

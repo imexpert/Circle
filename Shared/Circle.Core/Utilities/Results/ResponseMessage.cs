@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Circle.Core.Utilities.Results
+﻿namespace Circle.Core.Utilities.Results
 {
     public class ResponseMessage<T>
     {
@@ -18,6 +12,11 @@ namespace Circle.Core.Utilities.Results
         public static ResponseMessage<T> Success(T data)
         {
             return new ResponseMessage<T> { Data = data, StatusCode = 200, IsSuccess = true };
+        }
+
+        public static ResponseMessage<T> Success()
+        {
+            return new ResponseMessage<T> { StatusCode = 200, IsSuccess = true };
         }
 
         public static ResponseMessage<T> Fail(string error)

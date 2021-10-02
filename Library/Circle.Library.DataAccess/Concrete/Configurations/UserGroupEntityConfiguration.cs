@@ -11,7 +11,23 @@ namespace Circle.Library.DataAccess.Concrete.Configurations
         {
             builder.ToTable("UserGroups", MsDbContext.DEFAULT_SCHEMA);
 
-            builder.HasKey(x => new { x.UserId, x.GroupId });
+            builder.HasKey(x => x.Id);
+            builder.Property(s => s.GroupId).IsRequired();
+            builder.Property(s => s.UserId).IsRequired();
+
+            builder
+                .HasOne(s => s.Group)
+                .WithMany()
+                .IsRequired()
+                .HasForeignKey("GroupId")
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder
+                .HasOne(s => s.User)
+                .WithMany()
+                .IsRequired()
+                .HasForeignKey("UserId")
+                .OnDelete(DeleteBehavior.Restrict);
 
             builder.Property(s => s.RecordDate)
                 .UsePropertyAccessMode(PropertyAccessMode.Field)

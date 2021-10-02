@@ -23,4 +23,7 @@
 		<PackageReference Include="System.ServiceModel.NetTcp" Version="4.8.1" />
 		<PackageReference Include="System.ServiceModel.Security" Version="4.8.1" />
 	</ItemGroup>
+	<ItemGroup>
+	  <Folder Include="Constants\" />
+	</ItemGroup>
 </Project>

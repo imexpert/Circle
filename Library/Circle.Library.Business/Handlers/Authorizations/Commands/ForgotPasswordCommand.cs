@@ -1,8 +1,7 @@
-﻿using System;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using Circle.Library.Business.BusinessAspects;
-using Circle.Library.Business.Constants;
+
 using Circle.Core.Aspects.Autofac.Caching;
 using Circle.Core.Aspects.Autofac.Logging;
 using Circle.Core.CrossCuttingConcerns.Logging.Serilog.Loggers;
@@ -41,7 +40,7 @@ namespace Circle.Library.Business.Handlers.Authorizations.Commands
 
                 if (user == null)
                 {
-                    return new ErrorResult(Messages.WrongCitizenId);
+                    return new ErrorResult("");
                 }
 
                 var generatedPassword = RandomPassword.CreateRandomPassword(14);
@@ -50,7 +49,7 @@ namespace Circle.Library.Business.Handlers.Authorizations.Commands
                 user.Password = hashPassword;
                 _userRepository.Update(user);
 
-                return new SuccessResult(Messages.SendPassword + Messages.NewPassword + generatedPassword);
+                return new SuccessResult("" + "" + generatedPassword);
             }
         }
     }

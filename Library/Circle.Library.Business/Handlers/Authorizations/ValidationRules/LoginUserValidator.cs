@@ -1,7 +1,4 @@
-﻿using Circle.Library.Business.Constants;
-using Circle.Core.Entities.Concrete;
-using FluentValidation;
-using Circle.Library.Business.Services.Authentication.Model;
+﻿using FluentValidation;
 using Circle.Library.Business.Handlers.Authorizations.Queries;
 
 namespace Circle.Library.Business.Handlers.Authorizations.ValidationRules

@@ -106,7 +106,7 @@ namespace Circle.Library.Api.Controllers
         [HttpDelete]
         public async Task<IActionResult> Delete([FromBody] DeleteGroupCommand deleteGroup)
         {
-            return GetResponseOnlyResultMessage(await Mediator.Send(deleteGroup));
+            return CreateActionResultInstance(await Mediator.Send(deleteGroup));
         }
     }
 }

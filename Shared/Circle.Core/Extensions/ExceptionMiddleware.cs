@@ -2,12 +2,10 @@
 using System.Net;
 using System.Security;
 using System.Threading.Tasks;
-using Circle.Core.Utilities.Messages;
 using Circle.Core.Utilities.Results;
 using FluentValidation;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
-using Serilog;
 
 namespace Circle.Core.Extensions
 {
@@ -41,20 +39,28 @@ namespace Circle.Core.Extensions
             
             if (e.GetType() == typeof(ValidationException))
             {
-                result.Message = e.GetBaseException().Message;
-                result.DeveloperMessage = e.GetBaseException().Message;
+                result.Message = e.GetFullMessage();
+                result.DeveloperMessage = e.GetFullMessage();
                 httpContext.Response.StatusCode = result.StatusCode = (int)HttpStatusCode.BadRequest;
             }
             else if (e.GetType() == typeof(SecurityException))
             {
-                result.Message = e.GetBaseException().Message;
-                result.DeveloperMessage = e.GetBaseException().Message;
+                result.Message = e.GetFullMessage();
+                result.DeveloperMessage = e.GetFullMessage();
                 httpContext.Response.StatusCode = result.StatusCode = (int)HttpStatusCode.Forbidden;
             }
             else
             {
+                string mesaj = e.GetFullMessage();
+
                 result.Message = "Hata oluştu. Lütfen tekrar deneyiniz.";
-                result.DeveloperMessage = e.GetBaseException().Message;
+                result.DeveloperMessage = mesaj;
+
+                if (mesaj.Contains("UNIQUE") || mesaj.Contains("duplicate key"))
+                {
+                    result.Message = "Kayıt zaten eklenmiş. Lütfen yeniden deneyiniz.";
+                }
+                
                 httpContext.Response.StatusCode = result.StatusCode = (int)HttpStatusCode.InternalServerError;
             }
 

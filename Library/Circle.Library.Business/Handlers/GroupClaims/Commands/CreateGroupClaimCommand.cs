@@ -1,6 +1,5 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-using Circle.Library.Business.BusinessAspects;
 using Circle.Core.Aspects.Autofac.Caching;
 using Circle.Core.Aspects.Autofac.Logging;
 using Circle.Core.CrossCuttingConcerns.Logging.Serilog.Loggers;
@@ -8,46 +7,58 @@ using Circle.Core.Entities.Concrete;
 using Circle.Core.Utilities.Results;
 using Circle.Library.DataAccess.Abstract;
 using MediatR;
-using Circle.Library.Business.Constants;
+
+using Circle.Library.Entities.ComplexTypes;
 
 namespace Circle.Library.Business.Handlers.GroupClaims.Commands
 {
-    public class CreateGroupClaimCommand : IRequest<IResult>
+    public class CreateGroupClaimCommand : IRequest<ResponseMessage<GroupClaim>>
     {
-        public string ClaimName { get; set; }
+        public CreateGroupClaimModel Model { get; set; }
 
-        public class CreateGroupClaimCommandHandler : IRequestHandler<CreateGroupClaimCommand, IResult>
+        public class CreateGroupClaimCommandHandler : IRequestHandler<CreateGroupClaimCommand, ResponseMessage<GroupClaim>>
         {
+            private readonly IGroupClaimRepository _groupClaimRepository;
+            private readonly IGroupRepository _groupRepository;
             private readonly IOperationClaimRepository _operationClaimRepository;
 
-            public CreateGroupClaimCommandHandler(IOperationClaimRepository operationClaimRepository)
+            public CreateGroupClaimCommandHandler(
+                IGroupClaimRepository groupClaimRepository, 
+                IGroupRepository groupRepository,
+                IOperationClaimRepository operationClaimRepository)
             {
+                _groupClaimRepository = groupClaimRepository;
+                _groupRepository = groupRepository;
                 _operationClaimRepository = operationClaimRepository;
             }
 
-            [SecuredOperation(Priority = 1)]
+            //[SecuredOperation(Priority = 1)]
             [CacheRemoveAspect("Get")]
             [LogAspect(typeof(MsSqlLogger))]
-            public async Task<IResult> Handle(CreateGroupClaimCommand request, CancellationToken cancellationToken)
+            public async Task<ResponseMessage<GroupClaim>> Handle(CreateGroupClaimCommand request, CancellationToken cancellationToken)
             {
-                if (IsClaimExists(request.ClaimName))
+                var groupClaim = new GroupClaim
                 {
-                    return new ErrorResult(Messages.OperationClaimExists);
+                    OperationClaimId = request.Model.ClaimId,
+                    GroupId = request.Model.GroupId
+                };
+
+                var isGroupExists = await _groupRepository.GetAsync(s => s.Id == groupClaim.GroupId);
+                if (isGroupExists == null || isGroupExists.Id == System.Guid.Empty)
+                {
+                    return ResponseMessage<GroupClaim>.NoDataFound("Grup bulunamadı.");
                 }
 
-                var operationClaim = new OperationClaim
+                var isOperationExists = await _operationClaimRepository.GetAsync(s => s.Id == groupClaim.OperationClaimId);
+                if (isOperationExists == null || isOperationExists.Id == System.Guid.Empty)
                 {
-                    Name = request.ClaimName
-                };
-                _operationClaimRepository.Add(operationClaim);
-                await _operationClaimRepository.SaveChangesAsync();
+                    return ResponseMessage<GroupClaim>.NoDataFound("Operasyon tanımı bulunamadı.");
+                }
 
-                return new SuccessResult(Messages.Added);
-            }
+                _groupClaimRepository.Add(groupClaim);
+                await _groupClaimRepository.SaveChangesAsync();
 
-            private bool IsClaimExists(string claimName)
-            {
-                return !(_operationClaimRepository.Get(x => x.Name == claimName) is null);
+                return ResponseMessage<GroupClaim>.Success(groupClaim);
             }
         }
     }

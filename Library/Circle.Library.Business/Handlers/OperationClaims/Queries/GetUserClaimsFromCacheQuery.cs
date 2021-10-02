@@ -3,7 +3,7 @@ using System.Linq;
 using System.Security;
 using System.Threading;
 using System.Threading.Tasks;
-using Circle.Library.Business.Constants;
+
 using Circle.Core.Aspects.Autofac.Caching;
 using Circle.Core.Aspects.Autofac.Logging;
 using Circle.Core.Aspects.Autofac.Performance;
@@ -46,7 +46,7 @@ namespace Circle.Library.Business.Handlers.OperationClaims.Queries
 
                 if (userId == null)
                 {
-                    throw new SecurityException(Messages.AuthorizationsDenied);
+                    throw new SecurityException(null);
                 }
 
                 var oprClaims = _cacheManager.Get($"{CacheKeys.UserIdForClaim}={userId}") as IEnumerable<string>;

@@ -19,52 +19,6 @@ namespace Circle.Library.Api.Controllers
     public class LanguagesController : BaseApiController
     {
         /// <summary>
-        /// LanguageLookUp with Code
-        /// </summary>
-        /// <remarks>bla bla bla Languages</remarks>
-        /// <return>Languages List</return>
-        /// <response code="200"></response>
-        [AllowAnonymous]
-        [Produces("application/json", "text/plain")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<SelectionItem>))]
-        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(string))]
-        [HttpGet("getlookupwithcode")]
-        public async Task<IActionResult> GetLookupListWithCode()
-        {
-            return GetResponseOnlyResultData(await Mediator.Send(new GetLanguagesLookUpWithCodeQuery()));
-        }
-
-        /// <summary>
-        /// LanguageLookUp
-        /// </summary>
-        /// <remarks>bla bla bla Languages</remarks>
-        /// <return>Languages List</return>
-        /// <response code="200"></response>
-        [Produces("application/json", "text/plain")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<SelectionItem>))]
-        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(string))]
-        [HttpGet("getlookup")]
-        public async Task<IActionResult> GetLookupList()
-        {
-            return GetResponseOnlyResultData(await Mediator.Send(new GetLanguagesLookUpQuery()));
-        }
-
-        /// <summary>
-        /// List languages
-        /// </summary>
-        /// <remarks>bla bla bla Languages</remarks>
-        /// <return>Languages List</return>
-        /// <response code="200"></response>
-        [Produces("application/json", "text/plain")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<Language>))]
-        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(string))]
-        [HttpGet("getall")]
-        public async Task<IActionResult> GetList()
-        {
-            return GetResponseOnlyResultData(await Mediator.Send(new GetLanguagesQuery()));
-        }
-
-        /// <summary>
         /// It brings the details according to its id.
         /// </summary>
         /// <remarks>bla bla bla </remarks>
@@ -76,7 +30,7 @@ namespace Circle.Library.Api.Controllers
         [HttpGet("getbyid")]
         public async Task<IActionResult> GetById(Guid languageId)
         {
-            return GetResponseOnlyResultData(await Mediator.Send(new GetLanguageQuery { Id = languageId }));
+            return CreateActionResultInstance(await Mediator.Send(new GetLanguageQuery { Id = languageId }));
         }
 
         /// <summary>
@@ -91,7 +45,7 @@ namespace Circle.Library.Api.Controllers
         [HttpPost]
         public async Task<IActionResult> Add([FromBody] CreateLanguageCommand createLanguage)
         {
-            return GetResponseOnlyResultMessage(await Mediator.Send(createLanguage));
+            return CreateActionResultInstance(await Mediator.Send(createLanguage));
         }
 
         /// <summary>
@@ -106,7 +60,7 @@ namespace Circle.Library.Api.Controllers
         [HttpPut]
         public async Task<IActionResult> Update([FromBody] UpdateLanguageCommand updateLanguage)
         {
-            return GetResponseOnlyResultMessage(await Mediator.Send(updateLanguage));
+            return CreateActionResultInstance(await Mediator.Send(updateLanguage));
         }
 
         /// <summary>
@@ -121,7 +75,7 @@ namespace Circle.Library.Api.Controllers
         [HttpDelete]
         public async Task<IActionResult> Delete([FromBody] DeleteLanguageCommand deleteLanguage)
         {
-            return GetResponseOnlyResultMessage(await Mediator.Send(deleteLanguage));
+            return CreateActionResultInstance(await Mediator.Send(deleteLanguage));
         }
     }
 }

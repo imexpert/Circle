@@ -12,8 +12,10 @@ namespace Circle.Library.DataAccess.Concrete.Configurations
             builder.ToTable("Languages", MsDbContext.DEFAULT_SCHEMA);
 
             builder.HasKey(x => x.Id);
+            builder.HasIndex(s => s.Name).IsUnique();
+
+            builder.Property(x => x.Name).HasMaxLength(50).IsRequired();
             builder.Property(x => x.Code).HasMaxLength(10).IsRequired();
-            builder.Property(x => x.Name).HasMaxLength(10).IsRequired();
             builder.HasData(
                 new Language 
                 { 

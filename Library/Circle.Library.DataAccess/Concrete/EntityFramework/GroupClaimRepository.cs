@@ -29,7 +29,7 @@ namespace Circle.Library.DataAccess.Concrete.EntityFramework
         public async Task<IEnumerable<SelectionItem>> GetGroupClaimsSelectedList(Guid groupId)
         {
             var list = await (from gc in Context.GroupClaims
-                join oc in Context.OperationClaims on gc.ClaimId equals oc.Id
+                join oc in Context.OperationClaims on gc.OperationClaimId equals oc.Id
                 where gc.GroupId == groupId
                 select new SelectionItem()
                 {

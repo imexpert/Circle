@@ -73,10 +73,10 @@ namespace Circle.Library.Api.Controllers
         [Produces("application/json", "text/plain")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(string))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(string))]
-        [HttpPost]
+        [HttpPost("Add")]
         public async Task<IActionResult> Add([FromBody] CreateGroupCommand createGroup)
         {
-            return GetResponseOnlyResultMessage(await Mediator.Send(createGroup));
+            return CreateActionResultInstance(await Mediator.Send(createGroup));
         }
 
         /// <summary>
@@ -106,7 +106,7 @@ namespace Circle.Library.Api.Controllers
         [HttpDelete]
         public async Task<IActionResult> Delete([FromBody] DeleteGroupCommand deleteGroup)
         {
-            return GetResponseOnlyResultMessage(await Mediator.Send(deleteGroup));
+            return CreateActionResultInstance(await Mediator.Send(deleteGroup));
         }
     }
 }

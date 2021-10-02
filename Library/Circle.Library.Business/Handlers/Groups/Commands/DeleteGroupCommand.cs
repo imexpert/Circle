@@ -1,7 +1,7 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using Circle.Library.Business.BusinessAspects;
-using Circle.Library.Business.Constants;
+
 using Circle.Core.Aspects.Autofac.Caching;
 using Circle.Core.Aspects.Autofac.Logging;
 using Circle.Core.CrossCuttingConcerns.Logging.Serilog.Loggers;
@@ -12,11 +12,11 @@ using System;
 
 namespace Circle.Library.Business.Handlers.Groups.Commands
 {
-    public class DeleteGroupCommand : IRequest<IResult>
+    public class DeleteGroupCommand : IRequest<ResponseMessage<NoContent>>
     {
         public Guid Id { get; set; }
 
-        public class DeleteGroupCommandHandler : IRequestHandler<DeleteGroupCommand, IResult>
+        public class DeleteGroupCommandHandler : IRequestHandler<DeleteGroupCommand, ResponseMessage<NoContent>>
         {
             private readonly IGroupRepository _groupRepository;
 
@@ -28,14 +28,19 @@ namespace Circle.Library.Business.Handlers.Groups.Commands
             [SecuredOperation(Priority = 1)]
             [CacheRemoveAspect("Get")]
             [LogAspect(typeof(MsSqlLogger))]
-            public async Task<IResult> Handle(DeleteGroupCommand request, CancellationToken cancellationToken)
+            public async Task<ResponseMessage<NoContent>> Handle(DeleteGroupCommand request, CancellationToken cancellationToken)
             {
                 var groupToDelete = await _groupRepository.GetAsync(x => x.Id == request.Id);
+
+                if (groupToDelete == null || groupToDelete.Id == Guid.Empty)
+                {
+                    return ResponseMessage<NoContent>.NoDataFound("Grup bulunamadı.");
+                }
 
                 _groupRepository.Delete(groupToDelete);
                 await _groupRepository.SaveChangesAsync();
 
-                return new SuccessResult(Messages.Deleted);
+                return null;
             }
         }
     }

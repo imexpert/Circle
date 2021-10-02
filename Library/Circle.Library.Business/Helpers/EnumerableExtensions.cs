@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Circle.Library.Business.Helpers
 {
-	public static class EnumerableExtensions
+    public static class EnumerableExtensions
 	{
 		public static IEnumerable<T> AsDepthFirstEnumerable<T>(this T head, Func<T, IEnumerable<T>> childrenFunc)
 		{

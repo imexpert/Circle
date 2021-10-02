@@ -2,9 +2,10 @@
 using System.Net;
 using System.Security;
 using System.Threading.Tasks;
-using Circle.Core.Utilities.Messages;
+using Circle.Core.Utilities.Results;
 using FluentValidation;
 using Microsoft.AspNetCore.Http;
+using Newtonsoft.Json;
 
 namespace Circle.Core.Extensions
 {
@@ -33,36 +34,40 @@ namespace Circle.Core.Extensions
 
         private async Task HandleExceptionAsync(HttpContext httpContext, Exception e)
         {
-            httpContext.Response.ContentType = "application/json";
-            httpContext.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-            _ = e.Message;
-            string message;
+            ResponseMessage<NoContent> result = new ResponseMessage<NoContent>();
+            result.IsSuccess = false;
+            
             if (e.GetType() == typeof(ValidationException))
             {
-                message = e.Message;
-                httpContext.Response.StatusCode = (int)HttpStatusCode.BadRequest;
-            }
-            else if (e.GetType() == typeof(ApplicationException))
-            {
-                message = e.Message;
-                httpContext.Response.StatusCode = (int)HttpStatusCode.BadRequest;
-            }
-            else if (e.GetType() == typeof(UnauthorizedAccessException))
-            {
-                message = e.Message;
-                httpContext.Response.StatusCode = StatusCodes.Status401Unauthorized;
+                result.Message = e.GetFullMessage();
+                result.DeveloperMessage = e.GetFullMessage();
+                httpContext.Response.StatusCode = result.StatusCode = (int)HttpStatusCode.BadRequest;
             }
             else if (e.GetType() == typeof(SecurityException))
             {
-                message = e.Message;
-                httpContext.Response.StatusCode = StatusCodes.Status401Unauthorized;
+                result.Message = e.GetFullMessage();
+                result.DeveloperMessage = e.GetFullMessage();
+                httpContext.Response.StatusCode = result.StatusCode = (int)HttpStatusCode.Forbidden;
             }
             else
             {
-                message = ExceptionMessage.InternalServerError;
+                string mesaj = e.GetFullMessage();
+
+                result.Message = "Hata oluştu. Lütfen tekrar deneyiniz.";
+                result.DeveloperMessage = mesaj;
+
+                if (mesaj.Contains("UNIQUE") || mesaj.Contains("duplicate key"))
+                {
+                    result.Message = "Kayıt zaten eklenmiş. Lütfen yeniden deneyiniz.";
+                }
+                
+                httpContext.Response.StatusCode = result.StatusCode = (int)HttpStatusCode.InternalServerError;
             }
 
-            await httpContext.Response.WriteAsync(message);
+            string json = JsonConvert.SerializeObject(result);
+
+            httpContext.Response.ContentType = "application/json";
+            await httpContext.Response.WriteAsync(json);
         }
     }
 }

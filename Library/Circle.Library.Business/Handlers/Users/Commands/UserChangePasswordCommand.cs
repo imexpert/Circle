@@ -1,7 +1,7 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using Circle.Library.Business.BusinessAspects;
-using Circle.Library.Business.Constants;
+
 using Circle.Core.Aspects.Autofac.Logging;
 using Circle.Core.CrossCuttingConcerns.Logging.Serilog.Loggers;
 using Circle.Core.Utilities.Results;
@@ -35,14 +35,14 @@ namespace Circle.Library.Business.Handlers.Users.Commands
                 var isThereAnyUser = await _userRepository.GetAsync(u => u.Id == request.UserId);
                 if (isThereAnyUser == null)
                 {
-                    return new ErrorResult(Messages.UserNotFound);
+                    return new ErrorResult(null);
                 }
 
                 isThereAnyUser.Password = HashingHelper.CreatePasswordHash(request.Password);
 
                 _userRepository.Update(isThereAnyUser);
                 await _userRepository.SaveChangesAsync();
-                return new SuccessResult(Messages.Updated);
+                return new SuccessResult(null);
             }
         }
     }

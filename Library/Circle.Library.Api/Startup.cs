@@ -1,41 +1,26 @@
-using Circle.Core.CrossCuttingConcerns.Caching;
-using Circle.Core.CrossCuttingConcerns.Caching.Microsoft;
 using Circle.Core.CrossCuttingConcerns.Logging.Serilog.Loggers;
-using Circle.Core.DependencyResolvers;
 using Circle.Core.Extensions;
 using Circle.Core.Utilities.IoC;
-using Circle.Core.Utilities.MessageBrokers.RabbitMq;
 using Circle.Core.Utilities.Security.Encyption;
 using Circle.Core.Utilities.Security.Jwt;
+using Circle.Library.Api.Extensions;
 using Circle.Library.Business;
-using Circle.Library.Business.Constants;
-using Circle.Library.Business.Services.Authentication;
-using Circle.Library.DataAccess.Abstract;
-using Circle.Library.DataAccess.Concrete.EntityFramework;
-using Circle.Library.DataAccess.Concrete.EntityFramework.Contexts;
-using FluentValidation;
-using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Localization;
+using Microsoft.AspNetCore.Localization.Routing;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Swashbuckle.AspNetCore.SwaggerUI;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Globalization;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Security.Claims;
-using System.Security.Principal;
 using System.Text.Json.Serialization;
-using System.Threading.Tasks;
 
 namespace Circle.Library.Api
 {
@@ -61,6 +46,28 @@ namespace Circle.Library.Api
         public override void ConfigureServices(IServiceCollection services)
         {
             // Business katmanýnda olan dependency tanýmlarýnýn bir metot üzerinden buraya implemente edilmesi.
+
+            services.AddLocalization();
+
+            services.Configure<RequestLocalizationOptions>(
+                options =>
+                {
+                    var supportedCultures = new List<CultureInfo>
+                    {
+                        new CultureInfo("en-US"),
+                        new CultureInfo("fr-FR")
+                    };
+
+                    options.DefaultRequestCulture = new RequestCulture(culture: "en-US", uiCulture: "en-US");
+                    options.SupportedCultures = supportedCultures;
+                    options.SupportedUICultures = supportedCultures;
+                    options.RequestCultureProviders = new[] { new Extensions.RouteDataRequestCultureProvider { IndexOfCulture = 1, IndexofUICulture = 1 } };
+                });
+
+            services.Configure<RouteOptions>(options =>
+            {
+                options.ConstraintMap.Add("culture", typeof(LanguageRouteConstraint));
+            });
 
             services.AddControllers()
                 .AddJsonOptions(options =>
@@ -129,6 +136,9 @@ namespace Circle.Library.Api
 
             app.UseHttpsRedirection();
 
+            var localizeOptions = app.ApplicationServices.GetService<IOptions<RequestLocalizationOptions>>();
+            app.UseRequestLocalization(localizeOptions.Value);
+
             app.UseRouting();
 
             app.UseAuthentication();
@@ -149,7 +159,11 @@ namespace Circle.Library.Api
 
             app.UseStaticFiles();
 
-            app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+                endpoints.MapControllerRoute("default", "{culture:culture}/{controller=Home}/{action=Index}/{id?}");
+            });
         }
     }
 }

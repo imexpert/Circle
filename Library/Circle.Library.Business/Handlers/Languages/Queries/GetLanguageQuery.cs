@@ -11,11 +11,11 @@ using System;
 
 namespace Circle.Library.Business.Handlers.Languages.Queries
 {
-    public class GetLanguageQuery : IRequest<IDataResult<Language>>
+    public class GetLanguageQuery : IRequest<ResponseMessage<Language>>
     {
         public Guid Id { get; set; }
 
-        public class GetLanguageQueryHandler : IRequestHandler<GetLanguageQuery, IDataResult<Language>>
+        public class GetLanguageQueryHandler : IRequestHandler<GetLanguageQuery, ResponseMessage<Language>>
         {
             private readonly ILanguageRepository _languageRepository;
             private readonly IMediator _mediator;
@@ -28,10 +28,13 @@ namespace Circle.Library.Business.Handlers.Languages.Queries
 
             [SecuredOperation(Priority = 1)]
             [LogAspect(typeof(MsSqlLogger))]
-            public async Task<IDataResult<Language>> Handle(GetLanguageQuery request, CancellationToken cancellationToken)
+            public async Task<ResponseMessage<Language>> Handle(GetLanguageQuery request, CancellationToken cancellationToken)
             {
                 var language = await _languageRepository.GetAsync(p => p.Id == request.Id);
-                return new SuccessDataResult<Language>(language);
+                if (language == null || language.Id == Guid.Empty)
+                    return ResponseMessage<Language>.NoDataFound("Kayıt bulunamadı");
+
+                return ResponseMessage<Language>.Success(language);
             }
         }
     }

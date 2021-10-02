@@ -1,8 +1,7 @@
 ﻿using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Circle.Library.Business.BusinessAspects;
-using Circle.Library.Business.Constants;
+
 using Circle.Core.Aspects.Autofac.Caching;
 using Circle.Core.Aspects.Autofac.Logging;
 using Circle.Core.CrossCuttingConcerns.Logging.Serilog.Loggers;
@@ -10,14 +9,15 @@ using Circle.Core.Entities.Concrete;
 using Circle.Core.Utilities.Results;
 using Circle.Library.DataAccess.Abstract;
 using MediatR;
+using Circle.Library.Entities.ComplexTypes;
 
 namespace Circle.Library.Business.Handlers.OperationClaims.Commands
 {
-    public class CreateOperationClaimCommand : IRequest<IResult>
+    public class CreateOperationClaimCommand : IRequest<ResponseMessage<OperationClaim>>
     {
-        public string ClaimName { get; set; }
+        public CreateOperationClaimModel Model { get; set; }
 
-        public class CreateOperationClaimCommandHandler : IRequestHandler<CreateOperationClaimCommand, IResult>
+        public class CreateOperationClaimCommandHandler : IRequestHandler<CreateOperationClaimCommand, ResponseMessage<OperationClaim>>
         {
             private readonly IOperationClaimRepository _operationClaimRepository;
 
@@ -26,24 +26,27 @@ namespace Circle.Library.Business.Handlers.OperationClaims.Commands
                 _operationClaimRepository = operationClaimRepository;
             }
 
-            [SecuredOperation(Priority = 1)]
+            //[SecuredOperation(Priority = 1)]
             [CacheRemoveAspect("Get")]
             [LogAspect(typeof(MsSqlLogger))]
-            public async Task<IResult> Handle(CreateOperationClaimCommand request, CancellationToken cancellationToken)
+            public async Task<ResponseMessage<OperationClaim>> Handle(CreateOperationClaimCommand request, CancellationToken cancellationToken)
             {
-                if (IsClaimExists(request.ClaimName))
+                if (IsClaimExists(request.Model.Name))
                 {
-                    return new ErrorResult(Messages.OperationClaimExists);
+                    return ResponseMessage<OperationClaim>.Fail("Method zaten kayıtlı.");
                 }
 
                 var operationClaim = new OperationClaim
                 {
-                    Name = request.ClaimName
+                    Name = request.Model.Name,
+                    Alias = request.Model.Alias,
+                    Description = request.Model.Description
                 };
+
                 _operationClaimRepository.Add(operationClaim);
                 await _operationClaimRepository.SaveChangesAsync();
 
-                return new SuccessResult(Messages.Added);
+                return ResponseMessage<OperationClaim>.Success(operationClaim);
             }
 
             private bool IsClaimExists(string claimName)

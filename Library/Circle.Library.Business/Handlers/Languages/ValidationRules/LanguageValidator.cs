@@ -7,8 +7,7 @@ namespace Circle.Library.Business.Handlers.Languages.ValidationRules
     {
         public CreateLanguageValidator()
         {
-            RuleFor(x => x.Name).NotEmpty();
-            RuleFor(x => x.Code).NotEmpty();
+            
         }
     }
 
@@ -16,8 +15,7 @@ namespace Circle.Library.Business.Handlers.Languages.ValidationRules
     {
         public UpdateLanguageValidator()
         {
-            RuleFor(x => x.Name).NotEmpty();
-            RuleFor(x => x.Code).NotEmpty();
+            
         }
     }
 }

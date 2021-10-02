@@ -9,7 +9,7 @@ using Circle.Core.Entities.Concrete;
 using Circle.Core.Utilities.Results;
 using Circle.Library.DataAccess.Abstract;
 using MediatR;
-using Circle.Library.Business.Constants;
+
 
 namespace Circle.Library.Business.Handlers.Users.Commands
 {
@@ -49,7 +49,7 @@ namespace Circle.Library.Business.Handlers.Users.Commands
 
                 if (isThereAnyUser != null)
                 {
-                    return new ErrorResult(Messages.NameAlreadyExist);
+                    return new ErrorResult(null);
                 }
 
                 var user = new User
@@ -68,7 +68,7 @@ namespace Circle.Library.Business.Handlers.Users.Commands
 
                 _userRepository.Add(user);
                 await _userRepository.SaveChangesAsync();
-                return new SuccessResult(Messages.Added);
+                return new SuccessResult(null);
             }
         }
     }

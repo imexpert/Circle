@@ -14,6 +14,17 @@
             return new ResponseMessage<T> { Data = data, StatusCode = 200, IsSuccess = true };
         }
 
+        //Static Factory Method
+        public static ResponseMessage<T> Success(string message)
+        {
+            return new ResponseMessage<T> { Message = message, StatusCode = 200, IsSuccess = true };
+        }
+
+        public static ResponseMessage<T> Success(T data, string message)
+        {
+            return new ResponseMessage<T> { Data = data, Message = message, StatusCode = 200, IsSuccess = true };
+        }
+
         public static ResponseMessage<T> Success()
         {
             return new ResponseMessage<T> { StatusCode = 200, IsSuccess = true };
@@ -21,20 +32,20 @@
 
         public static ResponseMessage<T> Fail(string error)
         {
-            return new ResponseMessage<T> 
-            { 
-                StatusCode = 500, 
-                IsSuccess = false ,
+            return new ResponseMessage<T>
+            {
+                StatusCode = 500,
+                IsSuccess = false,
                 Message = error
             };
         }
 
         public static ResponseMessage<T> NoDataFound(string error)
         {
-            return new ResponseMessage<T> 
-            { 
-                StatusCode = 404, 
-                IsSuccess = false ,
+            return new ResponseMessage<T>
+            {
+                StatusCode = 404,
+                IsSuccess = false,
                 Message = error
             };
         }

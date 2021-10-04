@@ -8,29 +8,37 @@ using Circle.Core.Utilities.Results;
 using Circle.Library.DataAccess.Abstract;
 using MediatR;
 using System;
+using Circle.Library.Business.Helpers;
+using Circle.Core.Utilities.Messages;
 
 namespace Circle.Library.Business.Handlers.OperationClaims.Queries
 {
-    public class GetOperationClaimQuery : IRequest<IDataResult<OperationClaim>>
+    public class GetOperationClaimQuery : IRequest<ResponseMessage<OperationClaim>>
     {
         public Guid Id { get; set; }
 
         public class
-            GetOperationClaimQueryHandler : IRequestHandler<GetOperationClaimQuery, IDataResult<OperationClaim>>
+            GetOperationClaimQueryHandler : IRequestHandler<GetOperationClaimQuery, ResponseMessage<OperationClaim>>
         {
             private readonly IOperationClaimRepository _operationClaimRepository;
+            private readonly IReturnUtility _returnUtility;
 
-            public GetOperationClaimQueryHandler(IOperationClaimRepository operationClaimRepository)
+            public GetOperationClaimQueryHandler(IOperationClaimRepository operationClaimRepository, IReturnUtility returnUtility)
             {
                 _operationClaimRepository = operationClaimRepository;
+                _returnUtility = returnUtility;
             }
 
-            [SecuredOperation(Priority = 1)]
-            [LogAspect(typeof(MsSqlLogger))]
-            public async Task<IDataResult<OperationClaim>> Handle(GetOperationClaimQuery request, CancellationToken cancellationToken)
+            public async Task<ResponseMessage<OperationClaim>> Handle(GetOperationClaimQuery request, CancellationToken cancellationToken)
             {
-                return new SuccessDataResult<OperationClaim>(
-                    await _operationClaimRepository.GetAsync(x => x.Id == request.Id));
+                var operationClaim = await _operationClaimRepository.GetAsync(x => x.Id == request.Id);
+
+                if (operationClaim == null)
+                {
+                    return await _returnUtility.NoDataFound<OperationClaim>(MessageDefinitions.KAYIT_BULUNAMADI);
+                }
+
+                return _returnUtility.SuccessData(operationClaim);
             }
         }
     }

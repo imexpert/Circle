@@ -61,7 +61,13 @@ namespace Circle.Library.Api
                     options.DefaultRequestCulture = new RequestCulture(culture: "en-US", uiCulture: "en-US");
                     options.SupportedCultures = supportedCultures;
                     options.SupportedUICultures = supportedCultures;
-                    options.RequestCultureProviders = new[] { new Extensions.RouteDataRequestCultureProvider { IndexOfCulture = 1, IndexofUICulture = 1 } };
+                    options.RequestCultureProviders = new[] { 
+                        new Extensions.RouteDataRequestCultureProvider 
+                        { 
+                            IndexOfCulture = 2, 
+                            IndexofUICulture = 2 
+                        } 
+                    };
                 });
 
             services.Configure<RouteOptions>(options =>

@@ -10,37 +10,42 @@ using Circle.Core.Utilities.Results;
 using Circle.Library.DataAccess.Abstract;
 using MediatR;
 using System;
+using Circle.Library.Business.Helpers;
+using Circle.Core.Utilities.Messages;
+using Circle.Core.Aspects.Autofac.Transaction;
 
 namespace Circle.Library.Business.Handlers.Groups.Commands
 {
-    public class UpdateGroupCommand : IRequest<IResult>
+    public class UpdateGroupCommand : IRequest<ResponseMessage<Group>>
     {
-        public Guid Id { get; set; }
-        public string GroupName { get; set; }
+        public Group Group { get; set; }
 
-        public class UpdateGroupCommandHandler : IRequestHandler<UpdateGroupCommand, IResult>
+        public class UpdateGroupCommandHandler : IRequestHandler<UpdateGroupCommand, ResponseMessage<Group>>
         {
             private readonly IGroupRepository _groupRepository;
+            private readonly IReturnUtility _returnUtility;
 
-            public UpdateGroupCommandHandler(IGroupRepository groupRepository)
+            public UpdateGroupCommandHandler(IGroupRepository groupRepository, IReturnUtility returnUtility)
             {
                 _groupRepository = groupRepository;
+                _returnUtility = returnUtility;
             }
 
-            [SecuredOperation(Priority = 1)]
-            [CacheRemoveAspect("Get")]
-            [LogAspect(typeof(MsSqlLogger))]
-            public async Task<IResult> Handle(UpdateGroupCommand request, CancellationToken cancellationToken)
+            [TransactionScopeAspectAsync]
+            public async Task<ResponseMessage<Group>> Handle(UpdateGroupCommand request, CancellationToken cancellationToken)
             {
-                var groupToUpdate = new Group
+                var group = await _groupRepository.GetAsync(s => s.Id == request.Group.Id);
+                if (group == null)
                 {
-                    Id = request.Id,
-                    GroupName = request.GroupName
-                };
+                    return await _returnUtility.NoDataFound<Group>(MessageDefinitions.KAYIT_BULUNAMADI);
+                }
 
-                _groupRepository.Update(groupToUpdate);
+                group.GroupName = request.Group.GroupName;
+
+                _groupRepository.Update(group);
                 await _groupRepository.SaveChangesAsync();
-                return new SuccessResult(null);
+
+                return await _returnUtility.SuccessWithData(MessageDefinitions.GUNCELLEME_ISLEMI_BASARILI, group);
             }
         }
     }

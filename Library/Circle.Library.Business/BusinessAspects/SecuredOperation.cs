@@ -45,7 +45,22 @@ namespace Circle.Library.Business.BusinessAspects
                 return;
             }
 
-            string message = $"Bu işlemi yapmaya yetkiniz yok. İşlem Adı : {operationName}";
+            string cultureCode = _httpContextAccessor.HttpContext.Request.Path.Value.ToString().Split('/')[2];
+
+            string message = string.Empty;
+
+            switch (cultureCode)
+            {
+                case "en-EN":
+                    message = $"You are not authorized to perform this action. Transaction Name : {operationName}";
+                    break;
+                case "tr-TR":
+                    message = $"Bu işlemi yapmaya yetkiniz yok. İşlem Adı : {operationName}";
+                    break;
+                default:
+                    break;
+            }
+
             throw new SecurityException(message);
         }
     }

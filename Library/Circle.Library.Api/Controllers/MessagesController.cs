@@ -1,12 +1,13 @@
 ﻿using Circle.Core.Entities.Concrete;
 using Circle.Library.Business.Handlers.Messages.Commands;
+using Circle.Library.Business.Handlers.Messages.Queries;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
 namespace Circle.Library.Api.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/{culture:culture}/[controller]")]
     [ApiController]
     public class MessagesController : BaseApiController
     {

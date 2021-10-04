@@ -11,106 +11,83 @@ using Circle.Library.Entities.ComplexTypes;
 
 namespace Circle.Library.Api.Controllers
 {
-    /// <summary>
-    /// If controller methods will not be Authorize, [AllowAnonymous] is used.
-    /// </summary>
-    ///
-    [Route("api/[controller]")]
     [ApiController]
     public class OperationClaimsController : BaseApiController
     {
         /// <summary>
-        /// List OperationClaims
+        /// 
         /// </summary>
-        /// <remarks>bla bla bla OperationClaims</remarks>
-        /// <return>OperationClaims List</return>
-        /// <response code="200"></response>
-        [Produces("application/json", "text/plain")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<OperationClaim>))]
-        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(string))]
-        [ProducesResponseType(StatusCodes.Status403Forbidden, Type = typeof(string))]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized, Type = typeof(string))]
-        [HttpPost("Add")]
-        public async Task<IActionResult> Add([FromBody] CreateOperationClaimModel model)
+        /// <returns></returns>
+        [HttpGet]
+        public async Task<IActionResult> GetAll()
         {
-            CreateOperationClaimCommand command = new CreateOperationClaimCommand();
-            command.Model = model;
+            GetOperationClaimsQuery command = new GetOperationClaimsQuery();
+
             return CreateActionResultInstance(await Mediator.Send(command));
         }
 
         /// <summary>
-        /// List OperationClaims
+        /// 
         /// </summary>
-        /// <remarks>bla bla bla OperationClaims</remarks>
-        /// <return>OperationClaims List</return>
-        /// <response code="200"></response>
-        [Produces("application/json", "text/plain")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<OperationClaim>))]
-        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(string))]
-        [HttpGet("getall")]
-        public async Task<IActionResult> GetList()
-        {
-            return GetResponseOnlyResultData(await Mediator.Send(new GetOperationClaimsQuery()));
-        }
-
-        /// <summary>
-        /// It brings the details according to its id.
-        /// </summary>
-        /// <remarks>bla bla bla OperationClaims</remarks>
-        /// <return>OperationClaims List</return>
-        /// <response code="200"></response>
-        [Produces("application/json", "text/plain")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(OperationClaim))]
-        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(string))]
-        [HttpGet("getbyid")]
-        public async Task<IActionResult> GetByid(Guid id)
-        {
-            return GetResponseOnlyResultData(await Mediator.Send(new GetOperationClaimQuery() { Id = id }));
-        }
-
-        /// <summary>
-        /// List OperationClaims
-        /// </summary>
-        /// <remarks>bla bla bla OperationClaims</remarks>
-        /// <return>OperationClaims List</return>
-        /// <response code="200"></response>
-        [Produces("application/json", "text/plain")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<SelectionItem>))]
-        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(string))]
-        [HttpGet("getoperationclaimlookup")]
-        public async Task<IActionResult> GetOperationClaimLookup()
-        {
-            return GetResponseOnlyResultData(await Mediator.Send(new GetOperationClaimLookupQuery()));
-        }
-
-        /// <summary>
-        /// Update OperationClaim .
-        /// </summary>
-        /// <param name="updateOperationClaim"></param>
+        /// <param name="operationClaimId"></param>
         /// <returns></returns>
-        [Consumes("application/json")]
-        [Produces("application/json", "text/plain")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(string))]
-        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(string))]
-        [HttpPut]
-        public async Task<IActionResult> Update([FromBody] UpdateOperationClaimCommand updateOperationClaim)
+        [HttpGet]
+        public async Task<IActionResult> GetWithId(Guid operationClaimId)
         {
-            return GetResponseOnlyResultMessage(await Mediator.Send(updateOperationClaim));
+            GetOperationClaimQuery command = new GetOperationClaimQuery()
+            {
+                Id = operationClaimId
+            };
+
+            return CreateActionResultInstance(await Mediator.Send(command));
         }
 
         /// <summary>
-        /// List OperationClaims
+        /// 
         /// </summary>
-        /// <remarks>bla bla bla OperationClaims</remarks>
-        /// <return>OperationClaims List</return>
-        /// <response code="200"></response>
-        [Produces("application/json", "text/plain")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<OperationClaim>))]
-        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(string))]
-        [HttpGet("getuserclaimsfromcache")]
-        public async Task<IActionResult> GetUserClaimsFromCache()
+        /// <param name="operationClaim"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public async Task<IActionResult> Add([FromBody] OperationClaim operationClaim)
         {
-            return GetResponseOnlyResultData(await Mediator.Send(new GetUserClaimsFromCacheQuery()));
+            CreateOperationClaimCommand command = new CreateOperationClaimCommand()
+            {
+                Model = operationClaim
+            };
+
+            return CreateActionResultInstance(await Mediator.Send(command));
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="operationClaim"></param>
+        /// <returns></returns>
+        [HttpPut]
+        public async Task<IActionResult> Update([FromBody] OperationClaim operationClaim)
+        {
+            UpdateOperationClaimCommand command = new UpdateOperationClaimCommand()
+            {
+                Model = operationClaim
+            };
+
+            return CreateActionResultInstance(await Mediator.Send(command));
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="operationClaimId"></param>
+        /// <returns></returns>
+        [HttpDelete]
+        public async Task<IActionResult> Delete(Guid operationClaimId)
+        {
+            DeleteOperationClaimCommand command = new DeleteOperationClaimCommand()
+            {
+                Id = operationClaimId
+            };
+
+            return CreateActionResultInstance(await Mediator.Send(command));
         }
     }
 }

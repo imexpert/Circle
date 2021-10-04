@@ -22,6 +22,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Circle.Library.DataAccess.Concrete.EntityFramework;
 using Circle.Library.DataAccess.Concrete.EntityFramework.Contexts;
+using Circle.Library.Business.Helpers;
 
 namespace Circle.Library.Business
 {
@@ -84,6 +85,7 @@ namespace Circle.Library.Business
             services.AddTransient<IGroupRepository, GroupRepository>();
             services.AddTransient<IGroupClaimRepository, GroupClaimRepository>();
             services.AddTransient<IMessageRepository, MessageRepository>();
+            services.AddTransient<IReturnUtility, ReturnUtility>();
 
 
             services.AddDbContext<ProjectDbContext, MsDbContext>();

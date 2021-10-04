@@ -9,6 +9,10 @@ using Circle.Core.Utilities.Results;
 using Circle.Library.DataAccess.Abstract;
 using MediatR;
 using System;
+using Circle.Library.Business.Handlers.Messages.Queries;
+using Circle.Core.Utilities.Messages;
+using Circle.Library.Business.Helpers;
+using Circle.Core.Aspects.Autofac.Transaction;
 
 namespace Circle.Library.Business.Handlers.Groups.Commands
 {
@@ -19,28 +23,30 @@ namespace Circle.Library.Business.Handlers.Groups.Commands
         public class DeleteGroupCommandHandler : IRequestHandler<DeleteGroupCommand, ResponseMessage<NoContent>>
         {
             private readonly IGroupRepository _groupRepository;
+            private readonly IReturnUtility _returnUtility;
 
-            public DeleteGroupCommandHandler(IGroupRepository groupRepository)
+            public DeleteGroupCommandHandler(
+                IGroupRepository groupRepository,
+                IReturnUtility returnUtility)
             {
                 _groupRepository = groupRepository;
+                _returnUtility = returnUtility;
             }
 
-            [SecuredOperation(Priority = 1)]
-            [CacheRemoveAspect("Get")]
-            [LogAspect(typeof(MsSqlLogger))]
+            [TransactionScopeAspectAsync]
             public async Task<ResponseMessage<NoContent>> Handle(DeleteGroupCommand request, CancellationToken cancellationToken)
             {
                 var groupToDelete = await _groupRepository.GetAsync(x => x.Id == request.Id);
 
                 if (groupToDelete == null || groupToDelete.Id == Guid.Empty)
                 {
-                    return ResponseMessage<NoContent>.NoDataFound("Grup bulunamadı.");
+                    return await _returnUtility.NoDataFound<NoContent>(MessageDefinitions.KAYIT_BULUNAMADI);
                 }
 
                 _groupRepository.Delete(groupToDelete);
                 await _groupRepository.SaveChangesAsync();
 
-                return null;
+                return await _returnUtility.Success<NoContent>(MessageDefinitions.SILME_ISLEMI_BASARILI);
             }
         }
     }

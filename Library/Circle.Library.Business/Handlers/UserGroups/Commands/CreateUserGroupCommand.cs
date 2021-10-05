@@ -10,38 +10,38 @@ using Circle.Core.Utilities.Results;
 using Circle.Library.DataAccess.Abstract;
 using MediatR;
 using System;
+using Circle.Library.Business.Helpers;
+using Circle.Core.Utilities.Messages;
 
 namespace Circle.Library.Business.Handlers.UserGroups.Commands
 {
-    public class CreateUserGroupCommand : IRequest<IResult>
+    public class CreateUserGroupCommand : IRequest<ResponseMessage<UserGroup>>
     {
-        public Guid GroupId { get; set; }
-        public Guid UserId { get; set; }
+        public UserGroup UserGroup { get; set; }
 
-        public class CreateUserGroupCommandHandler : IRequestHandler<CreateUserGroupCommand, IResult>
+        public class CreateUserGroupCommandHandler : IRequestHandler<CreateUserGroupCommand, ResponseMessage<UserGroup>>
         {
-            private readonly IUserGroupRepository _userGroupRepository;
+            private readonly IUserGroupRepository _repository;
+            private readonly IReturnUtility _returnUtility;
 
-            public CreateUserGroupCommandHandler(IUserGroupRepository userGroupRepository)
+            public CreateUserGroupCommandHandler(IUserGroupRepository repository, IReturnUtility returnUtility)
             {
-                _userGroupRepository = userGroupRepository;
+                _repository = repository;
+                _returnUtility = returnUtility;
             }
 
-            [SecuredOperation(Priority = 1)]
-            [CacheRemoveAspect("Get")]
-            [LogAspect(typeof(MsSqlLogger))]
-            public async Task<IResult> Handle(CreateUserGroupCommand request, CancellationToken cancellationToken)
+            public async Task<ResponseMessage<UserGroup>> Handle(CreateUserGroupCommand request, CancellationToken cancellationToken)
             {
-                var userGroup = new UserGroup
+                var userGroup = await _repository.GetAsync(s => s.GroupId == request.UserGroup.GroupId && s.UserId == request.UserGroup.UserId);
+                if (userGroup != null)
                 {
-                    GroupId = request.GroupId,
-                    UserId = request.UserId
-                };
+                    return await _returnUtility.Fail<UserGroup>(MessageDefinitions.KAYIT_ZATEN_MEVCUT);
+                }
 
-                _userGroupRepository.Add(userGroup);
-                await _userGroupRepository.SaveChangesAsync();
+                _repository.Add(request.UserGroup);
+                await _repository.SaveChangesAsync();
 
-                return new SuccessResult(null);
+                return await _returnUtility.SuccessWithData(MessageDefinitions.KAYIT_ISLEMI_BASARILI, request.UserGroup);
             }
         }
     }

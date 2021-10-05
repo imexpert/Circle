@@ -14,10 +14,10 @@ using System.Threading.Tasks;
 
 namespace Circle.Library.Business.Handlers.Messages.Queries
 {
-    public class GetMessageQuery : IRequest<ResponseMessage<Message>>
+    public class GetMessagesQuery : IRequest<ResponseMessage<List<Message>>>
     {
-        public Guid Id { get; set; }
-        public class GetMessageQueryHandler : IRequestHandler<GetMessageQuery, ResponseMessage<Message>>
+        public int MessageCode { get; set; }
+        public class GetMessageQueryHandler : IRequestHandler<GetMessagesQuery, ResponseMessage<List<Message>>>
         {
             private readonly IMessageRepository _messageRepository;
             private readonly IReturnUtility _returnUtility;
@@ -28,16 +28,15 @@ namespace Circle.Library.Business.Handlers.Messages.Queries
                 _returnUtility = returnUtility;
             }
 
-            public async Task<ResponseMessage<Message>> Handle(GetMessageQuery request, CancellationToken cancellationToken)
+            public async Task<ResponseMessage<List<Message>>> Handle(GetMessagesQuery request, CancellationToken cancellationToken)
             {
-                var group = await _messageRepository.GetAsync(x => x.Id == request.Id);
-
-                if (group == null)
+                var list = await _messageRepository.GetListAsync();
+                if (list == null || list.Count() <= 0)
                 {
-                    return await _returnUtility.NoDataFound<Message>(MessageDefinitions.KAYIT_BULUNAMADI);
+                    return await _returnUtility.NoDataFound<List<Message>>(MessageDefinitions.KAYIT_BULUNAMADI);
                 }
 
-                return _returnUtility.SuccessData(group);
+                return _returnUtility.SuccessData(list);
             }
         }
     }

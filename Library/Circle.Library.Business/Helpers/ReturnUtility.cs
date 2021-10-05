@@ -22,7 +22,7 @@ namespace Circle.Library.Business.Helpers
 
         public async Task<ResponseMessage<T>> Success<T>(MessageDefinitions messageCode)
         {
-            var message = await _mediator.Send(new GetMessageQuery()
+            var message = await _mediator.Send(new GetMessageWithCodeQuery()
             {
                 MessageCode = ((int)messageCode)
             });
@@ -37,7 +37,7 @@ namespace Circle.Library.Business.Helpers
 
         public async Task<ResponseMessage<T>> SuccessWithData<T>(MessageDefinitions messageCode, T data)
         {
-            var message = await _mediator.Send(new GetMessageQuery()
+            var message = await _mediator.Send(new GetMessageWithCodeQuery()
             {
                 MessageCode = ((int)messageCode)
             });
@@ -57,7 +57,7 @@ namespace Circle.Library.Business.Helpers
 
         public async Task<ResponseMessage<T>> NoDataFound<T>(MessageDefinitions messageCode)
         {
-            var message = await _mediator.Send(new GetMessageQuery()
+            var message = await _mediator.Send(new GetMessageWithCodeQuery()
             {
                 MessageCode = ((int)messageCode)
             });
@@ -67,7 +67,7 @@ namespace Circle.Library.Business.Helpers
 
         public async Task<ResponseMessage<T>> Fail<T>(MessageDefinitions messageCode)
         {
-            var message = await _mediator.Send(new GetMessageQuery()
+            var message = await _mediator.Send(new GetMessageWithCodeQuery()
             {
                 MessageCode = ((int)messageCode)
             });

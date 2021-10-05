@@ -9,29 +9,38 @@ using Circle.Core.Utilities.Results;
 using Circle.Library.DataAccess.Abstract;
 using MediatR;
 using System;
+using Circle.Library.Business.Helpers;
+using Circle.Core.Utilities.Messages;
 
 namespace Circle.Library.Business.Handlers.UserGroups.Queries
 {
-    public class GetUserGroupQuery : IRequest<IDataResult<UserGroup>>
+    public class GetUserGroupQuery : IRequest<ResponseMessage<UserGroup>>
     {
-        public Guid UserId { get; set; }
+        public Guid Id { get; set; }
 
-        public class GetUserGroupQueryHandler : IRequestHandler<GetUserGroupQuery, IDataResult<UserGroup>>
+        public class GetUserGroupQueryHandler : IRequestHandler<GetUserGroupQuery, ResponseMessage<UserGroup>>
         {
-            private readonly IUserGroupRepository _userGroupRepository;
+            private readonly IUserGroupRepository _repository;
+            private readonly IReturnUtility _returnUtility;
 
-            public GetUserGroupQueryHandler(IUserGroupRepository userGroupRepository)
+            public GetUserGroupQueryHandler(
+                IUserGroupRepository repository,
+                IReturnUtility returnUtility)
             {
-                _userGroupRepository = userGroupRepository;
+                _repository = repository;
+                _returnUtility = returnUtility;
             }
 
-            [SecuredOperation(Priority = 1)]
-            [CacheAspect(10)]
-            [LogAspect(typeof(MsSqlLogger))]
-            public async Task<IDataResult<UserGroup>> Handle(GetUserGroupQuery request, CancellationToken cancellationToken)
+            public async Task<ResponseMessage<UserGroup>> Handle(GetUserGroupQuery request, CancellationToken cancellationToken)
             {
-                var userGroup = await _userGroupRepository.GetAsync(p => p.UserId == request.UserId);
-                return new SuccessDataResult<UserGroup>(userGroup);
+                var group = await _repository.GetAsync(x => x.Id == request.Id);
+
+                if (group == null)
+                {
+                    return await _returnUtility.NoDataFound<UserGroup>(MessageDefinitions.KAYIT_BULUNAMADI);
+                }
+
+                return _returnUtility.SuccessData(group);
             }
         }
     }

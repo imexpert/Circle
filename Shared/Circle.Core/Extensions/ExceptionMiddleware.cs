@@ -34,6 +34,8 @@ namespace Circle.Core.Extensions
 
         private async Task HandleExceptionAsync(HttpContext httpContext, Exception e)
         {
+            string cultureCode = httpContext.Request.Path.Value.ToString().Split('/')[2];
+
             ResponseMessage<NoContent> result = new ResponseMessage<NoContent>();
             result.IsSuccess = false;
             
@@ -53,12 +55,33 @@ namespace Circle.Core.Extensions
             {
                 string mesaj = e.GetFullMessage();
 
-                result.Message = "Hata oluştu. Lütfen tekrar deneyiniz.";
+                switch (cultureCode)
+                {
+                    case "en-EN":
+                        result.Message = "An error occured. Please try again later.";
+                        break;
+                    case "tr-TR":
+                        result.Message = "Hata oluştu. Lütfen tekrar deneyiniz.";
+                        break;
+                    default:
+                        break;
+                }
+                
                 result.DeveloperMessage = mesaj;
 
                 if (mesaj.Contains("UNIQUE") || mesaj.Contains("duplicate key"))
                 {
-                    result.Message = "Kayıt zaten eklenmiş. Lütfen yeniden deneyiniz.";
+                    switch (cultureCode)
+                    {
+                        case "en-EN":
+                            result.Message = "Record already added.";
+                            break;
+                        case "tr-TR":
+                            result.Message = "Kayıt zaten eklenmiş.";
+                            break;
+                        default:
+                            break;
+                    }
                 }
                 
                 httpContext.Response.StatusCode = result.StatusCode = (int)HttpStatusCode.InternalServerError;

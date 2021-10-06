@@ -30,6 +30,11 @@ namespace Circle.Core.DataAccess.EntityFramework
             return Context.Add(entity).Entity;
         }
 
+        public void AddRange(List<TEntity> entity)
+        {
+            Context.AddRange(entity);
+        }
+
         public TEntity Update(TEntity entity)
         {
             Context.Update(entity);
@@ -48,7 +53,7 @@ namespace Circle.Core.DataAccess.EntityFramework
 
         public async Task<TEntity> GetAsync(Expression<Func<TEntity, bool>> expression)
         {
-            return await Context.Set<TEntity>().AsQueryable().FirstOrDefaultAsync(expression);
+            return await Context.Set<TEntity>().AsNoTracking().AsQueryable().FirstOrDefaultAsync(expression);
         }
 
         public IEnumerable<TEntity> GetList(Expression<Func<TEntity, bool>> expression = null)
@@ -58,7 +63,7 @@ namespace Circle.Core.DataAccess.EntityFramework
                 : Context.Set<TEntity>().Where(expression).AsNoTracking();
         }
 
-        public async Task<IEnumerable<TEntity>> GetListAsync(Expression<Func<TEntity, bool>> expression = null)
+        public async Task<List<TEntity>> GetListAsync(Expression<Func<TEntity, bool>> expression = null)
         {
             return expression == null
                 ? await Context.Set<TEntity>().ToListAsync()

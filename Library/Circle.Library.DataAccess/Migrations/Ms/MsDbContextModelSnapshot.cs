@@ -96,7 +96,8 @@ namespace Circle.Library.DataAccess.Migrations.Ms
 
                     b.HasIndex("GroupId");
 
-                    b.HasIndex("OperationClaimId");
+                    b.HasIndex("OperationClaimId", "GroupId")
+                        .IsUnique();
 
                     b.ToTable("GroupClaims", "dbo");
                 });
@@ -148,24 +149,24 @@ namespace Circle.Library.DataAccess.Migrations.Ms
                     b.HasData(
                         new
                         {
-                            Id = new Guid("08e5f51c-c82a-4eaa-8fd7-dbc28101fb5c"),
+                            Id = new Guid("a6a7af61-2f70-42f1-ae0a-eae09a0294ef"),
                             Code = "tr-TR",
                             Ip = "1:1",
                             Name = "Türkçe",
-                            RecordDate = new DateTime(2021, 10, 1, 23, 23, 33, 780, DateTimeKind.Local).AddTicks(971),
+                            RecordDate = new DateTime(2021, 10, 5, 1, 25, 11, 911, DateTimeKind.Local).AddTicks(3636),
                             RecordUsername = "admin",
-                            UpdateDate = new DateTime(2021, 10, 1, 23, 23, 33, 781, DateTimeKind.Local).AddTicks(9981),
+                            UpdateDate = new DateTime(2021, 10, 5, 1, 25, 11, 913, DateTimeKind.Local).AddTicks(3827),
                             UpdateUsername = "admin"
                         },
                         new
                         {
-                            Id = new Guid("e008b199-8d63-4906-b2ab-021ae6aebd90"),
+                            Id = new Guid("2828e399-0b43-4c97-97c1-d5e17d940440"),
                             Code = "en-US",
                             Ip = "1:1",
                             Name = "English",
-                            RecordDate = new DateTime(2021, 10, 1, 23, 23, 33, 782, DateTimeKind.Local).AddTicks(483),
+                            RecordDate = new DateTime(2021, 10, 5, 1, 25, 11, 913, DateTimeKind.Local).AddTicks(4511),
                             RecordUsername = "admin",
-                            UpdateDate = new DateTime(2021, 10, 1, 23, 23, 33, 782, DateTimeKind.Local).AddTicks(495),
+                            UpdateDate = new DateTime(2021, 10, 5, 1, 25, 11, 913, DateTimeKind.Local).AddTicks(4524),
                             UpdateUsername = "admin"
                         });
                 });

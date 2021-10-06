@@ -1,31 +1,92 @@
 ﻿using Circle.Core.Entities.Concrete;
 using Circle.Library.Business.Handlers.Messages.Commands;
+using Circle.Library.Business.Handlers.Messages.Queries;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Threading.Tasks;
 
 namespace Circle.Library.Api.Controllers
 {
-    [Route("api/[controller]")]
+    /// <summary>
+    /// If controller methods will not be Authorize, [AllowAnonymous] is used.
+    /// </summary>
+    ///
+
     [ApiController]
     public class MessagesController : BaseApiController
     {
         /// <summary>
-        /// Addded GroupClaim .
+        /// 
         /// </summary>
-        /// <param name="model"></param>
         /// <returns></returns>
-        [Consumes("application/json")]
-        [Produces("application/json", "text/plain")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(string))]
-        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(string))]
-        [ProducesResponseType(StatusCodes.Status403Forbidden, Type = typeof(string))]
-        [HttpPost("Add")]
-        public async Task<IActionResult> Add([FromBody] Message model)
+        [HttpGet]
+        public async Task<IActionResult> GetAll()
+        {
+            GetMessagesQuery command = new GetMessagesQuery();
+
+            return CreateActionResultInstance(await Mediator.Send(command));
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="messageId"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public async Task<IActionResult> GetWithId(Guid messageId)
+        {
+            GetMessageQuery command = new GetMessageQuery()
+            {
+                Id = messageId
+            };
+
+            return CreateActionResultInstance(await Mediator.Send(command));
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="group"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public async Task<IActionResult> Add([FromBody]Message message)
         {
             CreateMessageCommand command = new CreateMessageCommand()
             {
-                Model = model
+                Model = message
+            };
+
+            return CreateActionResultInstance(await Mediator.Send(command));
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="group"></param>
+        /// <returns></returns>
+        [HttpPut]
+        public async Task<IActionResult> Update([FromBody] Message message)
+        {
+            UpdateMessageCommand command = new UpdateMessageCommand()
+            {
+                Message = message
+            };
+
+            return CreateActionResultInstance(await Mediator.Send(command));
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="groupId"></param>
+        /// <returns></returns>
+        [HttpDelete]
+        public async Task<IActionResult> Delete(Guid messageId)
+        {
+            DeleteMessageCommand command = new DeleteMessageCommand()
+            {
+                Id = messageId
             };
 
             return CreateActionResultInstance(await Mediator.Send(command));

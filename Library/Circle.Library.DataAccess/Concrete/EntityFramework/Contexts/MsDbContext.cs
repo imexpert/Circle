@@ -19,7 +19,7 @@ namespace Circle.Library.DataAccess.Concrete.EntityFramework.Contexts
         public MsDbContext(DbContextOptions<MsDbContext> options, IConfiguration configuration, IHttpContextAccessor httpContextAccessor)
             : base(options, configuration)
         {
-            
+
 
             _httpContextAccessor = httpContextAccessor;
         }
@@ -39,31 +39,40 @@ namespace Circle.Library.DataAccess.Concrete.EntityFramework.Contexts
         public override Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
         {
             var entries = ChangeTracker.Entries()
-                .Where(e => e.State == EntityState.Added || 
+                .Where(e => e.State == EntityState.Added ||
                 e.State == EntityState.Modified);
 
             var today = DateTime.Now;
 
-            var userId = _httpContextAccessor.HttpContext?.User.Claims
-                .FirstOrDefault(x => x.Type.EndsWith("nameidentifier"))?.Value;
+            string userId = "AutomatedUser";
+            string ipAdress = ":1";
 
-            
-            var ip = _httpContextAccessor.HttpContext.Request.HttpContext.Connection.RemoteIpAddress;
+            if (_httpContextAccessor.HttpContext != null &&
+                _httpContextAccessor.HttpContext.Request != null &&
+                _httpContextAccessor.HttpContext.Connection != null &&
+                _httpContextAccessor.HttpContext.Connection?.RemoteIpAddress != null)
+            {
+                ipAdress = _httpContextAccessor.HttpContext.Connection.RemoteIpAddress.ToString();
+            }
+
+            if (_httpContextAccessor.HttpContext != null &&
+                _httpContextAccessor.HttpContext?.User != null &&
+                _httpContextAccessor.HttpContext?.User.Claims != null &&
+                _httpContextAccessor.HttpContext?.User.Claims.Count() > 0)
+            {
+                userId = _httpContextAccessor.HttpContext?.User.Claims
+                                .FirstOrDefault(x => x.Type.EndsWith("nameidentifier"))?.Value;
+            }
 
             foreach (var entry in entries)
             {
                 if (entry.Properties.Any(s => s.Metadata.Name == "Ip"))
                 {
-                    entry.Property("Ip").CurrentValue = ip.ToString();
+                    entry.Property("Ip").CurrentValue = ipAdress;
                 }
 
                 if (entry.State == EntityState.Added)
                 {
-                    if (userId == null)
-                    {
-                        throw new Exception("Kullanıcı adı alınamadı.");
-                    }
-
                     if (entry.Properties.Any(s => s.Metadata.Name == "RecordUsername"))
                     {
                         entry.Property("RecordUsername").CurrentValue = userId;
@@ -91,8 +100,8 @@ namespace Circle.Library.DataAccess.Concrete.EntityFramework.Contexts
                 }
                 else if (entry.State == EntityState.Modified)
                 {
-                    if (entry.Entity.GetType() == typeof(User) && 
-                        userId == null && 
+                    if (entry.Entity.GetType() == typeof(User) &&
+                        userId == null &&
                         entry.Properties.Any(s => s.Metadata.Name == "UpdateUsername"))
                     {
                         entry.Property("UpdateUsername").CurrentValue = entry.Property("Email").CurrentValue;

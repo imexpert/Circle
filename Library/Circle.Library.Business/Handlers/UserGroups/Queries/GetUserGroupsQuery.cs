@@ -9,27 +9,39 @@ using Circle.Core.Entities.Concrete;
 using Circle.Core.Utilities.Results;
 using Circle.Library.DataAccess.Abstract;
 using MediatR;
+using Circle.Library.Business.Helpers;
+using Circle.Core.Utilities.Messages;
+using System.Linq;
 
 namespace Circle.Library.Business.Handlers.UserGroups.Queries
 {
-    public class GetUserGroupsQuery : IRequest<IDataResult<IEnumerable<UserGroup>>>
+    public class GetUserGroupsQuery : IRequest<ResponseMessage<List<UserGroup>>>
     {
-        public class
-            GetUserGroupsQueryHandler : IRequestHandler<GetUserGroupsQuery, IDataResult<IEnumerable<UserGroup>>>
-        {
-            private readonly IUserGroupRepository _userGroupRepository;
+        public int Id { get; set; }
 
-            public GetUserGroupsQueryHandler(IUserGroupRepository userGroupRepository)
+        public class GetUserGroupsQueryHandler : IRequestHandler<GetUserGroupsQuery, ResponseMessage<List<UserGroup>>>
+        {
+            private readonly IUserGroupRepository _repository;
+            private readonly IReturnUtility _returnUtility;
+
+            public GetUserGroupsQueryHandler(
+                IUserGroupRepository repository,
+                IReturnUtility returnUtility)
             {
-                _userGroupRepository = userGroupRepository;
+                _repository = repository;
+                _returnUtility = returnUtility;
             }
 
             [SecuredOperation(Priority = 1)]
-            [CacheAspect(10)]
-            [LogAspect(typeof(MsSqlLogger))]
-            public async Task<IDataResult<IEnumerable<UserGroup>>> Handle(GetUserGroupsQuery request, CancellationToken cancellationToken)
+            public async Task<ResponseMessage<List<UserGroup>>> Handle(GetUserGroupsQuery request, CancellationToken cancellationToken)
             {
-                return new SuccessDataResult<IEnumerable<UserGroup>>(await _userGroupRepository.GetListAsync());
+                var list = await _repository.GetListAsync();
+                if (list == null || list.Count() <= 0)
+                {
+                    return await _returnUtility.NoDataFound<List<UserGroup>>(MessageDefinitions.KAYIT_BULUNAMADI);
+                }
+
+                return _returnUtility.SuccessData(list);
             }
         }
     }

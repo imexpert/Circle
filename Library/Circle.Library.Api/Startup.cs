@@ -5,6 +5,7 @@ using Circle.Core.Utilities.Security.Encyption;
 using Circle.Core.Utilities.Security.Jwt;
 using Circle.Library.Api.Extensions;
 using Circle.Library.Business;
+using Circle.Library.Business.Helpers;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -61,7 +62,13 @@ namespace Circle.Library.Api
                     options.DefaultRequestCulture = new RequestCulture(culture: "en-US", uiCulture: "en-US");
                     options.SupportedCultures = supportedCultures;
                     options.SupportedUICultures = supportedCultures;
-                    options.RequestCultureProviders = new[] { new Extensions.RouteDataRequestCultureProvider { IndexOfCulture = 1, IndexofUICulture = 1 } };
+                    options.RequestCultureProviders = new[] { 
+                        new Extensions.RouteDataRequestCultureProvider 
+                        { 
+                            IndexOfCulture = 2, 
+                            IndexofUICulture = 2 
+                        } 
+                    };
                 });
 
             services.Configure<RouteOptions>(options =>
@@ -125,6 +132,8 @@ namespace Circle.Library.Api
             app.UseDeveloperExceptionPage();
 
             app.ConfigureCustomExceptionMiddleware();
+
+            app.UseDbOperationClaimCreator();
 
             app.UseSwagger();
 

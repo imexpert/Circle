@@ -28,7 +28,6 @@ namespace Circle.Library.Business.Handlers.Users.Queries
             }
 
             [SecuredOperation(Priority = 1)]
-            [LogAspect(typeof(MsSqlLogger))]
             public async Task<IDataResult<UserDto>> Handle(GetUserQuery request, CancellationToken cancellationToken)
             {
                 var user = await _userRepository.GetAsync(p => p.Id == request.UserId);

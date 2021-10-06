@@ -17,7 +17,7 @@ namespace Circle.Library.Api.Controllers
     /// Make it Authorization operations
     /// </summary>
     //[Route("api/[controller]")]
-    [Route("{culture:culture}/api/[controller]")]
+    [Route("api/[controller]")]
     [ApiController]
     public class AuthController : BaseApiController
     {

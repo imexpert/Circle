@@ -40,7 +40,7 @@ namespace Circle.Library.Business.Handlers.Authorizations.Queries
 
                 if (user == null)
                 {
-                    return ResponseMessage<AccessToken>.NoDataFound("Kullanıcı bulunamadı.");
+                    return ResponseMessage<AccessToken>.NoDataFound("Kullanıcı adı yada şifre hatalı.");
                 }
 
                 if (!HashingHelper.VerifyPasswordHash(request.LoginModel.Password, user.Password))

@@ -10,7 +10,7 @@ namespace Circle.Library.Api.Controllers
     /// Base controller
     /// </summary>
     [Authorize]
-    [Route("[controller]")]
+    [Route("api/{culture:culture}/[controller]/[action]")]
     [ApiController]
     public class BaseApiController : Controller
     {

@@ -14,5 +14,20 @@ namespace Circle.Core.Utilities.Messages
         GUNCELLEME_ISLEMI_HATALI = 4,
         SILME_ISLEMI_BASARILI = 5,
         SILME_ISLEMI_HATALI = 6,
+        KAYIT_BULUNAMADI = 7,
+        BIR_HATA_OLUSTU = 8,
+        KAYIT_ZATEN_MEVCUT = 9,
+    }
+
+    public static class DefaultMessageDefinitions
+    {
+        public static Dictionary<int, string> DefaultMessages = new Dictionary<int, string>()
+        {
+            { 7, "Kayıt bulunamadı."},
+            { 1, "Kayıt işlemi başarılı."},
+            { 2, "Kayıt işlemi sırasında hata oluştu."},
+            { 8, "Bir hata oluştu. Lütfen tekrar deneyiniz."},
+            { 9, "Kayıt zaten eklenmiş."}
+        };
     }
 }

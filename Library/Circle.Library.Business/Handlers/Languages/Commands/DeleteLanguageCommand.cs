@@ -25,8 +25,6 @@ namespace Circle.Library.Business.Handlers.Languages.Commands
                 _languageRepository = languageRepository;
             }
 
-            [CacheRemoveAspect("Get")]
-            [LogAspect(typeof(MsSqlLogger))]
             [SecuredOperation(Priority = 1)]
             public async Task<ResponseMessage<NoContent>> Handle(DeleteLanguageCommand request, CancellationToken cancellationToken)
             {

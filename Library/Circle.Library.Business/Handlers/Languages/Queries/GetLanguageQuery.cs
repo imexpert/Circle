@@ -27,7 +27,6 @@ namespace Circle.Library.Business.Handlers.Languages.Queries
             }
 
             [SecuredOperation(Priority = 1)]
-            [LogAspect(typeof(MsSqlLogger))]
             public async Task<ResponseMessage<Language>> Handle(GetLanguageQuery request, CancellationToken cancellationToken)
             {
                 var language = await _languageRepository.GetAsync(p => p.Id == request.Id);

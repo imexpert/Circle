@@ -26,14 +26,6 @@ namespace Circle.Library.Business.Handlers.Authorizations.Commands
                 _userRepository = userRepository;
             }
 
-            /// <summary>
-            /// </summary>
-            /// <param name="request"></param>
-            /// <param name="cancellationToken"></param>
-            /// <returns></returns>
-            [SecuredOperation(Priority = 1)]
-            [CacheRemoveAspect("Get")]
-            [LogAspect(typeof(MsSqlLogger))]
             public async Task<IResult> Handle(ForgotPasswordCommand request, CancellationToken cancellationToken)
             {
                 var user = await _userRepository.GetAsync(u => u.Email == request.Email);

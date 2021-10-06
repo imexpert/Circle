@@ -32,9 +32,6 @@ namespace Circle.Library.Business.Handlers.Languages.Commands
             }
 
             [SecuredOperation(Priority = 1)]
-            [ValidationAspect(typeof(CreateLanguageValidator), Priority = 2)]
-            [CacheRemoveAspect("Get")]
-            [LogAspect(typeof(MsSqlLogger))]
             public async Task<ResponseMessage<Language>> Handle(CreateLanguageCommand request, CancellationToken cancellationToken)
             {
                 request.Model = _languageRepository.Add(request.Model);

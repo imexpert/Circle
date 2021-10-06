@@ -26,8 +26,6 @@ namespace Circle.Library.Business.Handlers.Users.Commands
             }
 
             [SecuredOperation(Priority = 1)]
-            [CacheRemoveAspect("Get")]
-            [LogAspect(typeof(MsSqlLogger))]
             public async Task<IResult> Handle(DeleteUserCommand request, CancellationToken cancellationToken)
             {
                 var userToDelete = _userRepository.Get(p => p.Id == request.UserId);

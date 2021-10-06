@@ -12,6 +12,7 @@ namespace Circle.Library.DataAccess.Concrete.Configurations
             builder.ToTable("GroupClaims", MsDbContext.DEFAULT_SCHEMA);
 
             builder.HasKey(x => x.Id);
+            builder.HasIndex(s => new { s.OperationClaimId, s.GroupId }).IsUnique();
 
             builder.Property(s => s.GroupId).IsRequired();
             builder.Property(s => s.OperationClaimId).IsRequired();

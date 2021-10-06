@@ -11,10 +11,11 @@ namespace Circle.Core.DataAccess
         where T : class, IEntity
     {
         T Add(T entity);
+        void AddRange(List<T> entity);
         T Update(T entity);
         void Delete(T entity);
         IEnumerable<T> GetList(Expression<Func<T, bool>> expression = null);
-        Task<IEnumerable<T>> GetListAsync(Expression<Func<T, bool>> expression = null);
+        Task<List<T>> GetListAsync(Expression<Func<T, bool>> expression = null);
         T Get(Expression<Func<T, bool>> expression);
         Task<T> GetAsync(Expression<Func<T, bool>> expression);
         int SaveChanges();

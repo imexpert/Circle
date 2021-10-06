@@ -1,6 +1,7 @@
 ﻿using Circle.Core.Entities.Concrete;
 using Circle.Core.Utilities.Messages;
 using Circle.Core.Utilities.Results;
+using Circle.Library.Business.BusinessAspects;
 using Circle.Library.Business.Helpers;
 using Circle.Library.DataAccess.Abstract;
 using MediatR;
@@ -28,6 +29,7 @@ namespace Circle.Library.Business.Handlers.Messages.Queries
                 _returnUtility = returnUtility;
             }
 
+            [SecuredOperation(Priority = 1)]
             public async Task<ResponseMessage<Message>> Handle(GetMessageQuery request, CancellationToken cancellationToken)
             {
                 var group = await _messageRepository.GetAsync(x => x.Id == request.Id);

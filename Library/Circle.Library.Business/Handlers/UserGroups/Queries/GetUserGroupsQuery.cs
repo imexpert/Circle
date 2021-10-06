@@ -32,6 +32,7 @@ namespace Circle.Library.Business.Handlers.UserGroups.Queries
                 _returnUtility = returnUtility;
             }
 
+            [SecuredOperation(Priority = 1)]
             public async Task<ResponseMessage<List<UserGroup>>> Handle(GetUserGroupsQuery request, CancellationToken cancellationToken)
             {
                 var list = await _repository.GetListAsync();

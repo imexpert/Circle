@@ -33,7 +33,7 @@ namespace Circle.Library.Business.Handlers.Groups.Commands
                 _returnUtility = returnUtility;
             }
 
-            [TransactionScopeAspectAsync]
+            [SecuredOperation(Priority = 1)]
             public async Task<ResponseMessage<NoContent>> Handle(DeleteGroupCommand request, CancellationToken cancellationToken)
             {
                 var groupToDelete = await _groupRepository.GetAsync(x => x.Id == request.Id);

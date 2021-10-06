@@ -31,7 +31,7 @@ namespace Circle.Library.Business.Handlers.Groups.Commands
                 _returnUtility = returnUtility;
             }
 
-            [TransactionScopeAspectAsync]
+            [SecuredOperation(Priority = 1)]
             public async Task<ResponseMessage<Group>> Handle(UpdateGroupCommand request, CancellationToken cancellationToken)
             {
                 var group = await _groupRepository.GetAsync(s => s.Id == request.Group.Id);

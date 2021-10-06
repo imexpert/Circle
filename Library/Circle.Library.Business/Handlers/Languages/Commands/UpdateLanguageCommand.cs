@@ -29,9 +29,6 @@ namespace Circle.Library.Business.Handlers.Languages.Commands
             }
 
             [SecuredOperation(Priority = 1)]
-            [ValidationAspect(typeof(UpdateLanguageValidator), Priority = 2)]
-            [CacheRemoveAspect("Get")]
-            [LogAspect(typeof(MsSqlLogger))]
             public async Task<ResponseMessage<Language>> Handle(UpdateLanguageCommand request, CancellationToken cancellationToken)
             {
                 var isThereLanguageRecord = await _languageRepository.GetAsync(u => u.Id == request.Model.Id);

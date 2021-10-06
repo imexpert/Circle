@@ -29,6 +29,7 @@ namespace Circle.Library.Business.Handlers.GroupClaims.Commands
                 _returnUtility = returnUtility;
             }
 
+            [SecuredOperation(Priority = 1)]
             public async Task<ResponseMessage<NoContent>> Handle(DeleteGroupClaimCommand request, CancellationToken cancellationToken)
             {
                 var groupClaimToDelete = await _groupClaimRepository.GetAsync(x => x.Id == request.Id);

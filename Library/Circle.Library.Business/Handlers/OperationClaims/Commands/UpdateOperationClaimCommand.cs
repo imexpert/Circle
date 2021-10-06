@@ -32,6 +32,7 @@ namespace Circle.Library.Business.Handlers.OperationClaims.Commands
                 _returnUtility = returnUtility;
             }
 
+            [SecuredOperation(Priority = 1)]
             public async Task<ResponseMessage<OperationClaim>> Handle(UpdateOperationClaimCommand request, CancellationToken cancellationToken)
             {
                 var isOperationClaimExists = await _operationClaimRepository.GetAsync(u => u.Id == request.Model.Id);

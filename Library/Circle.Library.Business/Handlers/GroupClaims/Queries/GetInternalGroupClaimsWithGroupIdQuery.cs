@@ -16,30 +16,23 @@ using System;
 
 namespace Circle.Library.Business.Handlers.GroupClaims.Queries
 {
-    public class GetGroupClaimsWithGroupIdQuery : IRequest<ResponseMessage<List<GroupClaim>>>
+    public class GetInternalGroupClaimsWithGroupIdQuery : IRequest<List<GroupClaim>>
     {
         public Guid GroupId { get; set; }
-        public class GetGroupClaimsWithGroupIdQueryHandler : IRequestHandler<GetGroupClaimsWithGroupIdQuery, ResponseMessage<List<GroupClaim>>>
+        public class GetInternalGroupClaimsWithGroupIdQueryHandler : IRequestHandler<GetInternalGroupClaimsWithGroupIdQuery, List<GroupClaim>>
         {
             private readonly IGroupClaimRepository _groupClaimRepository;
             private readonly IReturnUtility _returnUtility;
 
-            public GetGroupClaimsWithGroupIdQueryHandler(IGroupClaimRepository groupClaimRepository, IReturnUtility returnUtility)
+            public GetInternalGroupClaimsWithGroupIdQueryHandler(IGroupClaimRepository groupClaimRepository, IReturnUtility returnUtility)
             {
                 _groupClaimRepository = groupClaimRepository;
                 _returnUtility = returnUtility;
             }
 
-            [SecuredOperation(Priority = 1)]
-            public async Task<ResponseMessage<List<GroupClaim>>> Handle(GetGroupClaimsWithGroupIdQuery request, CancellationToken cancellationToken)
+            public async Task<List<GroupClaim>> Handle(GetInternalGroupClaimsWithGroupIdQuery request, CancellationToken cancellationToken)
             {
-                var list = await _groupClaimRepository.GetListAsync(s=>s.GroupId == request.GroupId);
-                if (list == null || list.Count() <= 0)
-                {
-                    return await _returnUtility.NoDataFound<List<GroupClaim>>(MessageDefinitions.KAYIT_BULUNAMADI);
-                }
-
-                return _returnUtility.SuccessData(list);
+                return await _groupClaimRepository.GetListAsync(s=>s.GroupId == request.GroupId);
             }
         }
     }

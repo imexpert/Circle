@@ -31,6 +31,7 @@ namespace Circle.Library.Business.Handlers.UserGroups.Commands
                 _returnUtility = returnUtility;
             }
 
+            [SecuredOperation(Priority = 1)]
             public async Task<ResponseMessage<NoContent>> Handle(DeleteUserGroupCommand request, CancellationToken cancellationToken)
             {
                 var userGroupToDelete = await _groupRepository.GetAsync(x => x.Id == request.Id);

@@ -9,30 +9,28 @@ using Circle.Core.Utilities.Results;
 using Circle.Library.DataAccess.Abstract;
 using MediatR;
 using System;
+using Circle.Core.Entities.Concrete;
 
 namespace Circle.Library.Business.Handlers.Users.Queries
 {
-    public class GetUserQuery : IRequest<IDataResult<UserDto>>
+    public class GetInternalUserQuery : IRequest<User>
     {
-        public Guid UserId { get; set; }
+        public string Email { get; set; }
 
-        public class GetUserQueryHandler : IRequestHandler<GetUserQuery, IDataResult<UserDto>>
+        public class GetInternalUserQueryHandler : IRequestHandler<GetInternalUserQuery, User>
         {
             private readonly IUserRepository _userRepository;
             private readonly IMapper _mapper;
 
-            public GetUserQueryHandler(IUserRepository userRepository, IMapper mapper)
+            public GetInternalUserQueryHandler(IUserRepository userRepository, IMapper mapper)
             {
                 _userRepository = userRepository;
                 _mapper = mapper;
             }
 
-            [SecuredOperation(Priority = 1)]
-            public async Task<IDataResult<UserDto>> Handle(GetUserQuery request, CancellationToken cancellationToken)
+            public async Task<User> Handle(GetInternalUserQuery request, CancellationToken cancellationToken)
             {
-                var user = await _userRepository.GetAsync(p => p.Id == request.UserId);
-                var userDto = _mapper.Map<UserDto>(user);
-                return new SuccessDataResult<UserDto>(userDto);
+                return await _userRepository.GetAsync(p => p.Email == request.Email);
             }
         }
     }

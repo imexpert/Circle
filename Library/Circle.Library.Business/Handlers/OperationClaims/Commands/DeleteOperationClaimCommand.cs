@@ -31,6 +31,7 @@ namespace Circle.Library.Business.Handlers.OperationClaims.Commands
                 _returnUtility = returnUtility;
             }
 
+            [SecuredOperation(Priority = 1)]
             public async Task<ResponseMessage<NoContent>> Handle(DeleteOperationClaimCommand request, CancellationToken cancellationToken)
             {
                 var claimToDelete = await _operationClaimRepository.GetAsync(x => x.Id == request.Id);

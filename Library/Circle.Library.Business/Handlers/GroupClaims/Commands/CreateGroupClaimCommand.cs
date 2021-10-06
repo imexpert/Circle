@@ -11,6 +11,7 @@ using MediatR;
 using Circle.Library.Entities.ComplexTypes;
 using Circle.Library.Business.Helpers;
 using Circle.Core.Utilities.Messages;
+using Circle.Library.Business.BusinessAspects;
 
 namespace Circle.Library.Business.Handlers.GroupClaims.Commands
 {
@@ -33,6 +34,7 @@ namespace Circle.Library.Business.Handlers.GroupClaims.Commands
                 _returnUtility = returnUtility;
             }
 
+            [SecuredOperation(Priority = 1)]
             public async Task<ResponseMessage<GroupClaim>> Handle(CreateGroupClaimCommand request, CancellationToken cancellationToken)
             {
                 var groupClaim = new GroupClaim

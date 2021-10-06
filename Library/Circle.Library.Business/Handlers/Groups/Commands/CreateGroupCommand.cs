@@ -8,6 +8,7 @@ using Circle.Core.CrossCuttingConcerns.Logging.Serilog.Loggers;
 using Circle.Core.Entities.Concrete;
 using Circle.Core.Utilities.Messages;
 using Circle.Core.Utilities.Results;
+using Circle.Library.Business.BusinessAspects;
 using Circle.Library.Business.Helpers;
 using Circle.Library.DataAccess.Abstract;
 using MediatR;
@@ -29,7 +30,7 @@ namespace Circle.Library.Business.Handlers.Groups.Commands
                 _returnUtility = returnUtility;
             }
 
-            [TransactionScopeAspectAsync]
+            [SecuredOperation(Priority = 1)]
             public async Task<ResponseMessage<Group>> Handle(CreateGroupCommand request, CancellationToken cancellationToken)
             {
                 var group = await _groupRepository.GetAsync(s => s.GroupName == request.GroupName.Trim().ToUpper());

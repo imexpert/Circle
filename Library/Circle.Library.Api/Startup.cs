@@ -5,6 +5,7 @@ using Circle.Core.Utilities.Security.Encyption;
 using Circle.Core.Utilities.Security.Jwt;
 using Circle.Library.Api.Extensions;
 using Circle.Library.Business;
+using Circle.Library.Business.Helpers;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -131,6 +132,8 @@ namespace Circle.Library.Api
             app.UseDeveloperExceptionPage();
 
             app.ConfigureCustomExceptionMiddleware();
+
+            app.UseDbOperationClaimCreator();
 
             app.UseSwagger();
 

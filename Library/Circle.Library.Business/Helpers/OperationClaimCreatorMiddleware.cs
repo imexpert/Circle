@@ -15,6 +15,13 @@ using Circle.Library.Business.Handlers.OperationClaims.Queries;
 using Circle.Core.Utilities.Results;
 using Circle.Library.Business.Handlers.Groups.Queries;
 using Circle.Library.Business.Handlers.Groups.Commands;
+using Circle.Library.Business.Handlers.GroupClaims.Queries;
+using Circle.Library.Business.Handlers.GroupClaims.Commands;
+using Circle.Core.Entities;
+using Circle.Core.Entities.Enums;
+using Circle.Library.Business.Handlers.Users.Commands;
+using Circle.Library.Business.Handlers.Users.Queries;
+using Circle.Library.Business.Handlers.UserGroups.Commands;
 
 namespace Circle.Library.Business.Helpers
 {
@@ -22,114 +29,153 @@ namespace Circle.Library.Business.Helpers
     {
         public static async Task UseDbOperationClaimCreator(this IApplicationBuilder app)
         {
-            var mediator = ServiceTool.ServiceProvider.GetService<IMediator>();
-
-            await SaveOperations();
-
-            Guid adminGroupId = await SaveGroups();
-
-            var operationClaims = (await mediator.Send(new GetOperationClaimsInternalQuery())).Data;
-            var user = await mediator.Send(new RegisterUserInternalCommand
+            try
             {
-                FullName = "System Admin",
-                Password = "Q1w212*_*",
-                Email = "admin@adminmail.com",
-            });
-            await mediator.Send(new CreateUserClaimsInternalCommand
-            {
-                UserId = 1,
-                OperationClaims = operationClaims
-            });
+                await SaveOperations();
+                await SaveGroups();
+                await SaveGroupClaims();
+                await SaveAdminUser();
+                await SaveAdminUserGroup();
+            }
+            catch { }
         }
 
         private async static Task SaveOperations()
         {
             var mediator = ServiceTool.ServiceProvider.GetService<IMediator>();
 
-            //Uygulama ayağa kalkarken database de kayıtlı olmayan bütün operasyonları
-            //kaydediyoruz.
-            ResponseMessage<List<OperationClaim>> operationsResponse = await mediator.Send(new GetOperationClaimsQuery());
+            List<OperationClaim> operations = await mediator.Send(new GetInternalOperationClaimsQuery());
 
-            if (operationsResponse.IsSuccess)
+            List<OperationClaim> claimList = new List<OperationClaim>();
+
+            foreach (var operationName in GetOperationNames())
             {
-                List<OperationClaim> operations = operationsResponse.Data;
-
-                foreach (var operationName in GetOperationNames())
+                if (!operations.Any(s => s.Name == operationName))
                 {
-                    if (!operations.Any(s => s.Name == operationName))
-                    {
-                        OperationClaim operationClaim = new OperationClaim();
-                        operationClaim.Name = operationName;
-                        operationClaim.Alias = operationName;
-                        operationClaim.Description = operationName;
+                    OperationClaim operationClaim = new OperationClaim();
+                    operationClaim.Name = operationName;
+                    operationClaim.Alias = operationName;
+                    operationClaim.Description = operationName;
+                    claimList.Add(operationClaim);
+                }
+            }
 
-                        await mediator.Send(new CreateOperationClaimCommand
+            await mediator.Send(new CreateInternalOperationClaimCommand
+            {
+                ModelList = claimList
+            });
+        }
+
+        private async static Task SaveGroups()
+        {
+            var mediator = ServiceTool.ServiceProvider.GetService<IMediator>();
+
+            List<Group> groups = await mediator.Send(new GetInternalGroupsQuery());
+            if (!groups.Any(s => s.GroupName == "System Admin"))
+            {
+                Group group = new Group();
+                group.GroupName = "System Admin";
+                await mediator.Send(new CreateInternalGroupCommand
+                {
+                    Group = group
+                });
+            }
+        }
+
+        private async static Task SaveGroupClaims()
+        {
+            var mediator = ServiceTool.ServiceProvider.GetService<IMediator>();
+
+            List<OperationClaim> operations = await mediator.Send(new GetInternalOperationClaimsQuery());
+            List<Group> groups = await mediator.Send(new GetInternalGroupsQuery());
+
+
+            if (groups.Any(s => s.GroupName == "System Admin"))
+            {
+                Guid groupId = groups.First(s => s.GroupName == "System Admin").Id;
+
+                List<GroupClaim> groupClaims = await mediator.Send(new GetInternalGroupClaimsWithGroupIdQuery() { GroupId = groupId });
+
+                List<GroupClaim> addedGroupClaims = new List<GroupClaim>();
+
+                foreach (var item in operations)
+                {
+                    if (!groupClaims.Any(s => s.GroupId == groupId && s.OperationClaimId == item.Id))
+                    {
+                        GroupClaim groupClaim = new GroupClaim()
                         {
-                            Model = operationClaim
-                        });
+                            GroupId = groupId,
+                            OperationClaimId = item.Id
+                        };
+
+                        addedGroupClaims.Add(groupClaim);
                     }
                 }
+
+                await mediator.Send(new CreateInternalGroupClaimCommand()
+                {
+                    ModelList = addedGroupClaims
+                });
             }
         }
 
-        private async static Task<Guid> SaveGroups()
+        private async static Task SaveAdminUser()
         {
             var mediator = ServiceTool.ServiceProvider.GetService<IMediator>();
 
-            //System Admin adında bir grup yoksa onu da ekliyoruz
-            ResponseMessage<List<Group>> groupsResponse = await mediator.Send(new GetGroupsQuery());
-            if (groupsResponse.IsSuccess)
+            User user = new User()
             {
-                List<Group> groups = groupsResponse.Data;
-                if (!groups.Any(s => s.GroupName == "System Admin"))
-                {
-                    ResponseMessage<Group> group = await mediator.Send(new CreateGroupCommand
-                    {
-                        GroupName = "System Admin"
-                    });
+                Address = "Ankara",
+                BirthDate = new DateTime(1983, 7, 23),
+                DepartmentId = Guid.NewGuid(),
+                Email = "admin@admin.com",
+                Firstname = "Ali Osman",
+                Gender = ((int)GenderTypes.Erkek),
+                Lastname = "ÜNAL",
+                MobilePhones = "+90 555 682 2232",
+                Password = "Qweasd00.",
+                Status = true
+            };
 
-                    if (group.IsSuccess)
-                    {
-                        return group.Data.Id;
-                    }
-                }
-                else
-                {
-                    return groups.FirstOrDefault(s => s.GroupName == "System Admin").Id;
-                }
-            }
-
-            return Guid.Empty;
+            await mediator.Send(new CreateInternalUserCommand()
+            {
+                User = user
+            });
         }
 
-        private async static Task<Guid> SaveGroupClaims(Guid groupId)
+        private async static Task SaveAdminUserGroup()
         {
             var mediator = ServiceTool.ServiceProvider.GetService<IMediator>();
 
-            ResponseMessage<List<OperationClaim>> operationsResponse = await mediator.Send(new GetOperationClaimsQuery());
-
-            if (operationsResponse.IsSuccess)
+            User user = await mediator.Send(new GetInternalUserQuery()
             {
-                foreach (var item in operationsResponse.Data)
-                {
-                    GroupClaim groupClaim = new GroupClaim()
-                    {
-                        GroupId = groupId,
-                        OperationClaimId = item.Id
-                    }
-                }
-            }
+                Email = "admin@admin.com"
+            });
 
-            return Guid.Empty;
+            Group group = await mediator.Send(new GetInternalGroupWithNameQuery()
+            {
+                GroupName = "System Admin"
+            });
+
+            UserGroup userGroup = new UserGroup()
+            {
+                GroupId = group.Id,
+                UserId = user.Id
+            };
+
+            await mediator.Send(new CreateInternalUserGroupCommand()
+            {
+                UserGroup = userGroup
+            });
         }
-
         private static IEnumerable<string> GetOperationNames()
         {
             var assemblyNames = Assembly.GetExecutingAssembly().GetTypes()
                 .Where(x =>
                     // runtime generated anonmous type'larin assemblysi olmadigi icin null cek yap
-                    x.Namespace != null && x.Namespace.StartsWith("Business.Handlers") &&
+                    x.Namespace != null && x.Namespace.StartsWith("Circle.Library.Business.Handlers") &&
                     (x.Name.EndsWith("Command") || x.Name.EndsWith("Query")) &&
+                    (!x.Name.Contains("Internal")) &&
                     x.CustomAttributes.All(a => a.AttributeType == typeof(SecuredOperation)))
                 .Select(x => x.Name);
             return assemblyNames;

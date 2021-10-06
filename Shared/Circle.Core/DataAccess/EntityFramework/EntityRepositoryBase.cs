@@ -30,6 +30,11 @@ namespace Circle.Core.DataAccess.EntityFramework
             return Context.Add(entity).Entity;
         }
 
+        public void AddRange(List<TEntity> entity)
+        {
+            Context.AddRange(entity);
+        }
+
         public TEntity Update(TEntity entity)
         {
             Context.Update(entity);

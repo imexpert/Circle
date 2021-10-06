@@ -15,31 +15,24 @@ using Circle.Core.Utilities.Messages;
 
 namespace Circle.Library.Business.Handlers.OperationClaims.Queries
 {
-    public class GetOperationClaimsQuery : IRequest<ResponseMessage<List<OperationClaim>>>
+    public class GetInternalOperationClaimsQuery : IRequest<List<OperationClaim>>
     {
         public class
-            GetOperationClaimsQueryHandler : IRequestHandler<GetOperationClaimsQuery,
-                ResponseMessage<List<OperationClaim>>>
+            GetInternalOperationClaimsQueryHandler : IRequestHandler<GetInternalOperationClaimsQuery,
+                List<OperationClaim>>
         {
             private readonly IOperationClaimRepository _operationClaimRepository;
             private readonly IReturnUtility _returnUtility;
 
-            public GetOperationClaimsQueryHandler(IOperationClaimRepository operationClaimRepository, IReturnUtility returnUtility)
+            public GetInternalOperationClaimsQueryHandler(IOperationClaimRepository operationClaimRepository, IReturnUtility returnUtility)
             {
                 _operationClaimRepository = operationClaimRepository;
                 _returnUtility = returnUtility;
             }
 
-            [SecuredOperation(Priority = 1)]
-            public async Task<ResponseMessage<List<OperationClaim>>> Handle(GetOperationClaimsQuery request, CancellationToken cancellationToken)
+            public async Task<List<OperationClaim>> Handle(GetInternalOperationClaimsQuery request, CancellationToken cancellationToken)
             {
-                var list = await _operationClaimRepository.GetListAsync();
-                if (list == null || list.Count() <= 0)
-                {
-                    return await _returnUtility.NoDataFound<List<OperationClaim>>(MessageDefinitions.KAYIT_BULUNAMADI);
-                }
-
-                return _returnUtility.SuccessData(list);
+                return await _operationClaimRepository.GetListAsync();
             }
         }
     }

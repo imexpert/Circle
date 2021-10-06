@@ -29,6 +29,7 @@ namespace Circle.Library.Business.Handlers.GroupClaims.Queries
                 _returnUtility = returnUtility;
             }
 
+            [SecuredOperation(Priority = 1)]
             public async Task<ResponseMessage<List<GroupClaim>>> Handle(GetGroupClaimsQuery request, CancellationToken cancellationToken)
             {
                 var list = await _groupClaimRepository.GetListAsync();

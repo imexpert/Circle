@@ -33,11 +33,6 @@ namespace Circle.Library.Business.Handlers.Authorizations.Commands
                 _userRepository = userRepository;
             }
 
-
-            [SecuredOperation(Priority = 1)]
-            [ValidationAspect(typeof(RegisterUserValidator), Priority = 2)]
-            [CacheRemoveAspect("Get")]
-            [LogAspect(typeof(MsSqlLogger))]
             public async Task<IResult> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
             {
                 var isThereAnyUser = await _userRepository.GetAsync(u => u.Email == request.Email);

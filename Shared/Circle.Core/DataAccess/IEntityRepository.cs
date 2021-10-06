@@ -11,6 +11,7 @@ namespace Circle.Core.DataAccess
         where T : class, IEntity
     {
         T Add(T entity);
+        void AddRange(List<T> entity);
         T Update(T entity);
         void Delete(T entity);
         IEnumerable<T> GetList(Expression<Func<T, bool>> expression = null);

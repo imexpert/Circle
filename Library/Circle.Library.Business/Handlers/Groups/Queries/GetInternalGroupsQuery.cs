@@ -15,16 +15,17 @@ using Circle.Core.Utilities.Messages;
 
 namespace Circle.Library.Business.Handlers.Groups.Queries
 {
-    public class GetGroupsQuery : IRequest<ResponseMessage<List<Group>>>
+    public class GetInternalGroupsQuery : IRequest<List<Group>>
     {
         public int Id { get; set; }
 
-        public class GetGroupsQueryHandler : IRequestHandler<GetGroupsQuery, ResponseMessage<List<Group>>>
+        public class GetInternalGroupsQueryHandler : IRequestHandler<GetInternalGroupsQuery, 
+            List<Group>>
         {
             private readonly IGroupRepository _groupRepository;
             private readonly IReturnUtility _returnUtility;
 
-            public GetGroupsQueryHandler(
+            public GetInternalGroupsQueryHandler(
                 IGroupRepository groupRepository,
                 IReturnUtility returnUtility)
             {
@@ -32,16 +33,9 @@ namespace Circle.Library.Business.Handlers.Groups.Queries
                 _returnUtility = returnUtility;
             }
 
-            [SecuredOperation(Priority = 1)]
-            public async Task<ResponseMessage<List<Group>>> Handle(GetGroupsQuery request, CancellationToken cancellationToken)
+            public async Task<List<Group>> Handle(GetInternalGroupsQuery request, CancellationToken cancellationToken)
             {
-                var list = await _groupRepository.GetListAsync();
-                if (list == null || list.Count() <= 0)
-                {
-                    return await _returnUtility.NoDataFound<List<Group>>(MessageDefinitions.KAYIT_BULUNAMADI);
-                }
-
-                return _returnUtility.SuccessData(list);
+                return await _groupRepository.GetListAsync();
             }
         }
     }

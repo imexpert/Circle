@@ -11,6 +11,7 @@ using MediatR;
 using Circle.Library.Entities.ComplexTypes;
 using Circle.Library.Business.Helpers;
 using Circle.Core.Utilities.Messages;
+using Circle.Library.Business.BusinessAspects;
 
 namespace Circle.Library.Business.Handlers.OperationClaims.Commands
 {
@@ -31,6 +32,7 @@ namespace Circle.Library.Business.Handlers.OperationClaims.Commands
                 _returnUtility = returnUtility;
             }
 
+            [SecuredOperation(Priority = 1)]
             public async Task<ResponseMessage<OperationClaim>> Handle(CreateOperationClaimCommand request, CancellationToken cancellationToken)
             {
                 if (IsClaimExists(request.Model.Name))

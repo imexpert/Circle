@@ -1,6 +1,7 @@
 ﻿using Circle.Core.Entities.Concrete;
 using Circle.Core.Utilities.Messages;
 using Circle.Core.Utilities.Results;
+using Circle.Library.Business.BusinessAspects;
 using Circle.Library.Business.Helpers;
 using Circle.Library.DataAccess.Abstract;
 using MediatR;
@@ -24,6 +25,7 @@ namespace Circle.Library.Business.Handlers.Messages.Commands
                 _returnUtility = returnUtility;
             }
 
+            [SecuredOperation(Priority = 1)]
             public async Task<ResponseMessage<Message>> Handle(CreateMessageCommand request, CancellationToken cancellationToken)
             {
                 var message = await _messageRepository.GetAsync(s => s.LanguageId == request.Model.LanguageId && s.Code == request.Model.Code);

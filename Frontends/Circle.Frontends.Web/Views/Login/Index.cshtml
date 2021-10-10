@@ -2,29 +2,14 @@
     Layout = null;
 }
 <!DOCTYPE html>
-<!--
-Author: Keenthemes
-Product Name: Metronic - Bootstrap 5 HTML, VueJS, React, Angular & Laravel Admin Dashboard Theme
-Purchase: https://1.envato.market/EA4JP
-Website: http://www.keenthemes.com
-Contact: support@keenthemes.com
-Follow: www.twitter.com/keenthemes
-Dribbble: www.dribbble.com/keenthemes
-Like: www.facebook.com/keenthemes
-License: For each use you must have a valid license purchased only from above link in order to legally use the theme for your project.
--->
-<html lang="en">
+
+<html lang="tr">
 <!--begin::Head-->
 <head>
-    <base href="../../../">
-    <title>Circle | 360 Derece Üretim Yazılımı</title>
+    <title>Giriş | 360 Derece Üretim Yazılımı</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta property="og:locale" content="en_US" />
-    <meta property="og:type" content="article" />
-    <meta property="og:title" content="Metronic - Bootstrap 5 HTML, VueJS, React, Angular &amp; Laravel Admin Dashboard Theme" />
-    <meta property="og:url" content="https://keenthemes.com/metronic" />
-    <meta property="og:site_name" content="Keenthemes | Metronic" />
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-9" />
     <link rel="canonical" href="https://preview.keenthemes.com/metronic8" />
     <link rel="shortcut icon" href="~/assets/media/logos/favicon.ico" />
     <!--begin::Fonts-->
@@ -61,7 +46,7 @@ License: For each use you must have a valid license purchased only from above li
                             <!--begin::Link-->
                             <div class="text-gray-400 fw-bold fs-4">
                                 Üye Değil Misiniz?
-                                <a href="../../demo1/dist/authentication/flows/basic/sign-up.html" class="link-primary fw-bolder">Hesap Oluşturun</a>
+                                <a asp-controller="Login" asp-action="Register" class="link-primary fw-bolder">Hesap Oluşturun</a>
                             </div>
                             <!--end::Link-->
                         </div>
@@ -84,7 +69,7 @@ License: For each use you must have a valid license purchased only from above li
                                 <label class="form-label fw-bolder text-dark fs-6 mb-0">Şifreniz</label>
                                 <!--end::Label-->
                                 <!--begin::Link-->
-                                <a href="../../demo1/dist/authentication/flows/basic/password-reset.html" class="link-primary fs-6 fw-bolder">Şifrenizi mi Unuttunuz ?</a>
+                                <a asp-action="ForgotPassword" asp-controller="Login" class="link-primary fs-6 fw-bolder">Şifrenizi mi Unuttunuz ?</a>
                                 <!--end::Link-->
                             </div>
                             <!--end::Wrapper-->

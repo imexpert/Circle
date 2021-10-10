@@ -31,6 +31,15 @@ namespace Circle.Frontends.Web.Controllers
             return View();
         }
 
+        public IActionResult Register()
+        {
+            return View();
+        }
+
+        public IActionResult ForgotPassword()
+        {
+            return View();
+        }
         [HttpPost]
         public async Task<IActionResult> Login(LoginModel loginModel)
         {

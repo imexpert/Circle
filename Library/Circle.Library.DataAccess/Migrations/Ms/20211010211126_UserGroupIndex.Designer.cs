@@ -4,14 +4,16 @@ using Circle.Library.DataAccess.Concrete.EntityFramework.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Circle.Library.DataAccess.Migrations.Ms
 {
     [DbContext(typeof(MsDbContext))]
-    partial class MsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211010211126_UserGroupIndex")]
+    partial class UserGroupIndex
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -149,24 +151,24 @@ namespace Circle.Library.DataAccess.Migrations.Ms
                     b.HasData(
                         new
                         {
-                            Id = new Guid("1e610fd4-f7f9-4074-ae9a-a3c385cb6e41"),
+                            Id = new Guid("53f811f8-e79b-4f2f-ac90-e0373b12efd6"),
                             Code = "tr-TR",
                             Ip = "1:1",
                             Name = "Türkçe",
-                            RecordDate = new DateTime(2021, 10, 11, 0, 27, 14, 814, DateTimeKind.Local).AddTicks(7731),
+                            RecordDate = new DateTime(2021, 10, 11, 0, 11, 26, 374, DateTimeKind.Local).AddTicks(4258),
                             RecordUsername = "admin",
-                            UpdateDate = new DateTime(2021, 10, 11, 0, 27, 14, 816, DateTimeKind.Local).AddTicks(6378),
+                            UpdateDate = new DateTime(2021, 10, 11, 0, 11, 26, 376, DateTimeKind.Local).AddTicks(3360),
                             UpdateUsername = "admin"
                         },
                         new
                         {
-                            Id = new Guid("2c53852d-400a-44f3-9345-18ebcbedfb77"),
+                            Id = new Guid("b31eb9e0-7d14-4ac7-9d99-8b16cc6c6f08"),
                             Code = "en-US",
                             Ip = "1:1",
                             Name = "English",
-                            RecordDate = new DateTime(2021, 10, 11, 0, 27, 14, 816, DateTimeKind.Local).AddTicks(6878),
+                            RecordDate = new DateTime(2021, 10, 11, 0, 11, 26, 376, DateTimeKind.Local).AddTicks(3887),
                             RecordUsername = "admin",
-                            UpdateDate = new DateTime(2021, 10, 11, 0, 27, 14, 816, DateTimeKind.Local).AddTicks(6889),
+                            UpdateDate = new DateTime(2021, 10, 11, 0, 11, 26, 376, DateTimeKind.Local).AddTicks(3898),
                             UpdateUsername = "admin"
                         });
                 });
@@ -404,8 +406,7 @@ namespace Circle.Library.DataAccess.Migrations.Ms
 
                     b.HasIndex("UserId");
 
-                    b.HasIndex("GroupId", "UserId")
-                        .IsUnique();
+                    b.HasIndex("GroupId", "UserId");
 
                     b.ToTable("UserGroups", "dbo");
                 });

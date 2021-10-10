@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.StaticFiles;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Net.Http.Headers;
 using System;
 using System.Collections.Generic;
@@ -17,11 +19,17 @@ namespace Circle.Frontends.Web.Infrastructure.Extensions
         /// Configure the application HTTP request pipeline
         /// </summary>
         /// <param name="application">Builder for configuring an application's request pipeline</param>
-        public static void ConfigureRequestPipeline(this IApplicationBuilder application,IHttpContextAccessor httpContextAccessor)
+        public static void ConfigureRequestPipeline(this IApplicationBuilder application,
+            IHttpContextAccessor httpContextAccessor)
         {
-            application.UseCircleExceptionHandler();
+            //get detailed exceptions for developing and testing purposes
+            application.UseDeveloperExceptionPage();
 
-            application.UseCircleResponseCompression();
+            //if (webHostEnvironment.IsDevelopment())
+            //{
+
+            //}
+            application.UseCircleExceptionHandler();
 
             application.UseCircleStaticFiles();
 

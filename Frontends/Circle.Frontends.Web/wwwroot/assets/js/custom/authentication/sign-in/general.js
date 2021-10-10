@@ -72,7 +72,7 @@ var KTSigninGeneral = function() {
                             window.location.href = "/Home/Index";
                         }
                         else {
-                            ShowErrorMessage(response.Message);
+                            ShowErrorMessage("Hata Oluþtu",response.Message);
                         }
                     });
                 }

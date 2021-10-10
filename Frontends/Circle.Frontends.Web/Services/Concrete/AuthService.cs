@@ -39,6 +39,7 @@ namespace Circle.Frontends.Web.Services.Concrete
             using (StringContent content = new StringContent(json, Encoding.UTF8, "application/json"))
             {
                 var response = await _client.PostAsync("Auth/Login", content);
+                
                 // Get string data
                 string data = await response.Content.ReadAsStringAsync();
 

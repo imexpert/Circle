@@ -26,8 +26,6 @@ namespace Circle.Frontends.Web.Infrastructure.Extensions
             //add accessor to HttpContext
             services.AddHttpContextAccessor();
 
-            services.AddResponseCompression();
-
             services.AddAntiforgery();
 
             services.AddHttpClients(configuration);

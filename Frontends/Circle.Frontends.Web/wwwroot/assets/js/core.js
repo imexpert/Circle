@@ -76,7 +76,7 @@ function ShowSuccessMessage(title, message) {
 
 function ShowErrorMessage(title, message) {
     swal.fire({
-        title: title,
+        title: "Hata Oluştu",
         html: message,
         icon: "error",
         allowOutsideClick: false,

@@ -31,6 +31,17 @@ namespace Circle.Frontends.Web.Infrastructure.Extensions
 
             application.UseRouting();
 
+            var cookiePolicyOptions = new CookiePolicyOptions
+            {
+                MinimumSameSitePolicy = Microsoft.AspNetCore.Http.SameSiteMode.Strict,
+            };
+
+            application.UseCookiePolicy(cookiePolicyOptions);
+
+            application.UseAuthentication();
+
+            application.UseAuthorization();
+
             application.UseEndpoints(s => s.MapControllers());
 
             application.UseMvc(routes =>

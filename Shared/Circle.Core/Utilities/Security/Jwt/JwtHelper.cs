@@ -82,6 +82,9 @@ namespace Circle.Core.Utilities.Security.Jwt
             var claims = new List<Claim>();
             claims.AddNameIdentifier(user.Email);
 
+            Claim claimId = new Claim("UserId", user.Id.ToString());
+            claims.Add(claimId);
+
             if (!string.IsNullOrEmpty(user.Firstname))
             {
                 claims.AddName($"{user.Firstname}");

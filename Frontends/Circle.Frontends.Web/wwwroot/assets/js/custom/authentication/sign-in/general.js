@@ -68,12 +68,11 @@ var KTSigninGeneral = function() {
                         // Disable button to avoid multiple click 
                         submitButton.disabled = false;
 
-                        if (response.isSuccess) {
-                            localStorage.setItem("token", response.data.token);
+                        if (response.IsSuccess) {
                             window.location.href = "/Home/Index";
                         }
                         else {
-                            ShowErrorMessage(response.message);
+                            ShowErrorMessage(response.Message);
                         }
                     });
                 }

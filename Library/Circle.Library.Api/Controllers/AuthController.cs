@@ -62,12 +62,12 @@ namespace Circle.Library.Api.Controllers
         [Produces("application/json", "text/plain")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IDataResult<AccessToken>))]
         [ProducesResponseType(StatusCodes.Status401Unauthorized, Type = typeof(string))]
-        [HttpPost("RefreshToken")]
-        public async Task<IActionResult> LoginWithRefreshToken(string refreshToken)
+        [HttpPost("LoginWithRefreshToken")]
+        public async Task<IActionResult> LoginWithRefreshToken([FromBody] LoginModel loginModel)
         {
             LoginWithRefreshTokenQuery query = new LoginWithRefreshTokenQuery()
             {
-                RefreshToken = refreshToken
+                RefreshToken = loginModel.RefreshToken
             };
 
             return CreateActionResultInstance(await Mediator.Send(query));

@@ -1,10 +1,16 @@
 ﻿using Circle.Core.Http;
+using Circle.Core.Utilities.Security.Encyption;
+using Circle.Core.Utilities.Security.Jwt;
+using Circle.Frontends.Web.Handlers;
 using Circle.Frontends.Web.Services.Abstract;
 using Circle.Frontends.Web.Services.Concrete;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json.Serialization;
 using System;
 using System.Collections.Generic;
@@ -25,6 +31,18 @@ namespace Circle.Frontends.Web.Infrastructure.Extensions
             services.AddAntiforgery();
 
             services.AddHttpClients(configuration);
+
+            var tokenOptions = configuration.GetSection("TokenOptions").Get<TokenOptions>();
+
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, s =>
+            {
+                s.LoginPath = "/Login/Index";
+                s.ExpireTimeSpan = TimeSpan.FromDays(60);
+                s.SlidingExpiration = true;
+                s.Cookie.Name = "circlewebcookie";
+            });
+
+            services.AddScoped<ResourceOwnerPasswordTokenHandler>();
 
             services.AddCircleMvc();
         }
@@ -99,6 +117,11 @@ namespace Circle.Frontends.Web.Infrastructure.Extensions
             {
                 s.BaseAddress = new Uri(configuration.GetValue<string>("ApiUrl"));
             });
+
+            services.AddHttpClient<IGroupService, GroupService>(s =>
+            {
+                s.BaseAddress = new Uri(configuration.GetValue<string>("ApiUrl"));
+            }).AddHttpMessageHandler<ResourceOwnerPasswordTokenHandler>();
         }
     }
 }

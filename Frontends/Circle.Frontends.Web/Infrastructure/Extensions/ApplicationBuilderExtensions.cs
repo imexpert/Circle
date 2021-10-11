@@ -2,14 +2,18 @@
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Options;
 using Microsoft.Net.Http.Headers;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Runtime.ExceptionServices;
 using System.Threading.Tasks;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Circle.Frontends.Web.Infrastructure.Extensions
 {
@@ -52,6 +56,20 @@ namespace Circle.Frontends.Web.Infrastructure.Extensions
 
             application.UseEndpoints(s => s.MapControllers());
 
+            var supportedCultures = new List<CultureInfo>
+            {
+                new CultureInfo("tr-TR"),
+                new CultureInfo("en-US"),
+            };
+            // SupportedCultures ve SupportedUICultures’a yukarıda oluşturduğumuz dil listesini tanımlıyoruz.
+            // DefaultRequestCulture’a varsayılan olarak uygulamamızın hangi dil ile çalışması gerektiğini tanımlıyoruz.
+            application.UseRequestLocalization(new RequestLocalizationOptions
+            {
+                SupportedCultures = supportedCultures,
+                SupportedUICultures = supportedCultures,
+                DefaultRequestCulture = new RequestCulture(supportedCultures[0])
+            });
+
             application.UseMvc(routes =>
             {
                 routes.MapRoute(
@@ -90,7 +108,8 @@ namespace Circle.Frontends.Web.Infrastructure.Extensions
         /// <param name="application">Builder for configuring an application's request pipeline</param>
         public static void UsePageNotFound(this IApplicationBuilder application, IHttpContextAccessor httpContextAccessor)
         {
-            application.UseStatusCodePages(context => {
+            application.UseStatusCodePages(context =>
+            {
                 //handle 404 Not Found
                 if (context.HttpContext.Response.StatusCode == StatusCodes.Status404NotFound)
                 {
@@ -156,7 +175,7 @@ namespace Circle.Frontends.Web.Infrastructure.Extensions
 
                     try
                     {
-                        
+
                     }
                     finally
                     {

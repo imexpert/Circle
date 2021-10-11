@@ -8,12 +8,15 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Localization;
+using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json.Serialization;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -86,13 +89,31 @@ namespace Circle.Frontends.Web.Infrastructure.Extensions
                 options.EnableEndpointRouting = false;
             });
 
+            services.AddLocalization(options => options.ResourcesPath = "Resources");
+
             services.AddMvc(s=>
             {
                 s.EnableEndpointRouting = false;
-            }).AddRazorRuntimeCompilation();
+            })
+            .AddRazorRuntimeCompilation()
+            .AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix)
+                .AddDataAnnotationsLocalization();
 
             //register controllers as services, it'll allow to override them
             mvcBuilder.AddControllersAsServices();
+
+            services.Configure<RequestLocalizationOptions>(options =>
+            {
+                var supportedCultures = new List<CultureInfo>
+                    {
+                        new CultureInfo("tr-TR"),
+                        new CultureInfo("en-US")
+                    };
+
+                options.DefaultRequestCulture = new RequestCulture(supportedCultures[0]);
+                options.SupportedCultures = supportedCultures;
+                options.SupportedUICultures = supportedCultures;
+            });
         }
 
         /// <summary>

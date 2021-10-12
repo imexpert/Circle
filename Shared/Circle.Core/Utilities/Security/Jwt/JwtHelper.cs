@@ -85,18 +85,14 @@ namespace Circle.Core.Utilities.Security.Jwt
             Claim claimId = new Claim("UserId", user.Id.ToString());
             claims.Add(claimId);
 
-            if (!string.IsNullOrEmpty(user.Firstname))
-            {
-                claims.AddName($"{user.Firstname}");
-            }
+            Claim claimFirstname = new Claim("Firstname", user.Firstname);
+            claims.Add(claimFirstname);
 
-            if (!string.IsNullOrEmpty(user.Lastname))
-            {
-                claims.AddName($"{user.Lastname}");
-            }
+            Claim claimLastname = new Claim("Lastname", user.Lastname);
+            claims.Add(claimLastname);
 
-            //claims.Add(new Claim(ClaimTypes.Role, user.AuthenticationProviderType));
-
+            Claim claimEmail = new Claim("Email", user.Email);
+            claims.Add(claimEmail);
 
             return claims;
         }

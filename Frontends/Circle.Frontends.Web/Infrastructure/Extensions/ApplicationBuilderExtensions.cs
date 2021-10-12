@@ -26,6 +26,8 @@ namespace Circle.Frontends.Web.Infrastructure.Extensions
         public static void ConfigureRequestPipeline(this IApplicationBuilder application,
             IHttpContextAccessor httpContextAccessor)
         {
+            HttpClientExtensions.SetContext(httpContextAccessor);
+
             //get detailed exceptions for developing and testing purposes
             application.UseDeveloperExceptionPage();
 

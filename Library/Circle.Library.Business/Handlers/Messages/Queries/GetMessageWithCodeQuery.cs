@@ -37,7 +37,7 @@ namespace Circle.Library.Business.Handlers.Messages.Queries
                 _languageRepository = languageRepository;
             }
 
-            [SecuredOperation(Priority = 1)]
+            //[SecuredOperation(Priority = 1)]
             public async Task<string> Handle(GetMessageWithCodeQuery request, CancellationToken cancellationToken)
             {
                 string cultureCode = _httpContextAccessor.HttpContext.Request.Path.Value.Split('/')[2];

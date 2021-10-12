@@ -19,23 +19,24 @@ namespace Circle.Frontends.Web.Controllers
 {
     public class LoginController : Controller
     {
-        private readonly IStringLocalizer<LoginController> _localizer;
-
         IAuthService _authService;
         IHttpContextAccessor _httpContextAccessor;
 
-        public LoginController(IAuthService authService, 
-            IHttpContextAccessor httpContextAccessor,
-            IStringLocalizer<LoginController> localizer)
+        public LoginController(
+            IAuthService authService,
+            IHttpContextAccessor httpContextAccessor)
         {
             _authService = authService;
             _httpContextAccessor = httpContextAccessor;
-            _localizer = localizer;
         }
 
         public IActionResult Index()
         {
-            string aaa = _localizer["LoginTitle"].Value;
+            if (_httpContextAccessor.HttpContext.User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
             return View();
         }
 

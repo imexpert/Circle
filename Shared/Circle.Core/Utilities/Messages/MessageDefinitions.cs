@@ -17,6 +17,7 @@ namespace Circle.Core.Utilities.Messages
         KAYIT_BULUNAMADI = 7,
         BIR_HATA_OLUSTU = 8,
         KAYIT_ZATEN_MEVCUT = 9,
+        KULLANICI_ADI_YADA_SIFRE_HATALI = 10,
     }
 
     public static class DefaultMessageDefinitions
@@ -27,7 +28,8 @@ namespace Circle.Core.Utilities.Messages
             { 1, "Kayıt işlemi başarılı."},
             { 2, "Kayıt işlemi sırasında hata oluştu."},
             { 8, "Bir hata oluştu. Lütfen tekrar deneyiniz."},
-            { 9, "Kayıt zaten eklenmiş."}
+            { 9, "Kayıt zaten eklenmiş."},
+            { 10, "Kullanıcı adı veya şifre hatalı."}
         };
     }
 }

@@ -2,6 +2,7 @@
 using Circle.Core.Utilities.Security.Encyption;
 using Circle.Core.Utilities.Security.Jwt;
 using Circle.Frontends.Web.Handlers;
+using Circle.Frontends.Web.Resources;
 using Circle.Frontends.Web.Services.Abstract;
 using Circle.Frontends.Web.Services.Concrete;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -44,6 +45,7 @@ namespace Circle.Frontends.Web.Infrastructure.Extensions
             });
 
             services.AddScoped<ResourceOwnerPasswordTokenHandler>();
+            services.AddScoped<ClientCredentialTokenHandler>();
 
             services.AddCircleMvc();
         }
@@ -70,7 +72,7 @@ namespace Circle.Frontends.Web.Infrastructure.Extensions
         {
             //add basic MVC feature
             var mvcBuilder = services.AddControllersWithViews();
-
+            services.AddSingleton<LocService>();
             //use cookie-based temp data provider
             mvcBuilder.AddCookieTempDataProvider(options =>
             {
@@ -135,7 +137,7 @@ namespace Circle.Frontends.Web.Infrastructure.Extensions
             services.AddHttpClient<IAuthService, AuthService>(s =>
             {
                 s.BaseAddress = new Uri(configuration.GetValue<string>("ApiUrl"));
-            });
+            }).AddHttpMessageHandler<ClientCredentialTokenHandler>();
 
             services.AddHttpClient<IGroupService, GroupService>(s =>
             {

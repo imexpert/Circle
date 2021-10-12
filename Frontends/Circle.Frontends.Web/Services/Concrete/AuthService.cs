@@ -1,5 +1,6 @@
 ﻿using Circle.Core.Utilities.Results;
 using Circle.Core.Utilities.Security.Jwt;
+using Circle.Frontends.Web.Infrastructure.Extensions;
 using Circle.Frontends.Web.Services.Abstract;
 using Circle.Library.Entities.ComplexTypes;
 using Microsoft.AspNetCore.Authentication;
@@ -9,6 +10,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Net.Http;
 using System.Security.Claims;
@@ -78,9 +80,32 @@ namespace Circle.Frontends.Web.Services.Concrete
             }
         }
 
+        protected Dictionary<string, string> GetTokenInfo(string token)
+        {
+            var TokenInfo = new Dictionary<string, string>();
+
+            var handler = new JwtSecurityTokenHandler();
+            var jwtSecurityToken = handler.ReadJwtToken(token);
+            var claims = jwtSecurityToken.Claims.ToList();
+
+            foreach (var claim in claims)
+            {
+                TokenInfo.Add(claim.Type, claim.Value);
+            }
+
+            return TokenInfo;
+        }
+
         private async Task SignInAsync(AccessToken accessToken)
         {
+            var tokenInfo = GetTokenInfo(accessToken.Token);
+
             var claims = new List<Claim>();
+
+            foreach (var item in tokenInfo)
+            {
+                claims.Add(new Claim(item.Key, item.Value));
+            }
 
             foreach (var item in accessToken.Claims)
             {

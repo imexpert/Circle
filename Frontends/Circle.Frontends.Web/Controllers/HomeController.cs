@@ -1,4 +1,5 @@
-﻿using Circle.Frontends.Web.Services.Abstract;
+﻿using Circle.Frontends.Web.Models;
+using Circle.Frontends.Web.Services.Abstract;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -31,15 +32,15 @@ namespace Circle.Frontends.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult SetLanguage(string culture, string returnUrl)
+        public IActionResult SetLanguage2(LanguageModel model)
         {
             Response.Cookies.Append(
                 CookieRequestCultureProvider.DefaultCookieName,
-                CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(culture)),
+                CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(model.Culture)),
                 new CookieOptions { Expires = DateTimeOffset.UtcNow.AddYears(1) }
             );
 
-            return LocalRedirect(returnUrl);
+            return LocalRedirect(model.ReturnUrl);
         }
     }
 }

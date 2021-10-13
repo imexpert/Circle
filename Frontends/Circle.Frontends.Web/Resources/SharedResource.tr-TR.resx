@@ -118,12 +118,18 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Language" xml:space="preserve">
-    <value>Language</value>
+    <value>Dil</value>
+  </data>
+  <data name="LanguageNameEN" xml:space="preserve">
+    <value>İngilizce</value>
+  </data>
+  <data name="LanguageNameTR" xml:space="preserve">
+    <value>Türkçe</value>
   </data>
   <data name="MyProfile" xml:space="preserve">
     <value>Profilim</value>
   </data>
   <data name="SignOut" xml:space="preserve">
-    <value>Sign Out</value>
+    <value>Çıkış</value>
   </data>
 </root>

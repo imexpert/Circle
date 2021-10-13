@@ -76,7 +76,7 @@ namespace Circle.Frontends.Web.Infrastructure.Extensions
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Login}/{action=Index}");
+                    template: "{controller=Home}/{action=Index}");
             });
         }
 

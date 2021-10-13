@@ -120,6 +120,12 @@
   <data name="Language" xml:space="preserve">
     <value>Language</value>
   </data>
+  <data name="LanguageNameEN" xml:space="preserve">
+    <value>English</value>
+  </data>
+  <data name="LanguageNameTR" xml:space="preserve">
+    <value>Turkish</value>
+  </data>
   <data name="MyProfile" xml:space="preserve">
     <value>My Profile</value>
   </data>

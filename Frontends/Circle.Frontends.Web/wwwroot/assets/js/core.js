@@ -14,17 +14,10 @@ function PostForm(methodName, data) {
 }
 
 function Post(methodName, data) {
-    url = HOST_URL + methodName;
     return $.ajax({
-        url: url,
-        type: "POST",
+        url: methodName,
+        type: 'POST',
         data: data,
-        beforeSend: function (xhr) {
-            xhr.setRequestHeader('Authorization', "Bearer " + localStorage.getItem("token"));
-        },
-        dataType: 'json',
-        contentType: "application/json",
-        cache: false,
         error: handleError,
     });
 }
@@ -47,6 +40,7 @@ function Get(Url, Data) {
     });
 
 }
+
 function handleError(err) {
     if (err.status == 404) {
         ShowErrorMessage("Method bulunamadı - " + url);
@@ -113,15 +107,27 @@ function ShowErrorMessage(title, message) {
     });
 }
 
-
 function showModal(name) {
     $('#' + name).modal('show');
 }
+
 $(document).ready(function () {
     $(document).ajaxStart(function () {
-        
+
     });
     $(document).ajaxComplete(function () {
         //KTApp.unblockPage();
     });
 });
+
+function setLanguage(lang) {
+    var data = {
+        "Culture": lang,
+        "ReturnUrl": window.location.href + "?culture=" + lang
+    };
+
+    Post("/Base/SetLanguage", data).done(function (response) {
+        window.location.href = window.location.origin + window.location.pathname + "?culture=" + lang;
+    });
+    
+}

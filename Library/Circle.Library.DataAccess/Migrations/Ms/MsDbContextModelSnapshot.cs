@@ -149,24 +149,24 @@ namespace Circle.Library.DataAccess.Migrations.Ms
                     b.HasData(
                         new
                         {
-                            Id = new Guid("a6a7af61-2f70-42f1-ae0a-eae09a0294ef"),
+                            Id = new Guid("6ca6a00f-633d-4460-b1ac-0f13d649af01"),
                             Code = "tr-TR",
                             Ip = "1:1",
                             Name = "Türkçe",
-                            RecordDate = new DateTime(2021, 10, 5, 1, 25, 11, 911, DateTimeKind.Local).AddTicks(3636),
+                            RecordDate = new DateTime(2021, 10, 10, 3, 25, 57, 890, DateTimeKind.Local).AddTicks(9900),
                             RecordUsername = "admin",
-                            UpdateDate = new DateTime(2021, 10, 5, 1, 25, 11, 913, DateTimeKind.Local).AddTicks(3827),
+                            UpdateDate = new DateTime(2021, 10, 10, 3, 25, 57, 891, DateTimeKind.Local).AddTicks(8680),
                             UpdateUsername = "admin"
                         },
                         new
                         {
-                            Id = new Guid("2828e399-0b43-4c97-97c1-d5e17d940440"),
+                            Id = new Guid("1478bac3-14a9-4534-998c-1f2cdac772d6"),
                             Code = "en-US",
                             Ip = "1:1",
                             Name = "English",
-                            RecordDate = new DateTime(2021, 10, 5, 1, 25, 11, 913, DateTimeKind.Local).AddTicks(4511),
+                            RecordDate = new DateTime(2021, 10, 10, 3, 25, 57, 891, DateTimeKind.Local).AddTicks(9202),
                             RecordUsername = "admin",
-                            UpdateDate = new DateTime(2021, 10, 5, 1, 25, 11, 913, DateTimeKind.Local).AddTicks(4524),
+                            UpdateDate = new DateTime(2021, 10, 10, 3, 25, 57, 891, DateTimeKind.Local).AddTicks(9208),
                             UpdateUsername = "admin"
                         });
                 });
@@ -407,6 +407,59 @@ namespace Circle.Library.DataAccess.Migrations.Ms
                     b.HasIndex("UserId");
 
                     b.ToTable("UserGroups", "dbo");
+                });
+
+            modelBuilder.Entity("Circle.Library.Entities.Concrete.Category", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<string>("IconName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("Ip")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.Property<Guid>("LinkedCategoryId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<DateTime>("RecordDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("RecordUsername")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<DateTime>("UpdateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UpdateUsername")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
+
+                    b.ToTable("Categories", "dbo");
                 });
 
             modelBuilder.Entity("Circle.Core.Entities.Concrete.GroupClaim", b =>

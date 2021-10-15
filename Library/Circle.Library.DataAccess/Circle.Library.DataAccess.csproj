@@ -18,6 +18,7 @@
 	</ItemGroup>
 	<ItemGroup>
 	  <ProjectReference Include="..\..\Shared\Circle.Core\Circle.Core.csproj" />
+	  <ProjectReference Include="..\Circle.Library.Entities\Circle.Library.Entities.csproj" />
 	</ItemGroup>
 	<ItemGroup>
 	  <Folder Include="Migrations\Ms\" />

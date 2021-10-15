@@ -85,7 +85,7 @@ function ShowErrorMessage(title, message) {
 
     var cook = readCookie('.AspNetCore.Culture');
 
-    if (cook.endsWith('en-US')) {
+    if (cook != null && cook.endsWith('en-US')) {
         customTitle = "Error Occured";
         customButtonText = "Ok";
     }

@@ -30,20 +30,30 @@ namespace Circle.Frontends.Web.Handlers
         {
             string culture = "tr-TR";
 
-            if (_httpContextAccessor.HttpContext.Request.Cookies.Any(s=> s.Value == ".AspNetCore.Culture"))
+            if (_httpContextAccessor.HttpContext.Request.Cookies.Any(s => s.Value == ".AspNetCore.Culture"))
             {
                 culture = _httpContextAccessor.HttpContext.Request.Cookies[".AspNetCore.Culture"].Split('=')[2];
             }
 
             string absoluteUrl = request.RequestUri.Scheme + "://" + request.RequestUri.Authority;
-            return new Uri(
-                $"{absoluteUrl}/" +
-                $"{request.RequestUri.Segments[1]}" +
-                $"{request.RequestUri.Segments[2]}" +
-                $"{culture}/" +
-                $"{request.RequestUri.Segments[3]}" +
-                $"{request.RequestUri.Segments[4]}");
 
+            if (request.RequestUri.Segments.Length > 4)
+            {
+                return new Uri(
+                    $"{absoluteUrl}/" +
+                    $"{request.RequestUri.Segments[1]}" +
+                    $"{request.RequestUri.Segments[2]}" +
+                    $"{culture}/" +
+                    $"{request.RequestUri.Segments[3]}" +
+                    $"{request.RequestUri.Segments[4]}");
+            }
+
+            return new Uri(
+                    $"{absoluteUrl}/" +
+                    $"{request.RequestUri.Segments[1]}" +
+                    $"{culture}/" +
+                    $"{request.RequestUri.Segments[2]}" +
+                    $"{request.RequestUri.Segments[3]}");
         }
     }
 }

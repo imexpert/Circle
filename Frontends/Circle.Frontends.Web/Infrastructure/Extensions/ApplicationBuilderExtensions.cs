@@ -75,6 +75,11 @@ namespace Circle.Frontends.Web.Infrastructure.Extensions
             application.UseMvc(routes =>
             {
                 routes.MapRoute(
+                    name: "areaRoute",
+                    template: "{area}/{controller}/{action}");
+
+
+                routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}");
             });

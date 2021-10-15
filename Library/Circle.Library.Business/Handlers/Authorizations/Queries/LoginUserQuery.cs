@@ -11,6 +11,8 @@ using MediatR;
 using Circle.Core.Aspects.Autofac.Validation;
 using Circle.Library.Business.Handlers.Authorizations.ValidationRules;
 using Circle.Library.Entities.ComplexTypes;
+using Circle.Library.Business.Helpers;
+using Circle.Core.Utilities.Messages;
 
 namespace Circle.Library.Business.Handlers.Authorizations.Queries
 {
@@ -24,13 +26,20 @@ namespace Circle.Library.Business.Handlers.Authorizations.Queries
             private readonly ITokenHelper _tokenHelper;
             private readonly IMediator _mediator;
             private readonly ICacheManager _cacheManager;
+            private readonly IReturnUtility _returnUtility;
 
-            public LoginUserQueryHandler(IUserRepository userRepository, ITokenHelper tokenHelper, IMediator mediator, ICacheManager cacheManager)
+            public LoginUserQueryHandler(
+                IUserRepository userRepository, 
+                ITokenHelper tokenHelper, 
+                IMediator mediator, 
+                ICacheManager cacheManager,
+                IReturnUtility returnUtility)
             {
                 _userRepository = userRepository;
                 _tokenHelper = tokenHelper;
                 _mediator = mediator;
                 _cacheManager = cacheManager;
+                _returnUtility = returnUtility;
             }
 
             [ValidationAspect(typeof(LoginUserValidator), Priority = 1)]
@@ -40,12 +49,12 @@ namespace Circle.Library.Business.Handlers.Authorizations.Queries
 
                 if (user == null)
                 {
-                    return ResponseMessage<AccessToken>.NoDataFound("Kullanıcı adı yada şifre hatalı.");
+                    return await _returnUtility.NoDataFound<AccessToken>(MessageDefinitions.KULLANICI_ADI_YADA_SIFRE_HATALI);
                 }
 
                 if (!HashingHelper.VerifyPasswordHash(request.LoginModel.Password, user.Password))
                 {
-                    return ResponseMessage<AccessToken>.NoDataFound("Kullanıcı adı yada şifre hatalı.");
+                    return await _returnUtility.NoDataFound<AccessToken>(MessageDefinitions.KULLANICI_ADI_YADA_SIFRE_HATALI);
                 }
 
                 var claims = _userRepository.GetClaims(user.Id);
@@ -59,7 +68,7 @@ namespace Circle.Library.Business.Handlers.Authorizations.Queries
 
                 _cacheManager.Add($"{CacheKeys.UserIdForClaim}={user.Id}", claims.Select(x => x.Name));
 
-                return ResponseMessage<AccessToken>.Success(accessToken);
+                return _returnUtility.SuccessData(accessToken);
             }
         }
     }

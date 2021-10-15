@@ -12,6 +12,7 @@ namespace Circle.Library.DataAccess.Concrete.Configurations
             builder.ToTable("UserGroups", MsDbContext.DEFAULT_SCHEMA);
 
             builder.HasKey(x => x.Id);
+            builder.HasIndex(s => new { s.GroupId, s.UserId }).IsUnique();
             builder.Property(s => s.GroupId).IsRequired();
             builder.Property(s => s.UserId).IsRequired();
 

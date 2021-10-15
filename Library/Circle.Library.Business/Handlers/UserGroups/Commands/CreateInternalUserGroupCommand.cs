@@ -30,8 +30,13 @@ namespace Circle.Library.Business.Handlers.UserGroups.Commands
 
             public async Task<bool> Handle(CreateInternalUserGroupCommand request, CancellationToken cancellationToken)
             {
-                _repository.Add(request.UserGroup);
-                await _repository.SaveChangesAsync();
+                var exists = _repository.GetAsync(s => s.GroupId == request.UserGroup.GroupId && s.UserId == request.UserGroup.UserId);
+                if (exists == null)
+                {
+                    _repository.Add(request.UserGroup);
+                    await _repository.SaveChangesAsync();
+                }
+                
                 return true;
             }
         }

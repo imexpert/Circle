@@ -46,31 +46,6 @@ namespace Circle.Library.Api
         /// <param name="services"></param>
         public override void ConfigureServices(IServiceCollection services)
         {
-            // Business katmanýnda olan dependency tanýmlarýnýn bir metot üzerinden buraya implemente edilmesi.
-
-            services.AddLocalization();
-
-            services.Configure<RequestLocalizationOptions>(
-                options =>
-                {
-                    var supportedCultures = new List<CultureInfo>
-                    {
-                        new CultureInfo("en-US"),
-                        new CultureInfo("fr-FR")
-                    };
-
-                    options.DefaultRequestCulture = new RequestCulture(culture: "en-US", uiCulture: "en-US");
-                    options.SupportedCultures = supportedCultures;
-                    options.SupportedUICultures = supportedCultures;
-                    options.RequestCultureProviders = new[] { 
-                        new Extensions.RouteDataRequestCultureProvider 
-                        { 
-                            IndexOfCulture = 2, 
-                            IndexofUICulture = 2 
-                        } 
-                    };
-                });
-
             services.Configure<RouteOptions>(options =>
             {
                 options.ConstraintMap.Add("culture", typeof(LanguageRouteConstraint));
@@ -144,9 +119,6 @@ namespace Circle.Library.Api
             app.UseCors("AllowOrigin");
 
             app.UseHttpsRedirection();
-
-            var localizeOptions = app.ApplicationServices.GetService<IOptions<RequestLocalizationOptions>>();
-            app.UseRequestLocalization(localizeOptions.Value);
 
             app.UseRouting();
 

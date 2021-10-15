@@ -1,5 +1,6 @@
 using System.Reflection;
 using Circle.Core.Entities.Concrete;
+using Circle.Library.Entities.Concrete;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
@@ -43,6 +44,7 @@ namespace Circle.Library.DataAccess.Concrete.EntityFramework.Contexts
         public DbSet<GroupClaim> GroupClaims { get; set; }
         public DbSet<Log> Logs { get; set; }
         public DbSet<Language> Languages { get; set; }
+        public DbSet<Category> Categories { get; set; }
 
         protected IConfiguration Configuration { get; }
 

@@ -3,12 +3,33 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Circle.Library.DataAccess.Migrations.Ms
 {
-    public partial class InitialCreate : Migration
+    public partial class AddCategory : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.EnsureSchema(
                 name: "dbo");
+
+            migrationBuilder.CreateTable(
+                name: "Categories",
+                schema: "dbo",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    LinkedCategoryId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
+                    IconName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    RecordUsername = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    RecordDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdateUsername = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    UpdateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Ip = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Categories", x => x.Id);
+                });
 
             migrationBuilder.CreateTable(
                 name: "Groups",
@@ -144,6 +165,7 @@ namespace Circle.Library.DataAccess.Migrations.Ms
                 schema: "dbo",
                 columns: table => new
                 {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     GroupId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     OperationClaimId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     RecordUsername = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
@@ -154,7 +176,7 @@ namespace Circle.Library.DataAccess.Migrations.Ms
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_GroupClaims", x => new { x.GroupId, x.OperationClaimId });
+                    table.PrimaryKey("PK_GroupClaims", x => x.Id);
                     table.ForeignKey(
                         name: "FK_GroupClaims_Groups_GroupId",
                         column: x => x.GroupId,
@@ -176,6 +198,7 @@ namespace Circle.Library.DataAccess.Migrations.Ms
                 schema: "dbo",
                 columns: table => new
                 {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     GroupId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     RecordUsername = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
@@ -186,7 +209,7 @@ namespace Circle.Library.DataAccess.Migrations.Ms
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserGroups", x => new { x.UserId, x.GroupId });
+                    table.PrimaryKey("PK_UserGroups", x => x.Id);
                     table.ForeignKey(
                         name: "FK_UserGroups_Groups_GroupId",
                         column: x => x.GroupId,
@@ -207,19 +230,33 @@ namespace Circle.Library.DataAccess.Migrations.Ms
                 schema: "dbo",
                 table: "Languages",
                 columns: new[] { "Id", "Code", "Ip", "Name", "RecordDate", "RecordUsername", "UpdateDate", "UpdateUsername" },
-                values: new object[] { new Guid("706388a8-8cc8-4b0b-83d8-661dfb06419d"), "tr-TR", "1:1", "Türkçe", new DateTime(2021, 10, 1, 23, 10, 4, 600, DateTimeKind.Local).AddTicks(3240), "admin", new DateTime(2021, 10, 1, 23, 10, 4, 602, DateTimeKind.Local).AddTicks(4533), "admin" });
+                values: new object[] { new Guid("6ca6a00f-633d-4460-b1ac-0f13d649af01"), "tr-TR", "1:1", "Türkçe", new DateTime(2021, 10, 10, 3, 25, 57, 890, DateTimeKind.Local).AddTicks(9900), "admin", new DateTime(2021, 10, 10, 3, 25, 57, 891, DateTimeKind.Local).AddTicks(8680), "admin" });
 
             migrationBuilder.InsertData(
                 schema: "dbo",
                 table: "Languages",
                 columns: new[] { "Id", "Code", "Ip", "Name", "RecordDate", "RecordUsername", "UpdateDate", "UpdateUsername" },
-                values: new object[] { new Guid("baa13b40-bdec-4af2-82fc-77ad44b672ed"), "en-US", "1:1", "English", new DateTime(2021, 10, 1, 23, 10, 4, 602, DateTimeKind.Local).AddTicks(5107), "admin", new DateTime(2021, 10, 1, 23, 10, 4, 602, DateTimeKind.Local).AddTicks(5120), "admin" });
+                values: new object[] { new Guid("1478bac3-14a9-4534-998c-1f2cdac772d6"), "en-US", "1:1", "English", new DateTime(2021, 10, 10, 3, 25, 57, 891, DateTimeKind.Local).AddTicks(9202), "admin", new DateTime(2021, 10, 10, 3, 25, 57, 891, DateTimeKind.Local).AddTicks(9208), "admin" });
 
             migrationBuilder.CreateIndex(
-                name: "IX_GroupClaims_OperationClaimId",
+                name: "IX_Categories_Name",
+                schema: "dbo",
+                table: "Categories",
+                column: "Name",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_GroupClaims_GroupId",
                 schema: "dbo",
                 table: "GroupClaims",
-                column: "OperationClaimId");
+                column: "GroupId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_GroupClaims_OperationClaimId_GroupId",
+                schema: "dbo",
+                table: "GroupClaims",
+                columns: new[] { "OperationClaimId", "GroupId" },
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Groups_GroupName",
@@ -256,6 +293,12 @@ namespace Circle.Library.DataAccess.Migrations.Ms
                 column: "GroupId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_UserGroups_UserId",
+                schema: "dbo",
+                table: "UserGroups",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Users_MobilePhones",
                 schema: "dbo",
                 table: "Users",
@@ -264,6 +307,10 @@ namespace Circle.Library.DataAccess.Migrations.Ms
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "Categories",
+                schema: "dbo");
+
             migrationBuilder.DropTable(
                 name: "GroupClaims",
                 schema: "dbo");

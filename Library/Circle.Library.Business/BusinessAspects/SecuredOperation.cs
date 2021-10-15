@@ -30,14 +30,14 @@ namespace Circle.Library.Business.BusinessAspects
         protected override void OnBefore(IInvocation invocation)
         {
             var userId = _httpContextAccessor.HttpContext?.User.Claims
-                .FirstOrDefault(x => x.Type.EndsWith("nameidentifier"))?.Value;
+                .FirstOrDefault(x => x.Type == "UserId")?.Value;
 
             if (userId == null)
             {
                 throw new SecurityException(null);
             }
 
-            var oprClaims = _cacheManager.Get($"{CacheKeys.UserIdForClaim}={userId}") as IEnumerable<string>;
+            var oprClaims = _cacheManager.Get($"{CacheKeys.UserIdForClaim}={userId}") as string;
 
             var operationName = invocation.TargetType.ReflectedType.Name;
             if (oprClaims != null && oprClaims.Contains(operationName))

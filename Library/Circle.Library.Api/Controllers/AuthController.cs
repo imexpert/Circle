@@ -17,7 +17,7 @@ namespace Circle.Library.Api.Controllers
     /// Make it Authorization operations
     /// </summary>
     //[Route("api/[controller]")]
-    [Route("api/[controller]")]
+    [Route("api/{culture:culture}/[controller]/[action]")]
     [ApiController]
     public class AuthController : BaseApiController
     {
@@ -46,7 +46,7 @@ namespace Circle.Library.Api.Controllers
         [Produces("application/json", "text/plain")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IDataResult<AccessToken>))]
         [ProducesResponseType(StatusCodes.Status401Unauthorized, Type = typeof(string))]
-        [HttpPost("Login")]
+        [HttpPost]
         public async Task<IActionResult> Login([FromBody] LoginModel loginModel)
         {
             LoginUserQuery query = new LoginUserQuery()
@@ -62,12 +62,12 @@ namespace Circle.Library.Api.Controllers
         [Produces("application/json", "text/plain")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IDataResult<AccessToken>))]
         [ProducesResponseType(StatusCodes.Status401Unauthorized, Type = typeof(string))]
-        [HttpPost("RefreshToken")]
-        public async Task<IActionResult> LoginWithRefreshToken(string refreshToken)
+        [HttpPost]
+        public async Task<IActionResult> LoginWithRefreshToken([FromBody] LoginModel loginModel)
         {
             LoginWithRefreshTokenQuery query = new LoginWithRefreshTokenQuery()
             {
-                RefreshToken = refreshToken
+                RefreshToken = loginModel.RefreshToken
             };
 
             return CreateActionResultInstance(await Mediator.Send(query));
@@ -83,7 +83,7 @@ namespace Circle.Library.Api.Controllers
         [Produces("application/json", "text/plain")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IResult))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(IResult))]
-        [HttpPost("register")]
+        [HttpPost]
         public async Task<IActionResult> Register([FromBody] RegisterUserCommand createUser)
         {
             return GetResponseOnlyResult(await Mediator.Send(createUser));
@@ -100,7 +100,7 @@ namespace Circle.Library.Api.Controllers
         [Produces("application/json", "text/plain")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IResult))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(IResult))]
-        [HttpPut("forgotpassword")]
+        [HttpPut]
         public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordCommand forgotPassword)
         {
             return GetResponseOnlyResult(await Mediator.Send(forgotPassword));
@@ -115,26 +115,10 @@ namespace Circle.Library.Api.Controllers
         [Produces("application/json", "text/plain")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(string))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(string))]
-        [HttpPut("changeuserpassword")]
+        [HttpPut]
         public async Task<IActionResult> ChangeUserPassword([FromBody] UserChangePasswordCommand command)
         {
             return GetResponseOnlyResultMessage(await Mediator.Send(command));
-        }
-
-        /// <summary>
-        /// Token decode test
-        /// </summary>
-        /// <returns></returns>
-        [Consumes("application/json")]
-        [Produces("application/json", "text/plain")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(string))]
-        [HttpPost("test")]
-        public IActionResult LoginTest()
-        {
-            var auth = Request.Headers["Authorization"];
-            var token = new JwtHelper(_configuration).DecodeToken(auth);
-
-            return Ok(token);
         }
     }
 }

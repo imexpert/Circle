@@ -5,21 +5,21 @@ VisualStudioVersion = 16.0.31321.278
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Frontends", "Frontends", "{E7972E2E-7B17-4291-B37C-B65086E77549}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Circle.Frontends.Web", "Frontends\Circle.Frontends.Web\Circle.Frontends.Web.csproj", "{0A3E3674-FEBD-49C0-B29C-15A575E86208}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Circle.Frontends.Web", "Frontends\Circle.Frontends.Web\Circle.Frontends.Web.csproj", "{0A3E3674-FEBD-49C0-B29C-15A575E86208}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{791571C8-DCEB-4481-A2F9-911A1B619432}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Circle.Core", "Shared\Circle.Core\Circle.Core.csproj", "{233EE1D1-C018-440F-8081-7203C4D6F6B0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Circle.Core", "Shared\Circle.Core\Circle.Core.csproj", "{233EE1D1-C018-440F-8081-7203C4D6F6B0}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Library", "Library", "{6ADBD3CE-417E-463C-BC06-8E0AA88FAFEE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Circle.Library.Business", "Library\Circle.Library.Business\Circle.Library.Business.csproj", "{6159641F-6689-4726-8D5B-1102A42FA5C6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Circle.Library.Business", "Library\Circle.Library.Business\Circle.Library.Business.csproj", "{6159641F-6689-4726-8D5B-1102A42FA5C6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Circle.Library.Entities", "Library\Circle.Library.Entities\Circle.Library.Entities.csproj", "{F17D8005-3178-43E3-BD7B-0C4426EB4244}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Circle.Library.Entities", "Library\Circle.Library.Entities\Circle.Library.Entities.csproj", "{F17D8005-3178-43E3-BD7B-0C4426EB4244}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Circle.Library.DataAccess", "Library\Circle.Library.DataAccess\Circle.Library.DataAccess.csproj", "{5AB1A96D-3536-42C9-9EAB-AD8B41317203}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Circle.Library.DataAccess", "Library\Circle.Library.DataAccess\Circle.Library.DataAccess.csproj", "{5AB1A96D-3536-42C9-9EAB-AD8B41317203}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Circle.Library.Api", "Library\Circle.Library.Api\Circle.Library.Api.csproj", "{8E10D5FF-E68F-4E51-B6B4-392A0DB38E92}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Circle.Library.Api", "Library\Circle.Library.Api\Circle.Library.Api.csproj", "{8E10D5FF-E68F-4E51-B6B4-392A0DB38E92}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

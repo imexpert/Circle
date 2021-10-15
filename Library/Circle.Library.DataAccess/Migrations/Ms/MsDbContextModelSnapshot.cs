@@ -149,24 +149,24 @@ namespace Circle.Library.DataAccess.Migrations.Ms
                     b.HasData(
                         new
                         {
-                            Id = new Guid("6ca6a00f-633d-4460-b1ac-0f13d649af01"),
+                            Id = new Guid("1e610fd4-f7f9-4074-ae9a-a3c385cb6e41"),
                             Code = "tr-TR",
                             Ip = "1:1",
                             Name = "Türkçe",
-                            RecordDate = new DateTime(2021, 10, 10, 3, 25, 57, 890, DateTimeKind.Local).AddTicks(9900),
+                            RecordDate = new DateTime(2021, 10, 11, 0, 27, 14, 814, DateTimeKind.Local).AddTicks(7731),
                             RecordUsername = "admin",
-                            UpdateDate = new DateTime(2021, 10, 10, 3, 25, 57, 891, DateTimeKind.Local).AddTicks(8680),
+                            UpdateDate = new DateTime(2021, 10, 11, 0, 27, 14, 816, DateTimeKind.Local).AddTicks(6378),
                             UpdateUsername = "admin"
                         },
                         new
                         {
-                            Id = new Guid("1478bac3-14a9-4534-998c-1f2cdac772d6"),
+                            Id = new Guid("2c53852d-400a-44f3-9345-18ebcbedfb77"),
                             Code = "en-US",
                             Ip = "1:1",
                             Name = "English",
-                            RecordDate = new DateTime(2021, 10, 10, 3, 25, 57, 891, DateTimeKind.Local).AddTicks(9202),
+                            RecordDate = new DateTime(2021, 10, 11, 0, 27, 14, 816, DateTimeKind.Local).AddTicks(6878),
                             RecordUsername = "admin",
-                            UpdateDate = new DateTime(2021, 10, 10, 3, 25, 57, 891, DateTimeKind.Local).AddTicks(9208),
+                            UpdateDate = new DateTime(2021, 10, 11, 0, 27, 14, 816, DateTimeKind.Local).AddTicks(6889),
                             UpdateUsername = "admin"
                         });
                 });
@@ -402,9 +402,10 @@ namespace Circle.Library.DataAccess.Migrations.Ms
 
                     b.HasKey("Id");
 
-                    b.HasIndex("GroupId");
-
                     b.HasIndex("UserId");
+
+                    b.HasIndex("GroupId", "UserId")
+                        .IsUnique();
 
                     b.ToTable("UserGroups", "dbo");
                 });

@@ -1,4 +1,5 @@
 ﻿using System;
+using Microsoft.Extensions.Configuration;
 using ServiceStack.Redis;
 
 namespace Circle.Core.CrossCuttingConcerns.Caching.Redis
@@ -9,10 +10,12 @@ namespace Circle.Core.CrossCuttingConcerns.Caching.Redis
     public class RedisCacheManager : ICacheManager
     {
         private readonly RedisEndpoint _redisEndpoint;
-
-        public RedisCacheManager()
+        public RedisCacheManager(IConfiguration configuration)
         {
-            _redisEndpoint = new RedisEndpoint("localhost", 6379);
+            string redisUrl = configuration.GetValue<string>("RedisSettings:Url");
+            int port = configuration.GetValue<int>("RedisSettings:Port");
+
+            _redisEndpoint = new RedisEndpoint(redisUrl, port);
         }
 
         public T Get<T>(string key)

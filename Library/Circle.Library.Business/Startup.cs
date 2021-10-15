@@ -23,6 +23,7 @@ using Microsoft.Extensions.Hosting;
 using Circle.Library.DataAccess.Concrete.EntityFramework;
 using Circle.Library.DataAccess.Concrete.EntityFramework.Contexts;
 using Circle.Library.Business.Helpers;
+using Circle.Core.CrossCuttingConcerns.Caching.Redis;
 
 namespace Circle.Library.Business
 {
@@ -65,7 +66,7 @@ namespace Circle.Library.Business
 
             services.AddTransient<IMessageBrokerHelper, MqQueueHelper>();
             services.AddTransient<IMessageConsumer, MqConsumerHelper>();
-            services.AddSingleton<ICacheManager, MemoryCacheManager>();
+            services.AddSingleton<ICacheManager, RedisCacheManager>();
 
             services.AddAutoMapper(typeof(ConfigurationManager));
             services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());

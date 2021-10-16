@@ -3,6 +3,8 @@
     public class ResponseMessage<T>
     {
         public T Data { get; set; }
+        public int RecordsTotal { get; set; }
+        public int RecordsFiltered { get; set; }
         public bool IsSuccess { get; set; }
         public string Message { get; set; }
         public string DeveloperMessage { get; set; }
@@ -12,6 +14,17 @@
         public static ResponseMessage<T> Success(T data)
         {
             return new ResponseMessage<T> { Data = data, StatusCode = 200, IsSuccess = true };
+        }
+
+        public static ResponseMessage<T> SuccessDataTable(T data, int recordsTotal, int recordsFiltered)
+        {
+            return new ResponseMessage<T> 
+            { 
+                Data = data, 
+                RecordsFiltered = recordsFiltered,
+                RecordsTotal = recordsTotal,
+                StatusCode = 200, 
+                IsSuccess = true };
         }
 
         //Static Factory Method

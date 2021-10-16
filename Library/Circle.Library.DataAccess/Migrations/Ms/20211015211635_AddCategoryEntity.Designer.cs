@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Circle.Library.DataAccess.Migrations.Ms
 {
     [DbContext(typeof(MsDbContext))]
-    [Migration("20211010002558_AddCategory")]
-    partial class AddCategory
+    [Migration("20211015211635_AddCategoryEntity")]
+    partial class AddCategoryEntity
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -147,30 +147,6 @@ namespace Circle.Library.DataAccess.Migrations.Ms
                         .IsUnique();
 
                     b.ToTable("Languages", "dbo");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("6ca6a00f-633d-4460-b1ac-0f13d649af01"),
-                            Code = "tr-TR",
-                            Ip = "1:1",
-                            Name = "Türkçe",
-                            RecordDate = new DateTime(2021, 10, 10, 3, 25, 57, 890, DateTimeKind.Local).AddTicks(9900),
-                            RecordUsername = "admin",
-                            UpdateDate = new DateTime(2021, 10, 10, 3, 25, 57, 891, DateTimeKind.Local).AddTicks(8680),
-                            UpdateUsername = "admin"
-                        },
-                        new
-                        {
-                            Id = new Guid("1478bac3-14a9-4534-998c-1f2cdac772d6"),
-                            Code = "en-US",
-                            Ip = "1:1",
-                            Name = "English",
-                            RecordDate = new DateTime(2021, 10, 10, 3, 25, 57, 891, DateTimeKind.Local).AddTicks(9202),
-                            RecordUsername = "admin",
-                            UpdateDate = new DateTime(2021, 10, 10, 3, 25, 57, 891, DateTimeKind.Local).AddTicks(9208),
-                            UpdateUsername = "admin"
-                        });
                 });
 
             modelBuilder.Entity("Circle.Core.Entities.Concrete.Log", b =>
@@ -404,9 +380,10 @@ namespace Circle.Library.DataAccess.Migrations.Ms
 
                     b.HasKey("Id");
 
-                    b.HasIndex("GroupId");
-
                     b.HasIndex("UserId");
+
+                    b.HasIndex("GroupId", "UserId")
+                        .IsUnique();
 
                     b.ToTable("UserGroups", "dbo");
                 });
@@ -416,6 +393,11 @@ namespace Circle.Library.DataAccess.Migrations.Ms
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -457,6 +439,9 @@ namespace Circle.Library.DataAccess.Migrations.Ms
                         .HasColumnType("nvarchar(50)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Code")
+                        .IsUnique();
 
                     b.HasIndex("Name")
                         .IsUnique();

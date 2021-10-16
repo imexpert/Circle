@@ -12,7 +12,6 @@ namespace Circle.Library.Api.Controllers
     /// <summary>
     /// If controller methods will not be Authorize, [AllowAnonymous] is used.
     /// </summary>
-    [Route("api/[controller]")]
     [ApiController]
     public class UsersController : BaseApiController
     {
@@ -25,10 +24,10 @@ namespace Circle.Library.Api.Controllers
         [Produces("application/json", "text/plain")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<UserDto>))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(string))]
-        [HttpGet("getall")]
+        [HttpGet]
         public async Task<IActionResult> GetList()
         {
-            return GetResponseOnlyResultData(await Mediator.Send(new GetUsersQuery()));
+            return CreateActionResultInstance(await Mediator.Send(new GetUsersQuery()));
         }
 
         /// <summary>

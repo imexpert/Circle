@@ -182,7 +182,7 @@ namespace Circle.Frontends.Web.Infrastructure.Extensions
 
                     try
                     {
-
+                        context.Response.Redirect(context.Request.PathBase + "Login/Login");
                     }
                     finally
                     {

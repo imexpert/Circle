@@ -8,6 +8,7 @@ namespace Circle.Core.Entities.Concrete
         {
             Status = true;
         }
+        public byte[] Image { get; set; }
         public Guid DepartmentId { get; set; }
         public string Firstname { get; set; }
         public string Lastname { get; set; }

@@ -50,6 +50,11 @@ namespace Circle.Library.Business.Helpers
             return ResponseMessage<T>.Success(data, message);
         }
 
+        public ResponseMessage<T> SuccessDataTable<T>(T data, int recordsTotal, int recordsTotalFiltered)
+        {
+            return ResponseMessage<T>.SuccessDataTable(data, recordsTotal, recordsTotalFiltered);
+        }
+
         public ResponseMessage<T> SuccessData<T>(T data)
         {
             return ResponseMessage<T>.Success(data);

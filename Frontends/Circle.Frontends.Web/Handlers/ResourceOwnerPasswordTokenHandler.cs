@@ -1,4 +1,5 @@
-﻿using Circle.Frontends.Web.Services.Abstract;
+﻿using Circle.Frontends.Web.Infrastructure.Extensions;
+using Circle.Frontends.Web.Services.Abstract;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
 using System;
@@ -28,7 +29,13 @@ namespace Circle.Frontends.Web.Handlers
             var accessToken = await _httpContextAccessor.HttpContext.GetTokenAsync("AccessToken");
             var refreshToken = await _httpContextAccessor.HttpContext.GetTokenAsync("RefreshToken");
             request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
-            var response = await base.SendAsync(request, cancellationToken);
+
+            Uri absoluteUrl = ToolsExtensions.GenerateUri(request, _httpContextAccessor);
+            HttpRequestMessage customRequest = new HttpRequestMessage(request.Method, absoluteUrl);
+            customRequest.Headers.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+            customRequest.Content = request.Content;
+
+            var response = await base.SendAsync(customRequest, cancellationToken);
 
             if (response.StatusCode == HttpStatusCode.Unauthorized)
             {

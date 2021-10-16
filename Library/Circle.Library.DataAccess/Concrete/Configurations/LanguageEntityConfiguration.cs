@@ -16,29 +16,6 @@ namespace Circle.Library.DataAccess.Concrete.Configurations
 
             builder.Property(x => x.Name).HasMaxLength(50).IsRequired();
             builder.Property(x => x.Code).HasMaxLength(10).IsRequired();
-            builder.HasData(
-                new Language 
-                { 
-                    Id = System.Guid.NewGuid(), 
-                    Name = "Türkçe", 
-                    Code = "tr-TR",
-                    RecordDate = System.DateTime.Now,
-                    RecordUsername = "admin",
-                    Ip = "1:1",
-                    UpdateDate = System.DateTime.Now,
-                    UpdateUsername = "admin",
-                },
-                new Language 
-                { 
-                    Id = System.Guid.NewGuid(),
-                    Name = "English", 
-                    Code = "en-US" ,
-                    RecordDate = System.DateTime.Now,
-                    RecordUsername = "admin",
-                    Ip = "1:1",
-                    UpdateDate = System.DateTime.Now,
-                    UpdateUsername = "admin",
-                });
 
             builder.Property(s => s.RecordDate)
                .UsePropertyAccessMode(PropertyAccessMode.Field)

@@ -49,7 +49,7 @@ namespace Circle.Frontends.Web.Handlers
 
             if (response.StatusCode == HttpStatusCode.Unauthorized)
             {
-                throw new Exception();
+                _httpContextAccessor.HttpContext.Response.Redirect("/Login");
             }
             return response;
         }

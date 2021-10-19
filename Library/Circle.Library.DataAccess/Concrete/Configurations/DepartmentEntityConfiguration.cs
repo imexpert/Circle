@@ -1,37 +1,25 @@
 ﻿using Circle.Core.Entities.Concrete;
 using Circle.Library.DataAccess.Concrete.EntityFramework.Contexts;
+using Circle.Library.Entities.Concrete;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Circle.Library.DataAccess.Concrete.Configurations
 {
-    public class UserEntityConfiguration : IEntityTypeConfiguration<User>
+    public class DepartmentEntityConfiguration : IEntityTypeConfiguration<Department>
     {
-        public void Configure(EntityTypeBuilder<User> builder)
+        public void Configure(EntityTypeBuilder<Department> builder)
         {
-            builder.ToTable("Users", MsDbContext.DEFAULT_SCHEMA);
+            builder.ToTable("Departments", MsDbContext.DEFAULT_SCHEMA);
 
             builder.HasKey(x => x.Id);
-            builder.Property(x => x.DepartmentId).IsRequired();
-            builder.Property(x => x.Firstname).HasMaxLength(100).IsRequired();
-            builder.Property(x => x.Lastname).HasMaxLength(100).IsRequired();
-            builder.Property(x => x.Email).HasMaxLength(50);
-            builder.Property(x => x.Password).HasMaxLength(50);
-            builder.Property(x => x.Status).IsRequired();
-            builder.Property(x => x.BirthDate);
-            builder.Property(x => x.Gender);
-            builder.Property(x => x.RecordDate);
-            builder.Property(x => x.Address).HasMaxLength(200);
-            builder.Property(x => x.MobilePhones).HasMaxLength(30);
-            builder.Property(x => x.Notes).HasMaxLength(500);
-
-            builder.HasIndex(x => x.MobilePhones);
+            builder.HasIndex(s => s.Title).IsUnique();
 
             builder
-                .HasOne(s => s.Department)
+                .HasOne(s => s.Language)
                 .WithMany()
                 .IsRequired()
-                .HasForeignKey("DepartmentId")
+                .HasForeignKey("LanguageId")
                 .OnDelete(DeleteBehavior.Restrict);
 
             builder.Property(s => s.RecordDate)

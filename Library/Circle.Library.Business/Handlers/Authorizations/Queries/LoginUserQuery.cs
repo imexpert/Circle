@@ -29,9 +29,9 @@ namespace Circle.Library.Business.Handlers.Authorizations.Queries
             private readonly IReturnUtility _returnUtility;
 
             public LoginUserQueryHandler(
-                IUserRepository userRepository, 
-                ITokenHelper tokenHelper, 
-                IMediator mediator, 
+                IUserRepository userRepository,
+                ITokenHelper tokenHelper,
+                IMediator mediator,
                 ICacheManager cacheManager,
                 IReturnUtility returnUtility)
             {
@@ -66,7 +66,7 @@ namespace Circle.Library.Business.Handlers.Authorizations.Queries
                 _userRepository.Update(user);
                 await _userRepository.SaveChangesAsync();
 
-                _cacheManager.Add($"{CacheKeys.UserIdForClaim}={user.Id}", claims.Select(x => x.Name));
+                _cacheManager.Add($"{CacheKeys.UserIdForClaim}={user.Id}", claims.Select(x => x.Name), 3600);
 
                 return _returnUtility.SuccessData(accessToken);
             }

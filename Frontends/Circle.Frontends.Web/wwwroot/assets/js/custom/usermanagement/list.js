@@ -34,17 +34,19 @@ var KTDatatablesServerSide = function () {
                     var json = jQuery.parseJSON(data);
                     json.recordsTotal = json.RecordsTotal;
                     json.recordsFiltered = json.RecordsFiltered;
-                    json.data = json.data;
+                    json.data = json.Data;
 
                     return JSON.stringify(json); // return JSON string
                 }
             },
             columns: [
+                { data: null },
                 { data: 'Firstname' },
                 { data: 'Lastname' },
                 { data: 'Email' },
                 { data: 'BirthDate' },
                 { data: 'MobilePhones' },
+                { data: 'Status' },
                 { data: null },
             ],
             columnDefs: [
@@ -56,12 +58,6 @@ var KTDatatablesServerSide = function () {
                             <div class="form-check form-check-sm form-check-custom form-check-solid">
                                 <input class="form-check-input" type="checkbox" value="${data}" />
                             </div>`;
-                    }
-                },
-                {
-                    targets: 4,
-                    render: function (data, type, row) {
-                        return `<img src="${hostUrl}media/svg/card-logos/${row.CreditCardType}.svg" class="w-35px me-3" alt="${row.CreditCardType}">` + data;
                     }
                 },
                 {
@@ -87,7 +83,7 @@ var KTDatatablesServerSide = function () {
                                 <!--begin::Menu item-->
                                 <div class="menu-item px-3">
                                     <a href="#" class="menu-link px-3" data-kt-docs-table-filter="edit_row">
-                                        Edit
+                                        Düzenle
                                     </a>
                                 </div>
                                 <!--end::Menu item-->
@@ -95,7 +91,7 @@ var KTDatatablesServerSide = function () {
                                 <!--begin::Menu item-->
                                 <div class="menu-item px-3">
                                     <a href="#" class="menu-link px-3" data-kt-docs-table-filter="delete_row">
-                                        Delete
+                                        Sil
                                     </a>
                                 </div>
                                 <!--end::Menu item-->

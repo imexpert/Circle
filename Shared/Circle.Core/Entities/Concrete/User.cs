@@ -21,5 +21,6 @@ namespace Circle.Core.Entities.Concrete
         public int Gender { get; set; }
         public string Address { get; set; }
         public string Notes { get; set; }
+        public Department Department { get; set; }
     }
 }

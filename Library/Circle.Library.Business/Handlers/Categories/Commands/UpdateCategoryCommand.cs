@@ -5,7 +5,9 @@ using Circle.Core.Utilities.Results;
 using Circle.Library.DataAccess.Abstract;
 using MediatR;
 using System;
-using Circle.Core.Entities.Concrete;
+using Circle.Library.Entities.Concrete;
+using Circle.Library.Business.Helpers;
+using Circle.Core.Utilities.Messages;
 
 namespace Circle.Library.Business.Handlers.Categories.Commands
 {
@@ -13,25 +15,32 @@ namespace Circle.Library.Business.Handlers.Categories.Commands
     {
         public Category Model { get; set; }
 
-        public class UpdateCategoryCommandHandler : IRequestHandler<UpdateCategoryCommand, ResponseMessage<Category>>
+        public class UpdateGroupCommandHandler : IRequestHandler<UpdateCategoryCommand, ResponseMessage<Category>>
         {
             private readonly ICategoryRepository _categoryRepository;
+            private readonly IReturnUtility _returnUtility;
 
-            public UpdateCategoryCommandHandler(ICategoryRepository categoryRepository)
+            public UpdateGroupCommandHandler(ICategoryRepository categoryRepository, IReturnUtility returnUtility)
             {
                 _categoryRepository = categoryRepository;
+                _returnUtility = returnUtility;
             }
 
             [SecuredOperation(Priority = 1)]
             public async Task<ResponseMessage<Category>> Handle(UpdateCategoryCommand request, CancellationToken cancellationToken)
             {
-                var isThereCategoryRecord = await _categoryRepository.GetAsync(u => u.Id == request.Model.Id);
-                if (isThereCategoryRecord == null || isThereCategoryRecord.Id == Guid.Empty)
-                    return ResponseMessage<Category>.NoDataFound("Kayıt bulunamadı");
+                var category = await _categoryRepository.GetAsync(s => s.Id == request.Model.Id);
+                if (category == null)
+                {
+                    return await _returnUtility.NoDataFound<Category>(MessageDefinitions.KAYIT_BULUNAMADI);
+                }
 
-                request.Model = _categoryRepository.Update(request.Model);
+                category.Name = request.Model.Name;
+
+                _categoryRepository.Update(category);
                 await _categoryRepository.SaveChangesAsync();
-                return ResponseMessage<Category>.Success(request.Model);
+
+                return await _returnUtility.SuccessWithData(MessageDefinitions.GUNCELLEME_ISLEMI_BASARILI, category);
             }
         }
     }

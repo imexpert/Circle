@@ -33,9 +33,9 @@ namespace Circle.Library.Business.Helpers
 
                 await SaveOperations(engId, trId);
                 await SaveGroups(engId, trId);
-                //await SaveGroupClaims();
-                //await SaveAdminUser();
-                //await SaveAdminUserGroup();
+                await SaveGroupClaims(engId);
+                await SaveAdminUser();
+                await SaveAdminUserGroup();
             }
             catch (Exception e)
             {
@@ -134,25 +134,6 @@ namespace Circle.Library.Business.Helpers
             });
         }
 
-        public static string CutStart(this string s, string what)
-        {
-            if (s.Contains(what))
-            {
-                //substring to remove from string.
-                string substring = what;
-
-                //this line get index of substring from string
-                int indexOfSubString = s.IndexOf(substring);
-
-                //remove specified substring from string
-                string withoutSubString = s.Remove(indexOfSubString, substring.Length);
-
-                return withoutSubString;
-            }
-
-            return s;
-        }
-
         private async static Task SaveGroups(Guid engId, Guid trId)
         {
             var mediator = ServiceTool.ServiceProvider.GetService<IMediator>();
@@ -174,7 +155,7 @@ namespace Circle.Library.Business.Helpers
                 Group groupTr = new Group();
                 groupTr.Id = id;
                 groupTr.LanguageId = trId;
-                groupTr.GroupName = "System Yönetcisi";
+                groupTr.GroupName = "Sistem Yönetcisi";
                 await mediator.Send(new CreateInternalGroupCommand
                 {
                     Group = groupTr
@@ -182,28 +163,30 @@ namespace Circle.Library.Business.Helpers
             }
         }
 
-        private async static Task SaveGroupClaims()
+        private async static Task SaveGroupClaims(Guid engId)
         {
             var mediator = ServiceTool.ServiceProvider.GetService<IMediator>();
 
             List<OperationClaim> operations = await mediator.Send(new GetInternalOperationClaimsQuery());
+
             List<Group> groups = await mediator.Send(new GetInternalGroupsQuery());
 
 
-            if (groups.Any(s => s.GroupName == "System Admin"))
+            if (groups.Any(s => s.GroupName == "System Admin" && s.LanguageId == engId))
             {
-                Guid groupId = groups.First(s => s.GroupName == "System Admin").Id;
+                Guid groupId = groups.First(s => s.GroupName == "System Admin" && s.LanguageId == engId).Id;
 
                 List<GroupClaim> groupClaims = await mediator.Send(new GetInternalGroupClaimsWithGroupIdQuery() { GroupId = groupId });
 
                 List<GroupClaim> addedGroupClaims = new List<GroupClaim>();
 
-                foreach (var item in operations)
+                foreach (var item in operations.Where(s => s.LanguageId == engId))
                 {
                     if (!groupClaims.Any(s => s.GroupId == groupId && s.OperationClaimId == item.Id))
                     {
                         GroupClaim groupClaim = new GroupClaim()
                         {
+                            Id = Guid.NewGuid(),
                             GroupId = groupId,
                             OperationClaimId = item.Id
                         };
@@ -227,14 +210,15 @@ namespace Circle.Library.Business.Helpers
             {
                 Address = "Ankara",
                 BirthDate = new DateTime(1983, 7, 23),
-                DepartmentId = Guid.NewGuid(),
+                DepartmentId = new Guid("3a3d8d33-e5cd-46f5-8dc8-fd11a06c20b8"),
                 Email = "admin@admin.com",
                 Firstname = "Ali Osman",
                 Gender = ((int)GenderTypes.Erkek),
                 Lastname = "ÜNAL",
                 MobilePhones = "+90 555 682 2232",
                 Password = "Qweasd00.",
-                Status = true
+                Status = true,
+                Image = null
             };
 
             await mediator.Send(new CreateInternalUserCommand()
@@ -252,14 +236,9 @@ namespace Circle.Library.Business.Helpers
                 Email = "admin@admin.com"
             });
 
-            Group group = await mediator.Send(new GetInternalGroupWithNameQuery()
-            {
-                GroupName = "System Admin"
-            });
-
             UserGroup userGroup = new UserGroup()
             {
-                GroupId = group.Id,
+                GroupId = new Guid("EF222783-DEAA-4C5A-84FE-E1E20FD78EB7"),
                 UserId = user.Id
             };
 
@@ -279,6 +258,24 @@ namespace Circle.Library.Business.Helpers
                     x.CustomAttributes.All(a => a.AttributeType == typeof(SecuredOperation)))
                 .Select(x => x.Name);
             return assemblyNames;
+        }
+        public static string CutStart(this string s, string what)
+        {
+            if (s.Contains(what))
+            {
+                //substring to remove from string.
+                string substring = what;
+
+                //this line get index of substring from string
+                int indexOfSubString = s.IndexOf(substring);
+
+                //remove specified substring from string
+                string withoutSubString = s.Remove(indexOfSubString, substring.Length);
+
+                return withoutSubString;
+            }
+
+            return s;
         }
     }
 }

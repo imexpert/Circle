@@ -105,7 +105,7 @@ namespace Circle.Library.Api
 
             app.ConfigureCustomExceptionMiddleware();
 
-            app.UseDbOperationClaimCreator();
+            //app.UseDbOperationClaimCreator();
 
             app.UseSwagger();
 

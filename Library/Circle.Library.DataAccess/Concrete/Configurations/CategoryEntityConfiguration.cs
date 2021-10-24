@@ -1,5 +1,5 @@
-﻿using Circle.Library.DataAccess.Concrete.EntityFramework.Contexts;
-using Circle.Library.Entities.Concrete;
+﻿using Circle.Core.Entities.Concrete;
+using Circle.Library.DataAccess.Concrete.EntityFramework.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -11,15 +11,14 @@ namespace Circle.Library.DataAccess.Concrete.Configurations
         {
             builder.ToTable("Categories", MsDbContext.DEFAULT_SCHEMA);
 
-            builder.HasKey(x => x.Id);
-            builder.HasIndex(s => s.Name).IsUnique();
-            builder.HasIndex(s => s.Code).IsUnique();
+            builder.HasKey(x => new { x.Id, x.LanguageId });
 
+            builder.HasIndex(s => new { s.LanguageId,s.Name}).IsUnique();
+            
             builder.Property(x => x.Code).HasMaxLength(50).IsRequired();
             builder.Property(x => x.Name).HasMaxLength(50).IsRequired();
             builder.Property(x => x.Description).HasMaxLength(500).IsRequired();
-            builder.Property(x => x.IconName).HasMaxLength(50).IsRequired(); 
-           
+            builder.Property(x => x.IconName).HasMaxLength(50).IsRequired();
 
             builder.Property(s => s.RecordDate)
                .UsePropertyAccessMode(PropertyAccessMode.Field)

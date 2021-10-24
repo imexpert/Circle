@@ -1,18 +1,12 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using Circle.Library.Business.BusinessAspects;
-
-using Circle.Core.Aspects.Autofac.Caching;
-using Circle.Core.Aspects.Autofac.Logging;
-using Circle.Core.CrossCuttingConcerns.Logging.Serilog.Loggers;
 using Circle.Core.Utilities.Results;
 using Circle.Library.DataAccess.Abstract;
 using MediatR;
 using System;
-using Circle.Library.Business.Handlers.Messages.Queries;
 using Circle.Core.Utilities.Messages;
 using Circle.Library.Business.Helpers;
-using Circle.Core.Aspects.Autofac.Transaction;
 
 namespace Circle.Library.Business.Handlers.Groups.Commands
 {

@@ -11,7 +11,7 @@ namespace Circle.Library.DataAccess.Concrete.Configurations
         {
             builder.ToTable("Groups", MsDbContext.DEFAULT_SCHEMA);
 
-            builder.HasKey(x => x.Id);
+            builder.HasKey(x => new { x.Id, x.LanguageId });
 
             builder.HasIndex(s => s.GroupName).IsUnique();
 

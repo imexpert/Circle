@@ -6,18 +6,15 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using Circle.Library.Business.Handlers.OperationClaims.Commands;
 using Circle.Core.Entities.Concrete;
 using Circle.Library.Business.Handlers.OperationClaims.Queries;
-using Circle.Core.Utilities.Results;
 using Circle.Library.Business.Handlers.Groups.Queries;
 using Circle.Library.Business.Handlers.Groups.Commands;
 using Circle.Library.Business.Handlers.GroupClaims.Queries;
 using Circle.Library.Business.Handlers.GroupClaims.Commands;
-using Circle.Core.Entities;
 using Circle.Core.Entities.Enums;
 using Circle.Library.Business.Handlers.Users.Commands;
 using Circle.Library.Business.Handlers.Users.Queries;
@@ -31,16 +28,22 @@ namespace Circle.Library.Business.Helpers
         {
             try
             {
-                await SaveOperations();
-                await SaveGroups();
-                await SaveGroupClaims();
-                await SaveAdminUser();
-                await SaveAdminUserGroup();
+                Guid engId = new Guid("852a6581-7493-4669-982d-a9e30dbfd000");
+                Guid trId = new Guid("19347039-d124-48fb-9ec8-fa45f7797dfc");
+
+                await SaveOperations(engId, trId);
+                await SaveGroups(engId, trId);
+                //await SaveGroupClaims();
+                //await SaveAdminUser();
+                //await SaveAdminUserGroup();
             }
-            catch { }
+            catch (Exception e)
+            {
+
+            }
         }
 
-        private async static Task SaveOperations()
+        private async static Task SaveOperations(Guid engId, Guid trId)
         {
             var mediator = ServiceTool.ServiceProvider.GetService<IMediator>();
 
@@ -52,11 +55,76 @@ namespace Circle.Library.Business.Helpers
             {
                 if (!operations.Any(s => s.Name == operationName))
                 {
-                    OperationClaim operationClaim = new OperationClaim();
-                    operationClaim.Name = operationName;
-                    operationClaim.Alias = operationName;
-                    operationClaim.Description = operationName;
-                    claimList.Add(operationClaim);
+                    Guid id = Guid.NewGuid();
+
+                    string descriptionEn = "";
+                    string descriptionTr = "";
+
+                    if (operationName.Contains("Create"))
+                    {
+                        string temp = operationName.CutStart("Create");
+                        temp = temp.CutStart("Command");
+
+                        descriptionEn = "Create - " + temp;
+                        descriptionTr = "Ekleme - " + temp;
+                    }
+
+                    if (operationName.Contains("Update"))
+                    {
+                        string temp = operationName.CutStart("Update");
+                        temp = temp.CutStart("Command");
+
+                        descriptionEn = "Update - " + temp;
+                        descriptionTr = "Güncelleme - " + temp;
+                    }
+
+                    if (operationName.Contains("Delete"))
+                    {
+                        string temp = operationName.CutStart("Delete");
+                        temp = temp.CutStart("Command");
+
+                        descriptionEn = "Delete - " + temp;
+                        descriptionTr = "Silme - " + temp;
+                    }
+
+                    if (operationName.Contains("sQuery"))
+                    {
+                        string temp = operationName.CutStart("sQuery");
+                        temp = temp.CutStart("Get");
+
+                        descriptionEn = "Get List - " + temp;
+                        descriptionTr = "Liste Getir - " + temp;
+                    }
+
+                    if (operationName.Contains("Query") && !operationName.Contains("sQuery"))
+                    {
+                        string temp = operationName.CutStart("Query");
+                        temp = temp.CutStart("Get");
+
+                        descriptionEn = "Get - " + temp;
+                        descriptionTr = "Oku - " + temp;
+                    }
+
+                    OperationClaim operationClaimEn = new OperationClaim
+                    {
+                        Id = id,
+                        LanguageId = engId,
+                        Name = operationName,
+                        Alias = operationName,
+                        Description = descriptionEn
+                    };
+
+                    OperationClaim operationClaimTr = new OperationClaim
+                    {
+                        Id = id,
+                        LanguageId = trId,
+                        Name = operationName,
+                        Alias = operationName,
+                        Description = descriptionTr
+                    };
+
+                    claimList.Add(operationClaimTr);
+                    claimList.Add(operationClaimEn);
                 }
             }
 
@@ -66,18 +134,50 @@ namespace Circle.Library.Business.Helpers
             });
         }
 
-        private async static Task SaveGroups()
+        public static string CutStart(this string s, string what)
+        {
+            if (s.Contains(what))
+            {
+                //substring to remove from string.
+                string substring = what;
+
+                //this line get index of substring from string
+                int indexOfSubString = s.IndexOf(substring);
+
+                //remove specified substring from string
+                string withoutSubString = s.Remove(indexOfSubString, substring.Length);
+
+                return withoutSubString;
+            }
+
+            return s;
+        }
+
+        private async static Task SaveGroups(Guid engId, Guid trId)
         {
             var mediator = ServiceTool.ServiceProvider.GetService<IMediator>();
 
             List<Group> groups = await mediator.Send(new GetInternalGroupsQuery());
             if (!groups.Any(s => s.GroupName == "System Admin"))
             {
-                Group group = new Group();
-                group.GroupName = "System Admin";
+                Guid id = Guid.NewGuid();
+
+                Group groupEn = new Group();
+                groupEn.Id = id;
+                groupEn.LanguageId = engId;
+                groupEn.GroupName = "System Admin";
                 await mediator.Send(new CreateInternalGroupCommand
                 {
-                    Group = group
+                    Group = groupEn
+                });
+
+                Group groupTr = new Group();
+                groupTr.Id = id;
+                groupTr.LanguageId = trId;
+                groupTr.GroupName = "System Yönetcisi";
+                await mediator.Send(new CreateInternalGroupCommand
+                {
+                    Group = groupTr
                 });
             }
         }

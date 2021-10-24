@@ -66,8 +66,8 @@ namespace Circle.Core.DataAccess.EntityFramework
         public async Task<List<TEntity>> GetListAsync(Expression<Func<TEntity, bool>> expression = null)
         {
             return expression == null
-                ? await Context.Set<TEntity>().ToListAsync()
-                : await Context.Set<TEntity>().Where(expression).ToListAsync();
+                ? await Context.Set<TEntity>().AsNoTracking().ToListAsync()
+                : await Context.Set<TEntity>().AsNoTracking().Where(expression).ToListAsync();
         }
 
         public int SaveChanges()

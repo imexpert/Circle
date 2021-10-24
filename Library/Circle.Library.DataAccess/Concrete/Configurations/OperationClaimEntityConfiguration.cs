@@ -11,8 +11,9 @@ namespace Circle.Library.DataAccess.Concrete.Configurations
         {
             builder.ToTable("OperationClaims", MsDbContext.DEFAULT_SCHEMA);
 
-            builder.HasKey(x => x.Id);
-            builder.HasIndex(s => s.Name).IsUnique();
+            builder.HasKey(x => new { x.Id, x.LanguageId });
+
+            builder.HasIndex(s => new { s.Name, s.LanguageId }).IsUnique();
 
             builder.Property(x => x.Name).HasMaxLength(200).IsRequired();
             builder.Property(x => x.Alias).HasMaxLength(200);

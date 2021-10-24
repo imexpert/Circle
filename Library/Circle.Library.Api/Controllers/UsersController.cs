@@ -31,21 +31,6 @@ namespace Circle.Library.Api.Controllers
         }
 
         /// <summary>
-        /// User Lookup
-        /// </summary>
-        /// <remarks>bla bla bla Users</remarks>
-        /// <return>Users List</return>
-        /// <response code="200"></response>
-        [Produces("application/json", "text/plain")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<SelectionItem>))]
-        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(string))]
-        [HttpGet("getuserlookup")]
-        public async Task<IActionResult> GetUserLookup()
-        {
-            return GetResponseOnlyResultData(await Mediator.Send(new GetUserLookupQuery()));
-        }
-
-        /// <summary>
         /// It brings the details according to its id.
         /// </summary>
         /// <remarks>bla bla bla </remarks>

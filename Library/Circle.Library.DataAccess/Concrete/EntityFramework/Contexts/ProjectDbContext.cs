@@ -1,6 +1,5 @@
 using System.Reflection;
 using Circle.Core.Entities.Concrete;
-using Circle.Library.Entities.Concrete;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 

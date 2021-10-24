@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Security.Claims;
 
 namespace Circle.Core.Utilities.Security.Jwt
 {

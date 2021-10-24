@@ -1,25 +1,20 @@
 ﻿using Circle.Core.Http;
-using Circle.Core.Utilities.Security.Encyption;
 using Circle.Core.Utilities.Security.Jwt;
 using Circle.Frontends.Web.Handlers;
 using Circle.Frontends.Web.Resources;
 using Circle.Frontends.Web.Services.Abstract;
 using Circle.Frontends.Web.Services.Concrete;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json.Serialization;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Circle.Frontends.Web.Infrastructure.Extensions
 {

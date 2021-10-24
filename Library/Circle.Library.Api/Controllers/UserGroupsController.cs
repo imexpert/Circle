@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Circle.Core.Entities.Concrete;
-using Circle.Core.Entities.Dtos;
 using Circle.Library.Business.Handlers.UserGroups.Commands;
 using Circle.Library.Business.Handlers.UserGroups.Queries;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Circle.Library.Api.Controllers

@@ -2,8 +2,6 @@
 using System.Threading.Tasks;
 using AutoMapper;
 using Circle.Library.Business.BusinessAspects;
-using Circle.Core.Aspects.Autofac.Logging;
-using Circle.Core.CrossCuttingConcerns.Logging.Serilog.Loggers;
 using Circle.Core.Entities.Dtos;
 using Circle.Core.Utilities.Results;
 using Circle.Library.DataAccess.Abstract;

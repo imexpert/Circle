@@ -1,10 +1,12 @@
-﻿using System.Threading;
-using System.Threading.Tasks;
-using Circle.Library.Business.BusinessAspects;
+﻿using Circle.Core.Utilities.Messages;
 using Circle.Core.Utilities.Results;
+using Circle.Library.Business.BusinessAspects;
+using Circle.Library.Business.Helpers;
 using Circle.Library.DataAccess.Abstract;
 using MediatR;
 using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Circle.Library.Business.Handlers.Categories.Commands
 {
@@ -15,23 +17,30 @@ namespace Circle.Library.Business.Handlers.Categories.Commands
         public class DeleteCategoryCommandHandler : IRequestHandler<DeleteCategoryCommand, ResponseMessage<NoContent>>
         {
             private readonly ICategoryRepository _categoryRepository;
+            private readonly IReturnUtility _returnUtility;
 
-            public DeleteCategoryCommandHandler(ICategoryRepository categoryRepository)
+            public DeleteCategoryCommandHandler(
+                ICategoryRepository categoryRepository,
+                IReturnUtility returnUtility)
             {
                 _categoryRepository = categoryRepository;
+                _returnUtility = returnUtility;
             }
 
             [SecuredOperation(Priority = 1)]
             public async Task<ResponseMessage<NoContent>> Handle(DeleteCategoryCommand request, CancellationToken cancellationToken)
             {
-                var languageToDelete = _categoryRepository.Get(p => p.Id == request.Id);
+                var categoryToDelete = await _categoryRepository.GetAsync(x => x.Id == request.Id);
 
-                if (languageToDelete == null || languageToDelete.Id == Guid.Empty)
-                    return ResponseMessage<NoContent>.NoDataFound("Kategori tanımı bulunamadı");
+                if (categoryToDelete == null || categoryToDelete.Id == Guid.Empty)
+                {
+                    return await _returnUtility.NoDataFound<NoContent>(MessageDefinitions.KAYIT_BULUNAMADI);
+                }
 
-                _categoryRepository.Delete(languageToDelete);
+                _categoryRepository.Delete(categoryToDelete);
                 await _categoryRepository.SaveChangesAsync();
-                return ResponseMessage<NoContent>.Success();
+
+                return await _returnUtility.Success<NoContent>(MessageDefinitions.SILME_ISLEMI_BASARILI);
             }
         }
     }

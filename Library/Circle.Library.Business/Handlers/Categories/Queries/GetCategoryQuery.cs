@@ -9,6 +9,8 @@ using Circle.Library.DataAccess.Abstract;
 using MediatR;
 using System;
 using Circle.Library.Entities.Concrete;
+using Circle.Library.Business.Helpers;
+using Circle.Core.Utilities.Messages;
 
 namespace Circle.Library.Business.Handlers.Categories.Queries
 {
@@ -19,22 +21,27 @@ namespace Circle.Library.Business.Handlers.Categories.Queries
         public class GetCategoryQueryHandler : IRequestHandler<GetCategoryQuery, ResponseMessage<Category>>
         {
             private readonly ICategoryRepository _categoryRepository;
-            private readonly IMediator _mediator;
+            private readonly IReturnUtility _returnUtility;
 
-            public GetCategoryQueryHandler(ICategoryRepository categoryRepository, IMediator mediator)
+            public GetCategoryQueryHandler(
+                ICategoryRepository categoryRepository,
+                IReturnUtility returnUtility)
             {
                 _categoryRepository = categoryRepository;
-                _mediator = mediator;
+                _returnUtility = returnUtility;
             }
 
             [SecuredOperation(Priority = 1)]
             public async Task<ResponseMessage<Category>> Handle(GetCategoryQuery request, CancellationToken cancellationToken)
             {
-                var category = await _categoryRepository.GetAsync(p => p.Id == request.Id);
-                if (category == null || category.Id == Guid.Empty)
-                    return ResponseMessage<Category>.NoDataFound("Kayıt bulunamadı");
+                var category = await _categoryRepository.GetAsync(x => x.Id == request.Id);
 
-                return ResponseMessage<Category>.Success(category);
+                if (category == null)
+                {
+                    return await _returnUtility.NoDataFound<Category>(MessageDefinitions.KAYIT_BULUNAMADI);
+                }
+
+                return _returnUtility.SuccessData(category);
             }
         }
     }

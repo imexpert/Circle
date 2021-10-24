@@ -1,13 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Circle.Library.Business.Handlers.OperationClaims.Commands;
 using Circle.Library.Business.Handlers.OperationClaims.Queries;
 using Circle.Core.Entities.Concrete;
-using Circle.Core.Entities.Dtos;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using Circle.Library.Entities.ComplexTypes;
 
 namespace Circle.Library.Api.Controllers
 {

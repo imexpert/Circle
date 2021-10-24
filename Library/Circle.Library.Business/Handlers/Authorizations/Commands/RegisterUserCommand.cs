@@ -1,17 +1,11 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using Circle.Library.Business.BusinessAspects;
-
-using Circle.Core.Aspects.Autofac.Caching;
-using Circle.Core.Aspects.Autofac.Logging;
-using Circle.Core.Aspects.Autofac.Validation;
-using Circle.Core.CrossCuttingConcerns.Logging.Serilog.Loggers;
 using Circle.Core.Entities.Concrete;
 using Circle.Core.Utilities.Results;
 using Circle.Core.Utilities.Security.Hashing;
 using Circle.Library.DataAccess.Abstract;
 using MediatR;
-using Circle.Library.Business.Handlers.Authorizations.ValidationRules;
 
 namespace Circle.Library.Business.Handlers.Authorizations.Commands
 {
@@ -33,6 +27,7 @@ namespace Circle.Library.Business.Handlers.Authorizations.Commands
                 _userRepository = userRepository;
             }
 
+            [SecuredOperation]
             public async Task<IResult> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
             {
                 var isThereAnyUser = await _userRepository.GetAsync(u => u.Email == request.Email);

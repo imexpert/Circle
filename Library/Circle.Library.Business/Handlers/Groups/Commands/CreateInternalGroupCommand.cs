@@ -1,14 +1,6 @@
-﻿using System.Collections.Generic;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
-
-using Circle.Core.Aspects.Autofac.Caching;
-using Circle.Core.Aspects.Autofac.Logging;
-using Circle.Core.Aspects.Autofac.Transaction;
-using Circle.Core.CrossCuttingConcerns.Logging.Serilog.Loggers;
 using Circle.Core.Entities.Concrete;
-using Circle.Core.Utilities.Messages;
-using Circle.Core.Utilities.Results;
 using Circle.Library.Business.Helpers;
 using Circle.Library.DataAccess.Abstract;
 using MediatR;

@@ -6,7 +6,5 @@ namespace Circle.Core.Entities.Concrete
     {
         public Guid GroupId { get; set; }
         public Guid OperationClaimId { get; set; }
-        public Group Group { get; set; }
-        public OperationClaim OperationClaim { get; set; }
     }
 }

@@ -28,15 +28,23 @@ var KTDatatablesServerSide = function () {
                 className: 'row-selected'
             },
             ajax: {
-                url: "https://preview.keenthemes.com/api/datatables.php",
+                url: '/Admin/Users/UserList',
+                type: 'GET',
+                dataFilter: function (data) {
+                    var json = jQuery.parseJSON(data);
+                    json.recordsTotal = json.RecordsTotal;
+                    json.recordsFiltered = json.RecordsFiltered;
+                    json.data = json.data;
+
+                    return JSON.stringify(json); // return JSON string
+                }
             },
             columns: [
-                { data: 'RecordID' },
-                { data: 'Name' },
+                { data: 'Firstname' },
+                { data: 'Lastname' },
                 { data: 'Email' },
-                { data: 'Company' },
-                { data: 'CreditCardNumber' },
-                { data: 'Datetime' },
+                { data: 'BirthDate' },
+                { data: 'MobilePhones' },
                 { data: null },
             ],
             columnDefs: [

@@ -41,6 +41,7 @@ License: For each use you must have a valid license purchased only from above li
     <!--end::Fonts-->
     <!--begin::Page Vendor Stylesheets(used by this page)-->
     <link href="~/assets/plugins/custom/fullcalendar/fullcalendar.bundle.css" rel="stylesheet" type="text/css" />
+    <link href="~/assets/plugins/custom/datatables/datatables.bundle.css" rel="stylesheet" />
     <!--end::Page Vendor Stylesheets-->
     <!--begin::Global Stylesheets Bundle(used by all pages)-->
     <link href="~/assets/plugins/global/plugins.bundle.css" rel="stylesheet" type="text/css" />
@@ -1163,6 +1164,25 @@ License: For each use you must have a valid license purchased only from above li
                                             <span class="menu-bullet">
                                                 <span class="bullet bullet-dot"></span>
                                             </span>
+                                            <span class="menu-title">@SharedLocalizer.GetLocalizedHtmlString("Departments")</span>
+                                            <span class="menu-arrow"></span>
+                                        </span>
+                                        <div class="menu-sub menu-sub-accordion">
+                                            <div class="menu-item">
+                                                <a class="menu-link" asp-action="List" asp-controller="Departments" asp-area="Admin">
+                                                    <span class="menu-bullet">
+                                                        <span class="bullet bullet-dot"></span>
+                                                    </span>
+                                                    <span class="menu-title">@SharedLocalizer.GetLocalizedHtmlString("Department List")</span>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div data-kt-menu-trigger="click" class="menu-item menu-accordion mb-1">
+                                        <span class="menu-link">
+                                            <span class="menu-bullet">
+                                                <span class="bullet bullet-dot"></span>
+                                            </span>
                                             <span class="menu-title">@SharedLocalizer.GetLocalizedHtmlString("Users")</span>
                                             <span class="menu-arrow"></span>
                                         </span>
@@ -1176,13 +1196,13 @@ License: For each use you must have a valid license purchased only from above li
                                                 </a>
                                             </div>
                                             @*<div class="menu-item">
-                                                    <a class="menu-link" href="../../demo1/dist/apps/user-management/users/view.html">
-                                                        <span class="menu-bullet">
-                                                            <span class="bullet bullet-dot"></span>
-                                                        </span>
-                                                        <span class="menu-title">View User</span>
-                                                    </a>
-                                                </div>*@
+                    <a class="menu-link" href="../../demo1/dist/apps/user-management/users/view.html">
+                        <span class="menu-bullet">
+                            <span class="bullet bullet-dot"></span>
+                        </span>
+                        <span class="menu-title">View User</span>
+                    </a>
+                </div>*@
                                         </div>
                                     </div>
                                     <div data-kt-menu-trigger="click" class="menu-item menu-accordion">
@@ -1203,23 +1223,23 @@ License: For each use you must have a valid license purchased only from above li
                                                 </a>
                                             </div>
                                             @*<div class="menu-item">
-                                                    <a class="menu-link" href="../../demo1/dist/apps/user-management/roles/view.html">
-                                                        <span class="menu-bullet">
-                                                            <span class="bullet bullet-dot"></span>
-                                                        </span>
-                                                        <span class="menu-title">View Role</span>
-                                                    </a>
-                                                </div>*@
+                    <a class="menu-link" href="../../demo1/dist/apps/user-management/roles/view.html">
+                        <span class="menu-bullet">
+                            <span class="bullet bullet-dot"></span>
+                        </span>
+                        <span class="menu-title">View Role</span>
+                    </a>
+                </div>*@
                                         </div>
                                     </div>
                                     @*<div class="menu-item">
-                                            <a class="menu-link" href="../../demo1/dist/apps/user-management/permissions.html">
-                                                <span class="menu-bullet">
-                                                    <span class="bullet bullet-dot"></span>
-                                                </span>
-                                                <span class="menu-title">Permissions</span>
-                                            </a>
-                                        </div>*@
+            <a class="menu-link" href="../../demo1/dist/apps/user-management/permissions.html">
+                <span class="menu-bullet">
+                    <span class="bullet bullet-dot"></span>
+                </span>
+                <span class="menu-title">Permissions</span>
+            </a>
+        </div>*@
                                 </div>
                             </div>
                         </div>
@@ -3784,7 +3804,7 @@ License: For each use you must have a valid license purchased only from above li
                                         <!--begin::Menu-->
                                         <div class="menu menu-sub menu-sub-dropdown menu-column w-350px w-lg-375px" data-kt-menu="true">
                                             <!--begin::Heading-->
-                                            <div class="d-flex flex-column bgi-no-repeat rounded-top" style="background-image:url('~/assets/media/misc/pattern-1.jpg')">
+                                            <div class="d-flex flex-column bgi-no-repeat rounded-top" style="background-image:url('/assets/media/misc/pattern-1.jpg')">
                                                 <!--begin::Title-->
                                                 <h3 class="text-white fw-bold px-9 mt-10 mb-6">
                                                     Notifications

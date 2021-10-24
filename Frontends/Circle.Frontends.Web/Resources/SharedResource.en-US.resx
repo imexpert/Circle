@@ -117,8 +117,20 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Actions" xml:space="preserve">
+    <value>Actions</value>
+  </data>
+  <data name="Add User" xml:space="preserve">
+    <value>Add User</value>
+  </data>
   <data name="Administration" xml:space="preserve">
     <value>Administration</value>
+  </data>
+  <data name="Department List" xml:space="preserve">
+    <value>Department List</value>
+  </data>
+  <data name="Departments" xml:space="preserve">
+    <value>Departments</value>
   </data>
   <data name="Language" xml:space="preserve">
     <value>Language</value>
@@ -137,6 +149,9 @@
   </data>
   <data name="Roles List" xml:space="preserve">
     <value>Roles List</value>
+  </data>
+  <data name="Search Users" xml:space="preserve">
+    <value>Search User</value>
   </data>
   <data name="SignOut" xml:space="preserve">
     <value>Sign Out</value>

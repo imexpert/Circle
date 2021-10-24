@@ -18,13 +18,6 @@ namespace Circle.Library.DataAccess.Concrete.Configurations
             builder.Property(x => x.Code).IsRequired();
             builder.Property(x => x.MessageDetail).HasMaxLength(200).IsRequired();
 
-            builder
-                .HasOne(s => s.Language)
-                .WithMany()
-                .IsRequired()
-                .HasForeignKey("LanguageId")
-                .OnDelete(DeleteBehavior.Restrict);
-
             builder.Property(s => s.RecordDate)
                .UsePropertyAccessMode(PropertyAccessMode.Field)
                .IsRequired();

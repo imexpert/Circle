@@ -10,9 +10,6 @@ using System.Threading.Tasks;
 
 namespace Circle.Library.Business.Handlers.Categories.Commands
 {
-    /// <summary>
-    ///
-    /// </summary>
     public class CreateCategoryCommand : IRequest<ResponseMessage<Category>>
     {
         public Category Model { get; set; }

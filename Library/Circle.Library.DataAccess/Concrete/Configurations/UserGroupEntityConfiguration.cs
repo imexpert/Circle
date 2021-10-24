@@ -13,22 +13,9 @@ namespace Circle.Library.DataAccess.Concrete.Configurations
 
             builder.HasKey(x => x.Id);
             builder.HasIndex(s => new { s.GroupId, s.UserId }).IsUnique();
+
             builder.Property(s => s.GroupId).IsRequired();
             builder.Property(s => s.UserId).IsRequired();
-
-            builder
-                .HasOne(s => s.Group)
-                .WithMany()
-                .IsRequired()
-                .HasForeignKey("GroupId")
-                .OnDelete(DeleteBehavior.Restrict);
-
-            builder
-                .HasOne(s => s.User)
-                .WithMany()
-                .IsRequired()
-                .HasForeignKey("UserId")
-                .OnDelete(DeleteBehavior.Restrict);
 
             builder.Property(s => s.RecordDate)
                 .UsePropertyAccessMode(PropertyAccessMode.Field)

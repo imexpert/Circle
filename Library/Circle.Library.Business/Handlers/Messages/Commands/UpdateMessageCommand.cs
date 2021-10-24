@@ -1,5 +1,4 @@
-﻿using Circle.Core.Aspects.Autofac.Transaction;
-using Circle.Core.Entities.Concrete;
+﻿using Circle.Core.Entities.Concrete;
 using Circle.Core.Utilities.Messages;
 using Circle.Core.Utilities.Results;
 using Circle.Library.Business.BusinessAspects;

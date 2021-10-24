@@ -1,5 +1,5 @@
 ﻿using Circle.Core.DataAccess;
-using Circle.Library.Entities.Concrete;
+using Circle.Core.Entities.Concrete;
 
 namespace Circle.Library.DataAccess.Abstract
 {

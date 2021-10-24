@@ -21,15 +21,7 @@ var KTDatatablesServerSide = function () {
                 className: 'row-selected'
             },
             ajax: {
-                url: "/Admin/Users/UserList",
-                type: 'POST',
-                data: {
-                    // parameters for custom backend script demo
-                    columnsDef: [
-                        'OrderID', 'Country',
-                        'ShipAddress', 'CompanyName', 'ShipDate',
-                        'Status', 'Type', 'Actions'],
-                },
+                url: "https://preview.keenthemes.com/api/datatables.php",
             },
             columns: [
                 { data: 'RecordID' },
@@ -115,13 +107,13 @@ var KTDatatablesServerSide = function () {
         });
     }
 
-    //// Search Datatable --- official docs reference: https://datatables.net/reference/api/search()
-    //var handleSearchDatatable = function () {
-    //    const filterSearch = document.querySelector('[data-kt-docs-table-filter="search"]');
-    //    filterSearch.addEventListener('keyup', function (e) {
-    //        dt.search(e.target.value).draw();
-    //    });
-    //}
+    // Search Datatable --- official docs reference: https://datatables.net/reference/api/search()
+    var handleSearchDatatable = function () {
+        const filterSearch = document.querySelector('[data-kt-docs-table-filter="search"]');
+        filterSearch.addEventListener('keyup', function (e) {
+            dt.search(e.target.value).draw();
+        });
+    }
 
     // Filter Datatable
     var handleFilterDatatable = () => {
@@ -348,11 +340,11 @@ var KTDatatablesServerSide = function () {
     return {
         init: function () {
             initDatatable();
-            //handleSearchDatatable();
-            //initToggleToolbar();
-            //handleFilterDatatable();
-            //handleDeleteRows();
-            //handleResetForm();
+            handleSearchDatatable();
+            initToggleToolbar();
+            handleFilterDatatable();
+            handleDeleteRows();
+            handleResetForm();
         }
     }
 }();

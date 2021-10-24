@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Options;
 using Microsoft.Net.Http.Headers;
 using System;
 using System.Collections.Generic;
@@ -13,7 +12,7 @@ using System.Globalization;
 using System.Linq;
 using System.Runtime.ExceptionServices;
 using System.Threading.Tasks;
-using Microsoft.Extensions.DependencyInjection;
+using System.Net;
 
 namespace Circle.Frontends.Web.Infrastructure.Extensions
 {
@@ -35,6 +34,16 @@ namespace Circle.Frontends.Web.Infrastructure.Extensions
             //{
 
             //}
+
+            application.UseStatusCodePages(async context =>
+            {
+                var response = context.HttpContext.Response;
+
+                if (response.StatusCode == (int)HttpStatusCode.Unauthorized ||
+                    response.StatusCode == (int)HttpStatusCode.Forbidden)
+                    response.Redirect("/Login");
+            });
+
             application.UseCircleExceptionHandler();
 
             application.UseCircleStaticFiles();

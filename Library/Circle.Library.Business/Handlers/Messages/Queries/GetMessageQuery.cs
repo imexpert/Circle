@@ -5,11 +5,7 @@ using Circle.Library.Business.BusinessAspects;
 using Circle.Library.Business.Helpers;
 using Circle.Library.DataAccess.Abstract;
 using MediatR;
-using Microsoft.AspNetCore.Http;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 

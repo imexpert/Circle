@@ -1,13 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Circle.Library.Business.Handlers.Groups.Commands;
 using Circle.Core.Entities.Concrete;
-using Circle.Core.Entities.Dtos;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Circle.Library.Business.Handlers.Groups.Queries;
 using System;
-using System.ComponentModel.DataAnnotations;
 
 namespace Circle.Library.Api.Controllers
 {
@@ -15,7 +11,7 @@ namespace Circle.Library.Api.Controllers
     /// If controller methods will not be Authorize, [AllowAnonymous] is used.
     /// </summary>
     ///
-    
+
     [ApiController]
     public class GroupsController : BaseApiController
     {

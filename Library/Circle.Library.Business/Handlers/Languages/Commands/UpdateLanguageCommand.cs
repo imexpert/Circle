@@ -1,15 +1,9 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using Circle.Library.Business.BusinessAspects;
-
-using Circle.Core.Aspects.Autofac.Caching;
-using Circle.Core.Aspects.Autofac.Logging;
-using Circle.Core.Aspects.Autofac.Validation;
-using Circle.Core.CrossCuttingConcerns.Logging.Serilog.Loggers;
 using Circle.Core.Utilities.Results;
 using Circle.Library.DataAccess.Abstract;
 using MediatR;
-using Circle.Library.Business.Handlers.Languages.ValidationRules;
 using System;
 using Circle.Core.Entities.Concrete;
 

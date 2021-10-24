@@ -1,13 +1,11 @@
 ﻿using Circle.Core.Utilities.Results;
 using Circle.Core.Utilities.Security.Jwt;
-using Circle.Frontends.Web.Infrastructure.Extensions;
 using Circle.Frontends.Web.Services.Abstract;
 using Circle.Library.Entities.ComplexTypes;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IdentityModel.Tokens.Jwt;

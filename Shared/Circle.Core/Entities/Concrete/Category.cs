@@ -1,15 +1,10 @@
-﻿using Circle.Core.Entities;
-using Circle.Core.Entities.Concrete;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
 
-namespace Circle.Library.Entities.Concrete
+namespace Circle.Core.Entities.Concrete
 {
     public class Category : AuditEntity
     {
+        public Guid LanguageId { get; set; }
         public Guid LinkedCategoryId { get; set; }
         public string Code { get; set; }
         public string Name { get; set; }

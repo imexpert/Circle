@@ -12,11 +12,17 @@ namespace Circle.Library.DataAccess.Concrete.Configurations
             builder.ToTable("Users", MsDbContext.DEFAULT_SCHEMA);
 
             builder.HasKey(x => x.Id);
+
+            builder.HasIndex(x => x.MobilePhones).IsUnique(true);
+            builder.HasIndex(x => x.Email).IsUnique(true);
+
             builder.Property(x => x.DepartmentId).IsRequired();
             builder.Property(x => x.Firstname).HasMaxLength(100).IsRequired();
             builder.Property(x => x.Lastname).HasMaxLength(100).IsRequired();
             builder.Property(x => x.Email).HasMaxLength(50);
             builder.Property(x => x.Password).HasMaxLength(50);
+            builder.Property(x => x.RefreshToken).HasMaxLength(100);
+            builder.Property(x => x.Image);
             builder.Property(x => x.Status).IsRequired();
             builder.Property(x => x.BirthDate);
             builder.Property(x => x.Gender);
@@ -24,15 +30,6 @@ namespace Circle.Library.DataAccess.Concrete.Configurations
             builder.Property(x => x.Address).HasMaxLength(200);
             builder.Property(x => x.MobilePhones).HasMaxLength(30);
             builder.Property(x => x.Notes).HasMaxLength(500);
-
-            builder.HasIndex(x => x.MobilePhones);
-
-            builder
-                .HasOne(s => s.Department)
-                .WithMany()
-                .IsRequired()
-                .HasForeignKey("DepartmentId")
-                .OnDelete(DeleteBehavior.Restrict);
 
             builder.Property(s => s.RecordDate)
                .UsePropertyAccessMode(PropertyAccessMode.Field)

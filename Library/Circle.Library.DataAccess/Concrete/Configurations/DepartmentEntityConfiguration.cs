@@ -1,6 +1,5 @@
 ﻿using Circle.Core.Entities.Concrete;
 using Circle.Library.DataAccess.Concrete.EntityFramework.Contexts;
-using Circle.Library.Entities.Concrete;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -12,15 +11,9 @@ namespace Circle.Library.DataAccess.Concrete.Configurations
         {
             builder.ToTable("Departments", MsDbContext.DEFAULT_SCHEMA);
 
-            builder.HasKey(x => x.Id);
-            builder.HasIndex(s => s.Title).IsUnique();
+            builder.HasKey(x => new { x.Id, x.LanguageId });
 
-            builder
-                .HasOne(s => s.Language)
-                .WithMany()
-                .IsRequired()
-                .HasForeignKey("LanguageId")
-                .OnDelete(DeleteBehavior.Restrict);
+            builder.HasIndex(s => s.Title).IsUnique();
 
             builder.Property(s => s.RecordDate)
                .UsePropertyAccessMode(PropertyAccessMode.Field)

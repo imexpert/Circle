@@ -7,7 +7,6 @@ using Autofac;
 
 using Circle.Library.Business.DependencyResolvers;
 using Circle.Core.CrossCuttingConcerns.Caching;
-using Circle.Core.CrossCuttingConcerns.Caching.Microsoft;
 using Circle.Core.DependencyResolvers;
 using Circle.Core.Extensions;
 using Circle.Core.Utilities.IoC;

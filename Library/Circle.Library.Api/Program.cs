@@ -1,4 +1,6 @@
 using Autofac.Extensions.DependencyInjection;
+using Circle.Core.Utilities.IoC;
+using MediatR;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
@@ -10,6 +12,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.Data;
 using System.IO;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Circle.Library.Api
 {

@@ -1,22 +1,13 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using Circle.Library.Business.BusinessAspects;
-using Circle.Core.Aspects.Autofac.Caching;
-using Circle.Core.Aspects.Autofac.Logging;
-using Circle.Core.Aspects.Autofac.Validation;
-using Circle.Core.CrossCuttingConcerns.Logging.Serilog.Loggers;
 using Circle.Core.Entities.Concrete;
 using Circle.Core.Utilities.Results;
 using Circle.Library.DataAccess.Abstract;
 using MediatR;
-using Circle.Library.Business.Handlers.Languages.ValidationRules;
-using Circle.Library.Entities.Concrete;
 
 namespace Circle.Library.Business.Handlers.Departments.Commands
 {
-    /// <summary>
-    ///
-    /// </summary>
     public class CreateDepartmentCommand : IRequest<ResponseMessage<Department>>
     {
         public Department Model { get; set; }

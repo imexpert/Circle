@@ -9,7 +9,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Circle.Library.Entities.ComplexTypes;
-using Microsoft.Extensions.Localization;
 
 namespace Circle.Library.Api.Controllers
 {

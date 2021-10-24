@@ -1,18 +1,9 @@
-﻿using Circle.Core.Extensions;
-using Circle.Core.Utilities.Security.Jwt;
-using Circle.Frontends.Web.Services.Abstract;
+﻿using Circle.Frontends.Web.Services.Abstract;
 using Circle.Library.Entities.ComplexTypes;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Localization;
 using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace Circle.Frontends.Web.Controllers

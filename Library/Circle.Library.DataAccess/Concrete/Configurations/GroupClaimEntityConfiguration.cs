@@ -17,20 +17,6 @@ namespace Circle.Library.DataAccess.Concrete.Configurations
             builder.Property(s => s.GroupId).IsRequired();
             builder.Property(s => s.OperationClaimId).IsRequired();
 
-            builder
-                .HasOne(s => s.Group)
-                .WithMany()
-                .IsRequired()
-                .HasForeignKey("GroupId")
-                .OnDelete(DeleteBehavior.Restrict);
-
-            builder
-                .HasOne(s => s.OperationClaim)
-                .WithMany()
-                .IsRequired()
-                .HasForeignKey("OperationClaimId")
-                .OnDelete(DeleteBehavior.Restrict);
-
             builder.Property(s => s.RecordDate)
                .UsePropertyAccessMode(PropertyAccessMode.Field)
                .IsRequired();

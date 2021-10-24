@@ -1,14 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using Circle.Library.Business.Handlers.Groups.Commands;
+﻿using System.Threading.Tasks;
 using Circle.Core.Entities.Concrete;
-using Circle.Core.Entities.Dtos;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Circle.Library.Business.Handlers.Groups.Queries;
 using System;
-using System.ComponentModel.DataAnnotations;
-using Circle.Library.Business.Handlers.Categories.Queries;
 using Circle.Library.Business.Handlers.Departments.Queries;
 using Circle.Library.Business.Handlers.Departments.Commands;
 
@@ -18,7 +11,7 @@ namespace Circle.Library.Api.Controllers
     /// If controller methods will not be Authorize, [AllowAnonymous] is used.
     /// </summary>
     ///
-    
+
     [ApiController]
     public class DepartmentsController : BaseApiController
     {

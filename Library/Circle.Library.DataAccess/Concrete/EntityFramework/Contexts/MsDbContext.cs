@@ -83,10 +83,10 @@ namespace Circle.Library.DataAccess.Concrete.EntityFramework.Contexts
                         entry.Property("UpdateUsername").CurrentValue = userId;
                     }
 
-                    //if (entry.Properties.Any(s => s.Metadata.Name == "Id"))
-                    //{
-                    //    entry.Property("Id").CurrentValue = Guid.NewGuid();
-                    //}
+                    if (entry.Properties.Any(s => s.Metadata.Name == "Id"))
+                    {
+                        entry.Property("Id").CurrentValue = Guid.NewGuid();
+                    }
 
                     if (entry.Properties.Any(s => s.Metadata.Name == "RecordDate"))
                     {

@@ -1,7 +1,9 @@
 ﻿using Circle.Core.Entities.Concrete;
 using Circle.Core.Utilities.Results;
 using Circle.Frontends.Web.Services.Abstract;
+using Circle.Library.Entities.ComplexTypes;
 using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
@@ -20,7 +22,7 @@ namespace Circle.Frontends.Web.Services.Concrete
 
         public async Task<ResponseMessage<List<Group>>> GetList()
         {
-            HttpResponseMessage response = await _httpClient.GetAsync("tr-TR/Groups/GetAll");
+            HttpResponseMessage response = await _httpClient.GetAsync("Groups/GetAll");
             string data = await response.Content.ReadAsStringAsync();
             return JsonConvert.DeserializeObject<ResponseMessage<List<Group>>>(data);
         }
@@ -35,7 +37,7 @@ namespace Circle.Frontends.Web.Services.Concrete
 
             using (StringContent content = new StringContent(json, Encoding.UTF8, "application/json"))
             {
-                var response = await _httpClient.PostAsync("tr-TR/Groups/Add", content);
+                var response = await _httpClient.PostAsync("Groups/Add", content);
 
                 // Get string data
                 string data = await response.Content.ReadAsStringAsync();
@@ -62,17 +64,12 @@ namespace Circle.Frontends.Web.Services.Concrete
 
             using (StringContent content = new StringContent(json, Encoding.UTF8, "application/json"))
             {
-                var response = await _httpClient.PostAsync("tr-TR/Groups/Update", content);
+                var response = await _httpClient.PostAsync("Groups/Update", content);
 
                 // Get string data
                 string data = await response.Content.ReadAsStringAsync();
 
                 var group = JsonConvert.DeserializeObject<ResponseMessage<Group>>(data);
-
-                if (group.IsSuccess)
-                {
-                    await UpdateAsync(group.Data);
-                }
 
                 // Deserialize the data
                 return group;
@@ -81,16 +78,25 @@ namespace Circle.Frontends.Web.Services.Concrete
 
         public async Task<ResponseMessage<List<Group>>> GetWithIdAsync(Guid groupId)
         {
-            HttpResponseMessage response = await _httpClient.GetAsync("tr-TR/Groups/GetWithId/" + groupId);
+            HttpResponseMessage response = await _httpClient.GetAsync("Groups/GetWithId/" + groupId);
             string data = await response.Content.ReadAsStringAsync();
             return JsonConvert.DeserializeObject<ResponseMessage<List<Group>>>(data);
         }
 
         public async Task<ResponseMessage<List<Group>>> DeleteAsync(Guid groupId)
         {
-            HttpResponseMessage response = await _httpClient.GetAsync("tr-TR/Groups/Delete/" + groupId);
+            HttpResponseMessage response = await _httpClient.GetAsync("Groups/Delete/" + groupId);
             string data = await response.Content.ReadAsStringAsync();
             return JsonConvert.DeserializeObject<ResponseMessage<List<Group>>>(data);
+        }
+
+
+
+        public async Task<ResponseMessage<List<GroupModel>>> GetWithClaimsAsync(Guid groupId)
+        {
+            HttpResponseMessage response = await _httpClient.GetAsync("Groups/GetWithClaims/" + groupId);
+            string data = await response.Content.ReadAsStringAsync();
+            return JsonConvert.DeserializeObject<ResponseMessage<List<GroupModel>>>(data);
         }
     }
 }

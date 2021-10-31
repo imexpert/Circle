@@ -6,7 +6,6 @@ using Circle.Core.Utilities.Results;
 using Circle.Library.DataAccess.Abstract;
 using MediatR;
 using System;
-using Circle.Library.Entities.Concrete;
 using Circle.Library.Business.Helpers;
 using Circle.Core.Utilities.Messages;
 

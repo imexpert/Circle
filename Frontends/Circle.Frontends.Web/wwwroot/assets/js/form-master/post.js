@@ -133,3 +133,22 @@ function ButtonExecute(buttontype, formID, item, formData, successfunction_, err
         });
     }
 }
+
+
+
+function loader(mode) {
+    if (mode === "show") {
+        $('#preloader').css('display', 'block');
+        $('#preloader').css('z-index', '99999');
+
+        $('#wrapper').css('filter', 'alpha(opacity=100)');
+        $('#wrapper').css('opacity', '0.2');
+    }
+    else {
+        $('#preloader').css('display', 'none');
+
+        $('#wrapper').css('filter', 'none');
+        $('#wrapper').css('opacity', '1');
+
+    }
+}

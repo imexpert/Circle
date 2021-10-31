@@ -46,6 +46,22 @@ namespace Circle.Library.Api.Controllers
         /// <summary>
         /// 
         /// </summary>
+        /// <param name="grupId"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public async Task<IActionResult> GetWithClaims(Guid groupId)
+        {
+            GetGroupWithClaimsQuery command = new GetGroupWithClaimsQuery()
+            {
+                GroupId = groupId
+            };
+
+            return CreateActionResultInstance(await Mediator.Send(command));
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
         /// <param name="group"></param>
         /// <returns></returns>
         [HttpPost]

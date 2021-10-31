@@ -2,11 +2,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Circle.Helper.Bootstrap.Grid.Column
 {
@@ -54,7 +51,7 @@ namespace Circle.Helper.Bootstrap.Grid.Column
             return RemoveUnary(expression.Body) as MemberExpression;
         }
 
-        private static System.Type GetTypeFromMemberExpression(MemberExpression memberExpression)
+        private static Type GetTypeFromMemberExpression(MemberExpression memberExpression)
         {
             if (memberExpression == null) return null;
 
@@ -65,7 +62,7 @@ namespace Circle.Helper.Bootstrap.Grid.Column
             return dataType;
         }
 
-        private static System.Type GetTypeFromMemberInfo<TMember>(MemberInfo member, Func<TMember, System.Type> func) where TMember : MemberInfo
+        private static Type GetTypeFromMemberInfo<TMember>(MemberInfo member, Func<TMember, System.Type> func) where TMember : MemberInfo
         {
             if (member is TMember)
             {

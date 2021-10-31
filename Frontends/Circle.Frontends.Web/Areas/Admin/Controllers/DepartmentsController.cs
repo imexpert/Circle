@@ -15,16 +15,17 @@ namespace Circle.Frontends.Web.Areas.Admin.Controllers
             _departmentService = departmentService;
         }
 
-        public IActionResult List()
+        public async Task<IActionResult> List()
         {
-            return View();
+            var departmentResponse = await _departmentService.GetList();
+            return View(departmentResponse.Data);
         }
 
         [HttpGet]
         public async Task<IActionResult> DepartmentList()
         {
             var departmentResponse = await _departmentService.GetList();
-            return Json(departmentResponse);
+            return Json(departmentResponse.Data);
         }
     }
 }

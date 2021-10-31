@@ -51,7 +51,7 @@ namespace Circle.Core.Bootstrap.Grid.Column
             return RemoveUnary(expression.Body) as MemberExpression;
         }
 
-        private static System.Type GetTypeFromMemberExpression(MemberExpression memberExpression)
+        private static Type GetTypeFromMemberExpression(MemberExpression memberExpression)
         {
             if (memberExpression == null) return null;
 
@@ -62,7 +62,7 @@ namespace Circle.Core.Bootstrap.Grid.Column
             return dataType;
         }
 
-        private static System.Type GetTypeFromMemberInfo<TMember>(MemberInfo member, Func<TMember, System.Type> func) where TMember : MemberInfo
+        private static Type GetTypeFromMemberInfo<TMember>(MemberInfo member, Func<TMember, System.Type> func) where TMember : MemberInfo
         {
             if (member is TMember)
             {

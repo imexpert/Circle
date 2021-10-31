@@ -1,3 +1,38 @@
-﻿
-<h1>List</h1>
+﻿@model List<Circle.Core.Entities.Concrete.Department>
 
+@using Microsoft.AspNetCore.Mvc.Localization
+
+@inject IViewLocalizer Localizer
+
+
+@using Circle.Frontends.Web.Resources
+
+@inject LocService SharedLocalizer
+
+<div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+    <!--begin::Post-->
+    <div class="post d-flex flex-column-fluid" id="kt_post">
+        <!--begin::Container-->
+        <div id="kt_content_container" class="container-xxl">
+            @(Html.CircleTable(Model)
+            .PKColumn(a => a.Id)
+            .HasFooter(false)
+            .SetToolbarSearchInputPlaceHolder("Ara Departman")
+            .Columns(s =>
+            {
+                s.Add(t => t.Title).Title(@SharedLocalizer.GetLocalizedHtmlString("Department Title"));
+                s.Add(t => t.Status).Title(@SharedLocalizer.GetLocalizedHtmlString("Department Status"));
+            })
+            .RowButtons(s=>
+            {
+                s.Add(Circle.Core.Bootstrap.Grid.Button.GridButtonType.update).Icon("fa-user");
+            }))
+        </div>
+        <!--end::Container-->
+    </div>
+    <!--end::Post-->
+</div>
+
+@section Scripts{
+    @*<script src="~/assets/js/custom/departmentmanagement/list.js" asp-append-version="true"></script>*@
+}

@@ -15,12 +15,12 @@
 
         // Private functions
         var initDatatable = function () {
-            dt = $("#kt_datatable_example_1").DataTable({
+            dt = $("#dtDepartment").DataTable({
                 responsive: true,
                 searchDelay: 500,
                 processing: true,
                 serverSide: true,
-                order: [[5, 'desc']],
+                order: [[1, 'desc']],
                 stateSave: true,
                 select: {
                     style: 'os',
@@ -28,36 +28,31 @@
                     className: 'row-selected'
                 },
                 ajax: {
-                    url: '/Admin/Users/UserList',
+                    url: '/Admin/Departments/DepartmentList',
                     type: 'GET',
                     dataFilter: function (data) {
                         var json = jQuery.parseJSON(data);
-                        json.recordsTotal = json.RecordsTotal;
-                        json.recordsFiltered = json.RecordsFiltered;
+                        json.recordsTotal = 0;
+                        json.recordsFiltered = 0;
                         json.data = json.Data;
 
                         return JSON.stringify(json); // return JSON string
                     }
                 },
                 columns: [
-                    { data: null },
-                    { data: 'Firstname' },
-                    { data: 'Lastname' },
-                    { data: 'Email' },
-                    { data: 'BirthDate' },
-                    { data: 'MobilePhones' },
+                    { data: 'Title' },
                     { data: 'Status' },
                     { data: null },
                 ],
                 columnDefs: [
                     {
-                        targets: 0,
+                        targets: 1,
                         orderable: false,
                         render: function (data) {
-                            return `
-                            <div class="form-check form-check-sm form-check-custom form-check-solid">
-                                <input class="form-check-input" type="checkbox" value="${data}" />
-                            </div>`;
+                            if (data == true) {
+                                return "@SharedLocalizer['asdas']";
+                            }
+                            return 'Pasif';
                         }
                     },
                     {
@@ -83,7 +78,7 @@
                                 <!--begin::Menu item-->
                                 <div class="menu-item px-3">
                                     <a href="#" class="menu-link px-3" data-kt-docs-table-filter="edit_row">
-                                        Düzenle
+                                        Edit
                                     </a>
                                 </div>
                                 <!--end::Menu item-->
@@ -91,7 +86,7 @@
                                 <!--begin::Menu item-->
                                 <div class="menu-item px-3">
                                     <a href="#" class="menu-link px-3" data-kt-docs-table-filter="delete_row">
-                                        Sil
+                                        Delete
                                     </a>
                                 </div>
                                 <!--end::Menu item-->
@@ -111,9 +106,9 @@
 
             // Re-init functions on every table re-draw -- more info: https://datatables.net/reference/event/draw
             dt.on('draw', function () {
-                initToggleToolbar();
-                toggleToolbars();
-                handleDeleteRows();
+                //initToggleToolbar();
+                //toggleToolbars();
+                //handleDeleteRows();
                 KTMenu.createInstances();
             });
         }
@@ -240,7 +235,7 @@
         var initToggleToolbar = function () {
             // Toggle selected action toolbar
             // Select all checkboxes
-            const container = document.querySelector('#kt_datatable_example_1');
+            const container = document.querySelector('#dtDepartment');
             const checkboxes = container.querySelectorAll('[type="checkbox"]');
 
             // Select elements
@@ -255,68 +250,12 @@
                     }, 50);
                 });
             });
-
-            // Deleted selected rows
-            deleteSelected.addEventListener('click', function () {
-                // SweetAlert2 pop up --- official docs reference: https://sweetalert2.github.io/
-                Swal.fire({
-                    text: "Are you sure you want to delete selected customers?",
-                    icon: "warning",
-                    showCancelButton: true,
-                    buttonsStyling: false,
-                    showLoaderOnConfirm: true,
-                    confirmButtonText: "Yes, delete!",
-                    cancelButtonText: "No, cancel",
-                    customClass: {
-                        confirmButton: "btn fw-bold btn-danger",
-                        cancelButton: "btn fw-bold btn-active-light-primary"
-                    },
-                }).then(function (result) {
-                    if (result.value) {
-                        // Simulate delete request -- for demo purpose only
-                        Swal.fire({
-                            text: "Deleting selected customers",
-                            icon: "info",
-                            buttonsStyling: false,
-                            showConfirmButton: false,
-                            timer: 2000
-                        }).then(function () {
-                            Swal.fire({
-                                text: "You have deleted all selected customers!.",
-                                icon: "success",
-                                buttonsStyling: false,
-                                confirmButtonText: "Ok, got it!",
-                                customClass: {
-                                    confirmButton: "btn fw-bold btn-primary",
-                                }
-                            }).then(function () {
-                                // delete row data from server and re-draw datatable
-                                dt.draw();
-                            });
-
-                            // Remove header checked box
-                            const headerCheckbox = container.querySelectorAll('[type="checkbox"]')[0];
-                            headerCheckbox.checked = false;
-                        });
-                    } else if (result.dismiss === 'cancel') {
-                        Swal.fire({
-                            text: "Selected customers was not deleted.",
-                            icon: "error",
-                            buttonsStyling: false,
-                            confirmButtonText: "Ok, got it!",
-                            customClass: {
-                                confirmButton: "btn fw-bold btn-primary",
-                            }
-                        });
-                    }
-                });
-            });
         }
 
         // Toggle toolbars
         var toggleToolbars = function () {
             // Define variables
-            const container = document.querySelector('#kt_datatable_example_1');
+            const container = document.querySelector('#dtDepartment');
             const toolbarBase = document.querySelector('[data-kt-docs-table-toolbar="base"]');
             const toolbarSelected = document.querySelector('[data-kt-docs-table-toolbar="selected"]');
             const selectedCount = document.querySelector('[data-kt-docs-table-select="selected_count"]');
@@ -351,11 +290,11 @@
         return {
             init: function () {
                 initDatatable();
-                handleSearchDatatable();
-                initToggleToolbar();
-                handleFilterDatatable();
+                //handleSearchDatatable();
+                //initToggleToolbar();
+                //handleFilterDatatable();
                 handleDeleteRows();
-                handleResetForm();
+                //handleResetForm();
             }
         }
     }();

@@ -19,7 +19,7 @@ namespace Circle.Frontends.Web.Services.Concrete
 
         public async Task<ResponseMessage<List<Department>>> GetList()
         {
-            HttpResponseMessage response = await _httpClient.GetAsync("Departments/GetList");
+            HttpResponseMessage response = await _httpClient.GetAsync("Departments/GetAll");
             string data = await response.Content.ReadAsStringAsync();
             return JsonConvert.DeserializeObject<ResponseMessage<List<Department>>>(data);
         }

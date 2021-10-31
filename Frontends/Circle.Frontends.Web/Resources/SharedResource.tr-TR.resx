@@ -120,17 +120,38 @@
   <data name="Actions" xml:space="preserve">
     <value>İşlemler</value>
   </data>
+  <data name="Active" xml:space="preserve">
+    <value>Aktif</value>
+  </data>
+  <data name="Add" xml:space="preserve">
+    <value>Yeni Ekle</value>
+  </data>
   <data name="Add User" xml:space="preserve">
     <value>Kullanıcı Ekle</value>
   </data>
   <data name="Administration" xml:space="preserve">
     <value>Yönetim İşlemleri</value>
   </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Sil</value>
+  </data>
   <data name="Department List" xml:space="preserve">
     <value>Departman Listesi</value>
   </data>
+  <data name="Department Status" xml:space="preserve">
+    <value>Durum</value>
+  </data>
+  <data name="Department Title" xml:space="preserve">
+    <value>Departman Adı</value>
+  </data>
   <data name="Departments" xml:space="preserve">
     <value>Departmanlar</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>Düzenle</value>
+  </data>
+  <data name="Filter" xml:space="preserve">
+    <value>Filtrele</value>
   </data>
   <data name="Language" xml:space="preserve">
     <value>Dil</value>
@@ -144,11 +165,17 @@
   <data name="MyProfile" xml:space="preserve">
     <value>Profilim</value>
   </data>
+  <data name="Passive" xml:space="preserve">
+    <value>Pasif</value>
+  </data>
   <data name="Roles" xml:space="preserve">
     <value>Yetki Grupları</value>
   </data>
   <data name="Roles List" xml:space="preserve">
     <value>Yetki Grup Listesi</value>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>Ara</value>
   </data>
   <data name="Search Users" xml:space="preserve">
     <value>Kullanıcı Ara</value>

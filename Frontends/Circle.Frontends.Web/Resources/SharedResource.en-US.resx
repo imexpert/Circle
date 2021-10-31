@@ -120,17 +120,35 @@
   <data name="Actions" xml:space="preserve">
     <value>Actions</value>
   </data>
+  <data name="Add" xml:space="preserve">
+    <value>Add</value>
+  </data>
   <data name="Add User" xml:space="preserve">
     <value>Add User</value>
   </data>
   <data name="Administration" xml:space="preserve">
     <value>Administration</value>
   </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
   <data name="Department List" xml:space="preserve">
     <value>Department List</value>
   </data>
+  <data name="Department Status" xml:space="preserve">
+    <value>Status</value>
+  </data>
+  <data name="Department Title" xml:space="preserve">
+    <value>Department Title</value>
+  </data>
   <data name="Departments" xml:space="preserve">
     <value>Departments</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="Filter" xml:space="preserve">
+    <value>Filter</value>
   </data>
   <data name="Language" xml:space="preserve">
     <value>Language</value>
@@ -149,6 +167,9 @@
   </data>
   <data name="Roles List" xml:space="preserve">
     <value>Roles List</value>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>Search</value>
   </data>
   <data name="Search Users" xml:space="preserve">
     <value>Search User</value>

@@ -42,9 +42,4 @@
 	<ItemGroup>
 	  <Folder Include="Bootstrap\Grid\Enum\" />
 	</ItemGroup>
-	<ItemGroup>
-	  <None Update="Bootstrap\Grid\table.html">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </None>
-	</ItemGroup>
 </Project>

@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections.Generic;
 
-namespace Circle.Core.Bootstrap.Grid
+namespace Circle.Helper.Bootstrap.Grid
 {
     public static class GridHelper
     {

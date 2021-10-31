@@ -34,7 +34,7 @@ namespace Circle.Library.Business.Handlers.Departments.Queries
             [SecuredOperation(Priority = 1)]
             public async Task<ResponseMessage<List<Department>>> Handle(GetDepartmentsQuery request, CancellationToken cancellationToken)
             {
-                var list = await _DepartmentRepository.GetListAsync();
+                var list = await _DepartmentRepository.GetListAsync(s=>s.LanguageId == LanguageExtension.LanguageId);
                 if (list == null || list.Count() <= 0)
                 {
                     return await _returnUtility.NoDataFound<List<Department>>(MessageDefinitions.KAYIT_BULUNAMADI);

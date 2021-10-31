@@ -11,7 +11,7 @@ namespace Circle.Frontends.Web.Infrastructure.Extensions
         {
             string culture = "tr-TR";
 
-            if (context.HttpContext.Request.Cookies.Any(s => s.Value == ".AspNetCore.Culture"))
+            if (context.HttpContext.Request.Cookies.Any(s => s.Key == ".AspNetCore.Culture"))
             {
                 culture = context.HttpContext.Request.Cookies[".AspNetCore.Culture"].Split('=')[2];
             }

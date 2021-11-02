@@ -39,6 +39,7 @@ namespace Circle.Core.Bootstrap.Grid
         private string updateUrl;
         private string headerTemplate;
         private string rowTemplate;
+        private string addModalId;
         private IHtmlHelper _helper;
         private IEnumerable<T> DataSource { get; set; }
         private List<GridButton> _toolbarButtons = new List<GridButton>();
@@ -172,6 +173,13 @@ namespace Circle.Core.Bootstrap.Grid
             return this;
         }
 
+        public Grid<T> SetToolbarButton(string toolbarButtonText, string modalId)
+        {
+            this.toolbarAddButtonText = toolbarButtonText;
+            this.addModalId = modalId;
+            return this;
+        }
+
         public Grid<T> HasFooter(bool hasFooter)
         {
             this.isFooter = hasFooter;
@@ -249,7 +257,7 @@ namespace Circle.Core.Bootstrap.Grid
                 sb.Append("<div class='d-flex justify-content-end' data-kt-user-table-toolbar='base'>");
 
                 //Start - Toolbar Button
-                sb.AppendFormat("<button type='button' class='btn btn-primary'>{0}", toolbarAddButtonText);
+                sb.AppendFormat("<a href='#' data-bs-toggle='modal' data-bs-target='#{0}' class='btn btn-primary'>{1}</a>", addModalId, toolbarAddButtonText);
 
                 // End - Toolbar Button
                 sb.Append("</button>");
@@ -290,8 +298,6 @@ namespace Circle.Core.Bootstrap.Grid
                 else
                     sb.AppendFormat("<th>{0}</th>", displayName);
             }
-
-            
 
             //End thead-tr
             sb.Append("</tr>");
@@ -361,16 +367,34 @@ namespace Circle.Core.Bootstrap.Grid
 
                 if (_rowButtons.Count > 0)
                 {
+                    //Start text-end
                     sb.Append("<td class='text-end'>");
 
+                    sb.Append("<a href='#' class='btn btn-light btn-active-light-primary btn-sm' data-kt-menu-trigger='click' data-kt-menu-placement='bottom-end'>Actions</a>");
 
+                    //Start menu menu-sub
+                    sb.Append("<div class='menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-bold fs-7 w-125px py-4' data-kt-menu='true' style=''>");
 
-                    sb.Append("</td>");
-                    sb.Append("<td>");
-                    foreach (var btnItem in _rowButtons)
-                    {
-                        sb.Append(btnItem.ToString());
-                    }
+                    //Start menu-item Edit
+                    sb.Append("<div class='menu-item px-3'>");
+
+                    sb.Append("<a href='' class='menu-link px-3'>Edit</a>");
+
+                    //End menu-item Edit
+                    sb.Append("</div>");
+
+                    //Start menu-item Delete
+                    sb.Append("<div class='menu-item px-3'>");
+
+                    sb.Append("<a href='' class='menu-link px-3'>Delete</a>");
+
+                    //End menu-item Delete
+                    sb.Append("</div>");
+
+                    //End menu menu-sub
+                    sb.Append("</div>");
+
+                    //End text-end
                     sb.Append("</td>");
                 }
 

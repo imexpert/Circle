@@ -120,14 +120,26 @@
   <data name="Actions" xml:space="preserve">
     <value>Actions</value>
   </data>
+  <data name="Active" xml:space="preserve">
+    <value>Active</value>
+  </data>
   <data name="Add" xml:space="preserve">
     <value>Add</value>
+  </data>
+  <data name="Add Department" xml:space="preserve">
+    <value>Add Department</value>
   </data>
   <data name="Add User" xml:space="preserve">
     <value>Add User</value>
   </data>
   <data name="Administration" xml:space="preserve">
     <value>Administration</value>
+  </data>
+  <data name="Birthdate" xml:space="preserve">
+    <value>Birthdate</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Cancel</value>
   </data>
   <data name="Delete" xml:space="preserve">
     <value>Delete</value>
@@ -141,14 +153,29 @@
   <data name="Department Title" xml:space="preserve">
     <value>Department Title</value>
   </data>
+  <data name="Department Title Input TR" xml:space="preserve">
+    <value>Department Name (Turkish)</value>
+  </data>
+  <data name="Department Title Input US" xml:space="preserve">
+    <value>Department Name (English)</value>
+  </data>
   <data name="Departments" xml:space="preserve">
     <value>Departments</value>
   </data>
   <data name="Edit" xml:space="preserve">
     <value>Edit</value>
   </data>
+  <data name="Email" xml:space="preserve">
+    <value>Email</value>
+  </data>
+  <data name="Enter Department Name" xml:space="preserve">
+    <value>Enter Department Name</value>
+  </data>
   <data name="Filter" xml:space="preserve">
     <value>Filter</value>
+  </data>
+  <data name="Firstname" xml:space="preserve">
+    <value>Firstname</value>
   </data>
   <data name="Language" xml:space="preserve">
     <value>Language</value>
@@ -159,14 +186,26 @@
   <data name="LanguageNameTR" xml:space="preserve">
     <value>Turkish</value>
   </data>
+  <data name="Lastname" xml:space="preserve">
+    <value>Lastname</value>
+  </data>
   <data name="MyProfile" xml:space="preserve">
     <value>My Profile</value>
+  </data>
+  <data name="Passive" xml:space="preserve">
+    <value>Passive</value>
+  </data>
+  <data name="Phone" xml:space="preserve">
+    <value>Phone</value>
   </data>
   <data name="Roles" xml:space="preserve">
     <value>Roles</value>
   </data>
   <data name="Roles List" xml:space="preserve">
     <value>Roles List</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Save</value>
   </data>
   <data name="Search" xml:space="preserve">
     <value>Search</value>
@@ -182,6 +221,9 @@
   </data>
   <data name="User Management" xml:space="preserve">
     <value>User Management</value>
+  </data>
+  <data name="User Status" xml:space="preserve">
+    <value>User Status</value>
   </data>
   <data name="Users" xml:space="preserve">
     <value>Users</value>

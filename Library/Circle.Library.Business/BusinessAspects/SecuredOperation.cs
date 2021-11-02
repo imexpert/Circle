@@ -1,9 +1,12 @@
-﻿using System.Linq;
+﻿using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Security;
 using Castle.DynamicProxy;
 using Circle.Core.CrossCuttingConcerns.Caching;
 using Circle.Core.Utilities.Interceptors;
 using Circle.Core.Utilities.IoC;
+using Circle.Library.DataAccess.Abstract;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -28,6 +31,8 @@ namespace Circle.Library.Business.BusinessAspects
 
         protected override void OnBefore(IInvocation invocation)
         {
+            var operationName = invocation.TargetType.ReflectedType.Name;
+
             var userId = _httpContextAccessor.HttpContext?.User.Claims
                 .FirstOrDefault(x => x.Type == "UserId")?.Value;
 
@@ -38,12 +43,22 @@ namespace Circle.Library.Business.BusinessAspects
 
             var oprClaims = _cacheManager.Get($"{CacheKeys.UserIdForClaim}={userId}") as string;
 
-            var operationName = invocation.TargetType.ReflectedType.Name;
-            if (oprClaims != null && oprClaims.Contains(operationName))
+            if (oprClaims == null)
+            {
+                IUserRepository userRepository = ServiceTool.ServiceProvider.GetService<IUserRepository>();
+
+                var claims = userRepository.GetClaims(new System.Guid(userId));
+
+                _cacheManager.Add($"{CacheKeys.UserIdForClaim}={userId}", claims.Select(x => x.Name), 3600);
+            }
+
+            oprClaims = _cacheManager.Get($"{CacheKeys.UserIdForClaim}={userId}") as string;
+
+            if (oprClaims.Contains(operationName))
             {
                 return;
             }
-
+            
             string cultureCode = _httpContextAccessor.HttpContext.Request.Path.Value.ToString().Split('/')[2];
 
             string message = string.Empty;

@@ -25,5 +25,25 @@ namespace Circle.Library.Business.Helpers
                 return language.Id;
             }
         }
+
+        public static Guid TrLanguageId
+        {
+            get
+            {
+                ILanguageRepository _languageRepository = ServiceTool.ServiceProvider.GetService<ILanguageRepository>();
+                Language language = _languageRepository.Get(s => s.Code == "tr-TR");
+                return language.Id;
+            }
+        }
+
+        public static Guid UsLanguageId
+        {
+            get
+            {
+                ILanguageRepository _languageRepository = ServiceTool.ServiceProvider.GetService<ILanguageRepository>();
+                Language language = _languageRepository.Get(s => s.Code == "en-US");
+                return language.Id;
+            }
+        }
     }
 }

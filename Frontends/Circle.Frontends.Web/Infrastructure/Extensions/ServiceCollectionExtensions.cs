@@ -35,7 +35,7 @@ namespace Circle.Frontends.Web.Infrastructure.Extensions
             {
                 s.LoginPath = "/Login/Index";
                 s.ExpireTimeSpan = TimeSpan.FromDays(60);
-                s.SlidingExpiration = true;
+                s.SlidingExpiration = false;
                 s.Cookie.Name = "circlewebcookie";
             });
 

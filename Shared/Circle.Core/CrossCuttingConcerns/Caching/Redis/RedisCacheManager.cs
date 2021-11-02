@@ -16,6 +16,7 @@ namespace Circle.Core.CrossCuttingConcerns.Caching.Redis
             int port = configuration.GetValue<int>("RedisSettings:Port");
 
             _redisEndpoint = new RedisEndpoint(redisUrl, port);
+            _redisEndpoint.Db = 1;
         }
 
         public T Get<T>(string key)
@@ -34,7 +35,7 @@ namespace Circle.Core.CrossCuttingConcerns.Caching.Redis
 
         public void Add(string key, object data, int duration)
         {
-            RedisInvoker(x => x.Add(key, data, TimeSpan.FromMinutes(duration)));
+            RedisInvoker(x => x.Add(key, data));
         }
 
         public void Add(string key, object data)

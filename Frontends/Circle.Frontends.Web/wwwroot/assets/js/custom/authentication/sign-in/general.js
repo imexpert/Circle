@@ -63,7 +63,7 @@ var KTSigninGeneral = function() {
                     // Prepare form data
                     var data = $(form).serialize();
 
-                    PostForm("/Login/Login", data).done(function (response) {
+                    PostData("/Login/Login", data).done(function (response) {
                         submitButton.removeAttribute("data-kt-indicator");
                         // Disable button to avoid multiple click 
                         submitButton.disabled = false;

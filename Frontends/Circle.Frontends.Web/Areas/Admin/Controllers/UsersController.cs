@@ -15,9 +15,10 @@ namespace Circle.Frontends.Web.Areas.Admin.Controllers
             _userService = userService;
         }
 
-        public IActionResult List()
+        public async Task<IActionResult> List()
         {
-            return View();
+            var userResponse = await _userService.GetList();
+            return View(userResponse.Data);
         }
 
         [HttpGet]

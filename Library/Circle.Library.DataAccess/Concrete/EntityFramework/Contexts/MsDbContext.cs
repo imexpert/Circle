@@ -85,7 +85,12 @@ namespace Circle.Library.DataAccess.Concrete.EntityFramework.Contexts
 
                     if (entry.Properties.Any(s => s.Metadata.Name == "Id"))
                     {
-                        entry.Property("Id").CurrentValue = Guid.NewGuid();
+                        Guid g = new Guid(entry.Property("Id").CurrentValue.ToString());
+
+                        if (g == Guid.Empty)
+                        {
+                            entry.Property("Id").CurrentValue = Guid.NewGuid();
+                        }
                     }
 
                     if (entry.Properties.Any(s => s.Metadata.Name == "RecordDate"))

@@ -1,5 +1,6 @@
 ﻿using Circle.Frontends.Web.Controllers;
 using Circle.Frontends.Web.Services.Abstract;
+using Circle.Library.Entities.ComplexTypes;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
@@ -26,6 +27,13 @@ namespace Circle.Frontends.Web.Areas.Admin.Controllers
         {
             var departmentResponse = await _departmentService.GetList();
             return Json(departmentResponse.Data);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddDepartment(CreateDepartmentModel model)
+        {
+            var departmentResponse = await _departmentService.AddAsync(model);
+            return Json(departmentResponse);
         }
     }
 }

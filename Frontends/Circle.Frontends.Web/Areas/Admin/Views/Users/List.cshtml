@@ -10,14 +10,6 @@
 @inject LocService T
 
     
-@(Html.CircleDropdown(Model.DepartmentList)
-    .ID("ddlDepartment")
-    .SetPlaceHolder("Departman Seçiniz")
-    .SetTextField(s=>s.Title)
-    .SetValueField(s=>s.Id)
-    .IsMultiple(true)
-)
-
 <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
     <!--begin::Post-->
     <div class="post d-flex flex-column-fluid" id="kt_post">
@@ -75,7 +67,7 @@
                     <!--begin::Heading-->
                     <div class="mb-13 text-center">
                         <!--begin::Title-->
-                        <h1 class="mb-3">@T.GetLocalizedHtmlString("Add Department")</h1>
+                        <h1 class="mb-3">@T.GetLocalizedHtmlString("Add User")</h1>
                         <!--end::Title-->
                     </div>
                     <!--end::Heading-->
@@ -83,11 +75,11 @@
                     <div class="d-flex flex-column mb-8 fv-row fv-plugins-icon-container">
                         <!--begin::Label-->
                         <label class="d-flex align-items-center fs-6 fw-bold mb-2">
-                            <span class="required">@T.GetLocalizedHtmlString("Department Title Input TR")</span>
-                            <i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="" data-bs-original-title="@T.GetLocalizedHtmlString("Enter Department Name")"></i>
+                            <span class="required">@T.GetLocalizedHtmlString("Firstname")</span>
+                            <i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="" data-bs-original-title="@T.GetLocalizedHtmlString("Enter User Firstname")"></i>
                         </label>
                         <!--end::Label-->
-                        <input type="text" class="form-control form-control-solid" placeholder="@T.GetLocalizedHtmlString("Enter Department Name")" name="TitleTr">
+                        <input type="text" class="form-control form-control-solid" placeholder="@T.GetLocalizedHtmlString("Enter User Firstname")" name="TitleTr">
                         <div class="fv-plugins-message-container invalid-feedback"></div>
                     </div>
                     <!--end::Input group-->
@@ -95,22 +87,48 @@
                     <div class="d-flex flex-column mb-8 fv-row fv-plugins-icon-container">
                         <!--begin::Label-->
                         <label class="d-flex align-items-center fs-6 fw-bold mb-2">
-                            <span class="required">@T.GetLocalizedHtmlString("Department Title Input US")</span>
-                            <i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="" data-bs-original-title="@T.GetLocalizedHtmlString("Enter Department Name")"></i>
+                            <span class="required">@T.GetLocalizedHtmlString("Lastname")</span>
+                            <i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="" data-bs-original-title="@T.GetLocalizedHtmlString("Enter User Lasttname")"></i>
                         </label>
                         <!--end::Label-->
-                        <input type="text" class="form-control form-control-solid" placeholder="@T.GetLocalizedHtmlString("Enter Department Name")" name="TitleUs">
+                        <input type="text" class="form-control form-control-solid" placeholder="@T.GetLocalizedHtmlString("Enter User Lasttname")" name="TitleTr">
                         <div class="fv-plugins-message-container invalid-feedback"></div>
                     </div>
                     <!--end::Input group-->
                     <!--begin::Input group-->
-                    <div class="d-flex flex-stack mb-8">
-                        <!--begin::Switch-->
-                        <label class="form-check form-switch form-check-custom form-check-solid">
-                            <input class="form-check-input" type="checkbox" name="Status" value="1" checked="checked">
-                            <span class="form-check-label fw-bold text-muted">@T.GetLocalizedHtmlString("Active")/@T.GetLocalizedHtmlString("Passive")</span>
+                    <div class="d-flex flex-column mb-8 fv-row fv-plugins-icon-container">
+                        <!--begin::Label-->
+                        <label class="d-flex align-items-center fs-6 fw-bold mb-2">
+                            <span class="required">@T.GetLocalizedHtmlString("Email")</span>
+                            <i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="" data-bs-original-title="@T.GetLocalizedHtmlString("Enter User Email")"></i>
                         </label>
-                        <!--end::Switch-->
+                        <!--end::Label-->
+                        <input type="email" class="form-control form-control-solid" placeholder="@T.GetLocalizedHtmlString("Enter User Email")" name="TitleTr">
+                        <div class="fv-plugins-message-container invalid-feedback"></div>
+                    </div>
+                    <!--end::Input group-->
+                    <!--begin::Input group-->
+                    <div class="d-flex flex-column mb-8 fv-row fv-plugins-icon-container">
+                        <!--begin::Label-->
+                        <label class="d-flex align-items-center fs-6 fw-bold mb-2">
+                            <span class="required">@T.GetLocalizedHtmlString("Phone")</span>
+                            <i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="" data-bs-original-title="@T.GetLocalizedHtmlString("Enter User Phone")"></i>
+                        </label>
+                        <!--end::Label-->
+                        <input type="email" class="form-control form-control-solid" placeholder="@T.GetLocalizedHtmlString("Enter User Phone")" name="TitleTr">
+                        <div class="fv-plugins-message-container invalid-feedback"></div>
+                    </div>
+                    <!--end::Input group-->
+                    <!--begin::Input group-->
+                    <div class="d-flex flex-column mb-8 fv-row fv-plugins-icon-container">
+                        <!--begin::Label-->
+                        <label class="d-flex align-items-center fs-6 fw-bold mb-2">
+                            <span class="required">@T.GetLocalizedHtmlString("Birthdate")</span>
+                            <i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="" data-bs-original-title="@T.GetLocalizedHtmlString("Enter User Birthdate")"></i>
+                        </label>
+                        <!--end::Label-->
+                        <input type="email" class="form-control form-control-solid" placeholder="@T.GetLocalizedHtmlString("Enter User Birthdate")" name="TitleTr">
+                        <div class="fv-plugins-message-container invalid-feedback"></div>
                     </div>
                     <!--end::Input group-->
                     <!--begin::Actions-->

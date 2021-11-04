@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Circle.Core.Utilities.Types
+namespace Circle.Helper.Utilities.Types
 {
     public class PageInfo
     {

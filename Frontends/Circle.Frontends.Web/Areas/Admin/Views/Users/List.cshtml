@@ -1,4 +1,4 @@
-﻿@model List<Circle.Core.Entities.Concrete.User>
+﻿@model Circle.Library.Entities.ComplexTypes.UserListModel
 
 @using Microsoft.AspNetCore.Mvc.Localization
 
@@ -9,12 +9,21 @@
 
 @inject LocService T
 
+    
+@(Html.CircleDropdown(Model.DepartmentList)
+    .ID("ddlDepartment")
+    .SetPlaceHolder("Departman Seçiniz")
+    .SetTextField(s=>s.Title)
+    .SetValueField(s=>s.Id)
+    .IsMultiple(true)
+)
+
 <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
     <!--begin::Post-->
     <div class="post d-flex flex-column-fluid" id="kt_post">
         <!--begin::Container-->
         <div id="kt_content_container" class="container-xxl">
-            @(Html.CircleTable(Model)
+            @(Html.CircleTable(Model.UserList)
             .PKColumn(a => a.Id)
             .HasFooter(false)
             .SetToolbarSearchInputPlaceHolder("Ara Kullanıcı")
@@ -30,7 +39,7 @@
             })
             .RowButtons(s=>
             {
-                s.Add(Circle.Core.Bootstrap.Grid.Button.GridButtonType.update).Icon("fa-user");
+                s.Add(Circle.Helper.Bootstrap.Grid.Button.GridButtonType.update).Icon("fa-user");
             }))
         </div>
         <!--end::Container-->

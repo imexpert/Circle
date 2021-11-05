@@ -1,6 +1,19 @@
 ﻿var url;
 
-function PostForm(methodName, data) {
+function PostForm(methodName, formName) {
+    url = methodName;
+    return $.ajax({
+        url: url,
+        type: "POST",
+        data: $("#" + formName).serialize(),
+        dataType: 'json',
+        contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+        cache: false,
+        error: handleError,
+    });
+}
+
+function PostData(methodName, data) {
     url = methodName;
     return $.ajax({
         url: url,
@@ -50,21 +63,60 @@ function handleError(err) {
     }
 }
 
-function ShowSuccessMessage(title, message) {
+function ShowSuccessMessage(message) {
+
+    var customTitle = "Başarılı";
+    var customButtonText = "Tamam";
+
+    var cook = readCookie('.AspNetCore.Culture');
+
+    if (cook != null && cook.endsWith('en-US')) {
+        customTitle = "Success";
+        customButtonText = "Ok";
+    }
+
     swal.fire({
-        title: title,
+        title: customTitle,
         html: message,
         icon: "success",
         allowOutsideClick: false,
         allowEscapeKey: true,
         buttonsStyling: false,
-        confirmButtonText: "Tamam",
+        confirmButtonText: customButtonText,
         customClass: {
             confirmButton: "btn font-weight-bold btn-light-primary"
         }
     }).then(function () {
 
         KTUtil.scrollTop();
+    });
+}
+
+function ShowSuccessMessage(message, url) {
+
+    var customTitle = "Başarılı";
+    var customButtonText = "Tamam";
+
+    var cook = readCookie('.AspNetCore.Culture');
+
+    if (cook != null && cook.endsWith('en-US')) {
+        customTitle = "Success";
+        customButtonText = "Ok";
+    }
+
+    swal.fire({
+        title: customTitle,
+        html: message,
+        icon: "success",
+        allowOutsideClick: false,
+        allowEscapeKey: true,
+        buttonsStyling: false,
+        confirmButtonText: customButtonText,
+        customClass: {
+            confirmButton: "btn font-weight-bold btn-light-primary"
+        }
+    }).then(function () {
+        window.location = url;
     });
 }
 
@@ -79,7 +131,7 @@ function readCookie(name) {
     return null;
 }
 
-function ShowErrorMessage(title, message) {
+function ShowErrorMessage(message) {
     var customTitle = "Hata Oluştu";
     var customButtonText = "Tamam";
 
@@ -129,5 +181,5 @@ function setLanguage(lang) {
     Post("/Base/SetLanguage", data).done(function (response) {
         window.location.href = window.location.origin + window.location.pathname + "?culture=" + lang;
     });
-    
+
 }

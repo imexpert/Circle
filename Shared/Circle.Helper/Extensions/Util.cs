@@ -8,9 +8,8 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
-using System.Threading.Tasks;
 
-namespace Circle.Core.Extensions
+namespace Circle.Helper.Extensions
 {
     internal static class Util
     {

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using Circle.Library.Business.Handlers.Departments.Queries;
 using Circle.Library.Business.Handlers.Departments.Commands;
+using Circle.Library.Entities.ComplexTypes;
 
 namespace Circle.Library.Api.Controllers
 {
@@ -49,7 +50,7 @@ namespace Circle.Library.Api.Controllers
         /// <param name="department"></param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<IActionResult> Add(Department department)
+        public async Task<IActionResult> Add(CreateDepartmentModel department)
         {
             CreateDepartmentCommand command = new CreateDepartmentCommand()
             {

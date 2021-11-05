@@ -1,18 +1,23 @@
 ﻿using Circle.Helper.Bootstrap.Grid.Button;
 using Circle.Helper.Bootstrap.Grid.Column;
+using Circle.Helper.Extensions;
+using Microsoft.AspNetCore.Html;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
+using System.Text.Encodings.Web;
 using System.Threading;
 
 namespace Circle.Helper.Bootstrap.Grid
 {
-    public class Grid<T> : HtmlString where T : class
+    public class Grid<T> : IHtmlContent where T : class
     {
         #region properties
 
@@ -21,12 +26,18 @@ namespace Circle.Helper.Bootstrap.Grid
         private string cssIcon;
         private bool sort;
         private bool isHeader;
+        private bool isToolbar;
+        private bool isToolbarSearchInput;
+        private string toolbarSearchInputPlaceholder;
+        private bool isToolbarAddButton;
+        private string toolbarAddButtonText;
         private bool isFooter;
         private Expression<Func<T, object>> pkColumn;
         private string deleteUrl;
         private string updateUrl;
         private string headerTemplate;
         private string rowTemplate;
+        private string addModalId;
         private IHtmlHelper _helper;
         private IEnumerable<T> DataSource { get; set; }
         private List<GridButton> _toolbarButtons = new List<GridButton>();
@@ -36,12 +47,16 @@ namespace Circle.Helper.Bootstrap.Grid
         #endregion
 
         #region constructor
-
         public Grid(IHtmlHelper helper, IEnumerable<T> dataSource)
         {
             _helper = helper;
+            isToolbar = true;
             isHeader = true;
             isFooter = true;
+            isToolbarSearchInput = true;
+            isToolbarAddButton = true;
+            toolbarAddButtonText = "Yeni Ekle";
+            toolbarSearchInputPlaceholder = string.Empty;
             DataSource = dataSource;
         }
 
@@ -138,6 +153,31 @@ namespace Circle.Helper.Bootstrap.Grid
             return this;
         }
 
+        public Grid<T> HasToolbar(bool hasToolbar)
+        {
+            this.isToolbar = hasToolbar;
+            return this;
+        }
+
+        public Grid<T> HasToolbarSearchInput(bool hasToolbarSearchInput)
+        {
+            this.isToolbarSearchInput = hasToolbarSearchInput;
+            return this;
+        }
+
+        public Grid<T> SetToolbarSearchInputPlaceHolder(string toolbarSearchInputPlaceHolder)
+        {
+            this.toolbarSearchInputPlaceholder = toolbarSearchInputPlaceHolder;
+            return this;
+        }
+
+        public Grid<T> SetToolbarButton(string toolbarButtonText, string modalId)
+        {
+            this.toolbarAddButtonText = toolbarButtonText;
+            this.addModalId = modalId;
+            return this;
+        }
+
         public Grid<T> HasFooter(bool hasFooter)
         {
             this.isFooter = hasFooter;
@@ -183,178 +223,190 @@ namespace Circle.Helper.Bootstrap.Grid
             if (string.IsNullOrEmpty(cssIcon))
                 cssIcon = "fa-gear";
 
-            sb.Append("<div class='panel panel-default'>");
-            if (isHeader)
-            {
-                sb.AppendFormat("<div class='panel-heading'><div class='panel-title'><i class='fa {0}'></i>&nbsp;<span>{1}</span>", cssIcon, name);
+            // Start Card
+            sb.Append("<div class='card'>");
 
-                if (_toolbarButtons.Count > 0)
+            if (isToolbar)
+            {
+                // Start Card-Header
+                sb.Append("<div class='card-header border-0 pt-6'>");
+
+                // Start Card-Title
+                sb.Append("<div class='card-title'>");
+
+                if (isToolbarSearchInput)
                 {
-                    sb.Append("<div class='pull-right'>");
-                    foreach (var item in _toolbarButtons)
-                    {
-                        sb.Append(item.ToString().Replace("btn-icon-sm", "btn-toolbar-sm"));
-                    }
+                    // Start Card-Header-Search
+                    sb.Append("<div class='d-flex align-items-center position-relative my-1'>");
+
+                    sb.AppendFormat("<input type='text' data-kt-user-table-filter='search' class='form-control form-control-solid w-250px ps-14' placeholder='{0}' />", toolbarSearchInputPlaceholder);
+
+                    // End Card-Header-Search
                     sb.Append("</div>");
                 }
 
-                sb.Append("</div></div>");
+                // End Card-Title
+                sb.Append("</div>");
+
+                // Start Card toolbar
+                sb.Append("<div class='card-toolbar'>");
+
+                // Start Card toolbar - d-flex
+                sb.Append("<div class='d-flex justify-content-end' data-kt-user-table-toolbar='base'>");
+
+                //Start - Toolbar Button
+                sb.AppendFormat("<a href='#' data-bs-toggle='modal' data-bs-target='#{0}' class='btn btn-primary'>{1}</a>", addModalId, toolbarAddButtonText);
+
+                // End - Toolbar Button
+                sb.Append("</button>");
+
+                // End Card toolbar - d-flex
+                sb.Append("</div>");
+
+                // End Card toolbar
+                sb.Append("</div>");
+
+                // End Card-Header
+                sb.Append("</div>");
             }
-            sb.Append("<div class='panel-body xs-padding'><div class='table-responsive'>");
-            sb.AppendFormat("<table id='{0}' class='table table-hover no-margin bsDataTable' ", id);
-            sb.AppendFormat("data-update='{0}'", updateUrl ?? "");
-            sb.AppendFormat("data-delete='{0}'", deleteUrl ?? "");
-            sb.Append(">");
 
-            if (headerTemplate.IsBlank())
+            //Start Card body
+            sb.Append("<div class='card-body pt-0'>");
+
+            //Start table-responsive
+            sb.Append("<div class='table-responsive'>");
+
+            //Start table
+            sb.AppendFormat("<table class='table align-middle table-row-dashed fs-6 gy-5 dataTable no-footer' id='{0}'>", id);
+
+            //Start thead
+            sb.Append("<thead>");
+
+            //Start thead-tr
+            sb.Append("<tr>");
+
+            //Seçilen kolonların eklenmesi
+            foreach (var columnHeader in _columns.Where(w => w.Hidden == false))
             {
-                sb.Append("<colgroup>");
-                if (_rowButtons.Count > 0)
-                {
-                    sb.Append("<col class='col-xs-1'>");
-                }
+                var propInfo = Util.GetPropertyInfo<T>(columnHeader.expression);
+                var displayName = Util.GetDisplayName<T>(propInfo);
 
-                for (int i = 0; i < _columns.Count(c => c.Hidden == false); i++)
-                {
-                    sb.Append("<col>");
-                }
-                sb.Append("</colgroup>");
-
-                sb.Append("<thead><tr>");
-                if (_rowButtons.Count > 0)
-                {
-                    sb.Append("<th></th>");
-                }
-
-                foreach (var columnHeader in _columns.Where(w => w.Hidden == false))
-                {
-                    var propInfo = Util.GetPropertyInfo<T>(columnHeader.expression);
-                    var displayName = Util.GetDisplayName<T>(propInfo);
+                if (!string.IsNullOrEmpty(columnHeader.Title))
+                    sb.AppendFormat("<th>{0}</th>", columnHeader.Title);
+                else
                     sb.AppendFormat("<th>{0}</th>", displayName);
-                }
+            }
 
-                sb.Append("</tr></thead>");
-            }
-            else
-            {
-                sb.Append(headerTemplate);
-            }
+            //End thead-tr
+            sb.Append("</tr>");
+
+            //End thead
+            sb.Append("</thead>");
+
+            //Start tbody
             sb.Append("<tbody>");
 
-            System.Type type = typeof(T);
+            sb.Append(GetColumnValues());
+
+            //End tbody
+            sb.Append("</tbody>");
+
+            // End table
+            sb.Append("</table>");
+
+            // End table-responsive
+            sb.Append("</div>");
+
+            // End Card body
+            sb.Append("</div>");
+
+            // End Card
+            sb.Append("</div>");
+
+            return sb.ToString();
+        }
+
+        public string GetColumnValues()
+        {
+            StringBuilder sb = new StringBuilder();
+
+            Type type = typeof(T);
 
             foreach (var item in this.DataSource)
             {
                 var pkPropInfo = Util.GetPropertyInfo<T>(pkColumn);
-                if (rowTemplate.IsBlank())
+
+                //Start tr
+                sb.AppendFormat("<tr data-id='{0}'>", item.GetPropertyValue(pkPropInfo.Name));
+
+                //Gizli olmayan kolon değerlerini alıyoruz.
+                foreach (var columnName in _columns.Where(w => w.Hidden == false))
                 {
-
-                    sb.AppendFormat("<tr data-id='{0}'", item.GetPropertyValue(pkPropInfo.Name));
-
-                    foreach (var columnName in _columns.Where(w => w.Hidden == true))
+                    string name = "";
+                    if (columnName.expression.Body.ToString().Count(f => f == '.') == 1)
                     {
-                        string name = "";
-                        if (columnName.expression.Body.ToString().Count(f => f == '.') == 1)
-                        {
-                            var cPropInfo = Util.GetPropertyInfo<T>(columnName.expression);
-                            name = cPropInfo.Name;
-                        }
-                        else
-                        {
-                            var pos = columnName.expression.Body.ToString().IndexOf(".");
-                            name = columnName.expression.Body.ToString().Remove(0, pos + 1);
-                        }
-
-                        var att = (DisplayFormatAttribute)type.GetProperty(name).GetCustomAttributes(typeof(DisplayFormatAttribute), true).SingleOrDefault();
-                        if (att == null)
-                            att = new DisplayFormatAttribute();
-
-                        sb.AppendFormat(" data-{0}='{1}'", name, item.GetPropertyValueEx(name, att.NullDisplayText, att.DataFormatString));
+                        var cPropInfo = Util.GetPropertyInfo<T>(columnName.expression);
+                        name = cPropInfo.Name;
                     }
-                    sb.Append(">");
-
-                    if (_rowButtons.Count > 0)
+                    else
                     {
-                        sb.Append("<td>");
-                        foreach (var btnItem in _rowButtons)
-                        {
-                            sb.Append(btnItem.ToString());
-                        }
-                        sb.Append("</td>");
+                        var pos = columnName.expression.Body.ToString().IndexOf(".");
+                        name = columnName.expression.Body.ToString().Remove(0, pos + 1);
                     }
 
-                    foreach (var columnName in _columns.Where(w => w.Hidden == false))
-                    {
-                        string name = "";
-                        if (columnName.expression.Body.ToString().Count(f => f == '.') == 1)
-                        {
-                            var cPropInfo = Util.GetPropertyInfo<T>(columnName.expression);
-                            name = cPropInfo.Name;
-                        }
-                        else
-                        {
-                            var pos = columnName.expression.Body.ToString().IndexOf(".");
-                            name = columnName.expression.Body.ToString().Remove(0, pos + 1);
-                        }
 
 
+                    var att = (DisplayFormatAttribute)type.GetProperty(name).GetCustomAttributes(typeof(DisplayFormatAttribute), true).SingleOrDefault();
+                    if (att == null)
+                        att = new DisplayFormatAttribute();
 
-                        var att = (DisplayFormatAttribute)type.GetProperty(name).GetCustomAttributes(typeof(DisplayFormatAttribute), true).SingleOrDefault();
-                        if (att == null)
-                            att = new DisplayFormatAttribute();
-
-                        sb.AppendFormat("<td>{0}</td>", item.GetPropertyValueEx(name, att.NullDisplayText, att.DataFormatString));
-                    }
+                    sb.AppendFormat("<td>{0}</td>", item.GetPropertyValueEx(name, att.NullDisplayText, att.DataFormatString));
                 }
-                else
+
+                if (_rowButtons.Count > 0)
                 {
-                    sb.AppendFormat("<tr data-id='{0}'>", item.GetPropertyValue(pkPropInfo.Name));
+                    //Start text-end
+                    sb.Append("<td class='text-end'>");
 
-                    if (_rowButtons.Count > 0)
-                    {
-                        sb.Append("<td>");
-                        foreach (var btnItem in _rowButtons)
-                        {
-                            sb.Append(btnItem.ToString());
-                        }
-                        sb.Append("</td>");
-                    }
+                    sb.Append("<a href='#' class='btn btn-light btn-active-light-primary btn-sm' data-kt-menu-trigger='click' data-kt-menu-placement='bottom-end'>Actions</a>");
 
-                    string[] args = new string[_columns.Count];
+                    //Start menu menu-sub
+                    sb.Append("<div class='menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-bold fs-7 w-125px py-4' data-kt-menu='true' style=''>");
 
-                    int i = 0;
-                    foreach (var columnName in _columns.Where(w => w.Hidden == false))
-                    {
-                        string name = "";
-                        if (columnName.expression.Body.ToString().Count(f => f == '.') == 1)
-                        {
-                            var cPropInfo = Util.GetPropertyInfo<T>(columnName.expression);
-                            name = cPropInfo.Name;
-                        }
-                        else
-                        {
-                            var pos = columnName.expression.Body.ToString().IndexOf(".");
-                            name = columnName.expression.Body.ToString().Remove(0, pos + 1);
-                        }
-                        args[i] = item.GetPropertyValue(name).ToString();
+                    //Start menu-item Edit
+                    sb.Append("<div class='menu-item px-3'>");
 
-                        i++;
-                    }
+                    sb.Append("<a href='' class='menu-link px-3'>Edit</a>");
 
-                    sb.AppendFormat(rowTemplate, args);
+                    //End menu-item Edit
+                    sb.Append("</div>");
+
+                    //Start menu-item Delete
+                    sb.Append("<div class='menu-item px-3'>");
+
+                    sb.Append("<a href='' class='menu-link px-3'>Delete</a>");
+
+                    //End menu-item Delete
+                    sb.Append("</div>");
+
+                    //End menu menu-sub
+                    sb.Append("</div>");
+
+                    //End text-end
+                    sb.Append("</td>");
                 }
+
+                //End tr
                 sb.Append("</tr>");
             }
-            sb.Append("</tbody></table></div></div>");
-            if (isFooter)
-            {
-                sb.Append("<div class='panel-footer' style='min-height:54px'>");
-                sb.Append(_helper.Pager("", new PageInfo() { RecordCount = (this.DataSource as PagedList<T>).RecordCount, PageNumber = (this.DataSource as PagedList<T>).PageNumber, PageSize = (this.DataSource as PagedList<T>).PageSize }, "pull-right no-margin").ToString());
-                sb.Append("</div>");
-            }
-            sb.Append("</div>");
 
             return sb.ToString();
+        }
+
+        public void WriteTo(TextWriter writer, HtmlEncoder encoder)
+        {
+            string aaa = ToHtmlString();
+            writer.Write(aaa);
         }
 
 

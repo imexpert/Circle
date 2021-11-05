@@ -26,6 +26,7 @@ namespace Circle.Library.Business.Helpers
             }
         }
 
+
         public static Guid LanguageId_Tr
         {
             get
@@ -39,6 +40,25 @@ namespace Circle.Library.Business.Helpers
             get
             {
                 return Guid.Parse("852A6581-7493-4669-982D-A9E30DBFD000");
+
+        public static Guid TrLanguageId
+        {
+            get
+            {
+                ILanguageRepository _languageRepository = ServiceTool.ServiceProvider.GetService<ILanguageRepository>();
+                Language language = _languageRepository.Get(s => s.Code == "tr-TR");
+                return language.Id;
+            }
+        }
+
+        public static Guid UsLanguageId
+        {
+            get
+            {
+                ILanguageRepository _languageRepository = ServiceTool.ServiceProvider.GetService<ILanguageRepository>();
+                Language language = _languageRepository.Get(s => s.Code == "en-US");
+                return language.Id;
+
             }
         }
     }

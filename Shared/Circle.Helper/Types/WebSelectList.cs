@@ -1,4 +1,4 @@
-﻿using Circle.Core.Extensions;
+﻿using Circle.Helper.Extensions;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Circle.Core.Utilities.Types
+namespace Circle.Helper.Utilities.Types
 {
     public class WebSelectList : IEnumerable<WebSelectListItem>
     {

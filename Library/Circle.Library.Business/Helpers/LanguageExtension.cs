@@ -40,7 +40,8 @@ namespace Circle.Library.Business.Helpers
             get
             {
                 return Guid.Parse("852A6581-7493-4669-982D-A9E30DBFD000");
-
+            }
+        }
         public static Guid TrLanguageId
         {
             get

@@ -48,7 +48,7 @@ namespace Circle.Library.Business.Handlers.Groups.Queries
                 result = list.Select
                     (x => new GroupModel
                     {
-                        Group_ = x
+                        Group = x
                         ,
                         GroupClaims = groupClaim.Where(x2 => x2.GroupId == x.Id).
                         Select(x3 => new GroupClaimModel
@@ -59,33 +59,10 @@ namespace Circle.Library.Business.Handlers.Groups.Queries
                         ,
                             OperationClaimId = x3.OperationClaimId
                         ,
-                            Description = operationClaim.Where(x4 => x4.Id == x3.OperationClaimId).FirstOrDefault().Description
+                            Description = operationClaim.Where(x4 => x4.Id == x3.OperationClaimId && x4.LanguageId == x.LanguageId).Count() > 0 ? operationClaim.Where(x4 => x4.Id == x3.OperationClaimId && x4.LanguageId == x.LanguageId).FirstOrDefault().Description : (operationClaim.Where(x4 => x4.Id == x3.OperationClaimId).Count() > 0 ? operationClaim.Where(x4 => x4.Id == x3.OperationClaimId).FirstOrDefault().Description : "")
                         }).ToList()
                     }).ToList();
 
-                //result.GroupClaims = groupClaim.Result;
-
-                //result = list.Select
-                //    (x => new GroupModel
-                //    {
-                //        Id = x.Id
-                //        ,
-                //        GroupName = x.GroupName
-                //        ,
-                //        Ip = x.Ip
-                //        ,
-                //        LanguageId = x.LanguageId
-                //        ,
-                //        RecordDate = x.RecordDate
-                //        ,
-                //        RecordUsername = x.RecordUsername
-                //        ,
-                //        UpdateDate = x.UpdateDate
-                //        ,
-                //        UpdateUsername = x.UpdateUsername
-                //        ,
-                //        GroupClaims = groupClaim.Result.Where(x2 => x2.GroupId == x.Id).ToList()
-                //    }).ToList();
                 if (result == null || result.Count() <= 0)
                 {
                     return await _returnUtility.NoDataFound<List<GroupModel>>(MessageDefinitions.KAYIT_BULUNAMADI);

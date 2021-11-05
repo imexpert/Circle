@@ -3,6 +3,7 @@ using Circle.Core.Utilities.Results;
 using Circle.Frontends.Web.Controllers;
 using Circle.Frontends.Web.Models;
 using Circle.Frontends.Web.Services.Abstract;
+using Circle.Library.Business.Helpers;
 using Circle.Library.Entities.ComplexTypes;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -18,6 +19,7 @@ namespace Circle.Frontends.Web.Areas.Admin.Controllers
     {
         IGroupService _groupService;
         IOperationClaimService _operationClaimService;
+
         IGroupClaimService _groupClaimService;
         public GroupsController(IGroupService groupService, IOperationClaimService operationClaimService, IGroupClaimService groupClaimService)
         {
@@ -47,126 +49,84 @@ namespace Circle.Frontends.Web.Areas.Admin.Controllers
             else
             {
                 GroupModel item = new GroupModel();
-                item.Group_ = new Group { GroupName = "", Id = Guid.Empty };
+                item.Group = new Group { GroupName = "", Id = Guid.Empty, LanguageId = LanguageExtension.LanguageId_Tr };
+                item.GroupEn = new Group { GroupName = "", Id = Guid.Empty, LanguageId = LanguageExtension.LanguageId_En };
                 item.GroupClaims = new List<GroupClaimModel>();
                 result.IsSuccess = true;
                 result.StatusCode = 200;
                 result.Data = new List<GroupModel>();
                 result.Data.Add(item);
+                result.Data.Add(new GroupModel { Group = new Group { GroupName = "", Id = Guid.Empty, LanguageId = LanguageExtension.LanguageId_En }, GroupClaims = new List<GroupClaimModel>() });
             }
-
-            //ViewBag.ID = ID;
-            TempData["OperationClaims"] = await _operationClaimService.GetList();
+            var xxx = await _operationClaimService.GetList();
+            TempData["OperationClaims"] = xxx.Data;
             return View(result);
         }
 
         [HttpPost]
         public async Task<IActionResult> GetGroupSilModal(IFormCollection collection)
         {
-            PageItem item = new PageItem();
             Guid ID = Guid.Parse(collection["ID"]);
-            if (ID != Guid.Empty)
-            {
-                var result = await _groupService.GetList();
-                item.listGroup = result.Data;
-            }
-            else
-            {
-                item.listGroup.Add(new Group { Id = Guid.Empty });
-            }
-            return View(item);
+            return View(await _groupService.GetWithIdAsync(ID));
         }
         #endregion
 
         #region post işlemleri
         [HttpPost]
-        public async Task<IActionResult> AddGroup(IFormCollection collection)
+        public async Task<ResponseMessage<Group>> AddGroup(IFormCollection collection)
         {
-            Group group = new Group();
-            group.Id = Guid.NewGuid();
-            group.GroupName = collection["GroupName"];
+            GroupModel groupModel = new GroupModel();
+            groupModel.Group = new Group { Id = Guid.NewGuid(), LanguageId = LanguageExtension.LanguageId_Tr, GroupName = collection["GroupNameTr"] };
+            groupModel.GroupEn = new Group { Id = groupModel.Group.Id, LanguageId = LanguageExtension.LanguageId_En, GroupName = collection["GroupNameEn"] };
 
-            var result = await _groupService.AddAsync(group);
-            if (result.IsSuccess)
+            groupModel.GroupClaims = new List<GroupClaimModel>();
+            string roleList = collection["roleList"];
+            foreach (var item in roleList.Split(','))
             {
-                string roleList = collection["roleList"];
-                foreach (var item in roleList.Split(','))
-                {
-                    GroupClaim groupClaim = new GroupClaim();
-                    groupClaim.Id = Guid.Parse(item.Split('#')[1].ToString());
-                    groupClaim.OperationClaimId = Guid.Parse(item.Split('#')[0].ToString());
-                    groupClaim.GroupId = result.Data.Id;
-                    if (groupClaim.Id == Guid.Empty)
-                        await _groupClaimService.AddAsync(groupClaim);
-                    else
-                        await _groupClaimService.UpdateAsync(groupClaim);
-                }
+                if (item == "" || item == null)
+                    continue;
+                GroupClaimModel groupClaim = new GroupClaimModel();
+                groupClaim.OperationClaimId = Guid.Parse(item);
+                groupModel.GroupClaims.Add(groupClaim);
             }
-            return View(null);
+
+            var result = await _groupService.AddAsync(groupModel);
+            //return View(result);
+            return result;
         }
 
         [HttpPost]
-        public async Task<IActionResult> UpdateGroup(IFormCollection collection)
+        public async Task<ResponseMessage<Group>>/*Task<IActionResult>*/ UpdateGroup(IFormCollection collection)
         {
-            Group group = new Group();
-            group.Id = Guid.Parse(collection["Id"]);
-            group.GroupName = collection["GroupName"];
-            var result = await _groupService.UpdateAsync(group);
-            if (result.IsSuccess)
+            GroupModel groupModel = new GroupModel();
+            groupModel.Group = new Group { LanguageId = LanguageExtension.LanguageId_Tr, GroupName = collection["GroupNameTr"], Id = Guid.Parse(collection["Id"]) };
+            groupModel.GroupEn = new Group { LanguageId = LanguageExtension.LanguageId_En, GroupName = collection["GroupNameEn"], Id = groupModel.Group.Id };
+
+            groupModel.GroupClaims = new List<GroupClaimModel>();
+            string roleList = collection["roleList"];
+            foreach (var item in roleList.Split(','))
             {
-                string roleList = collection["roleList"];
-                foreach (var item in roleList.Split(','))
-                {
-                    GroupClaim groupClaim = new GroupClaim();
-                    groupClaim.Id = Guid.Parse(item.Split('#')[1].ToString());
-                    groupClaim.OperationClaimId = Guid.Parse(item.Split('#')[0].ToString());
-                    groupClaim.GroupId = result.Data.Id;
-                    if (groupClaim.Id == Guid.Empty)
-                        await _groupClaimService.AddAsync(groupClaim);
-                    else
-                        await _groupClaimService.UpdateAsync(groupClaim);
-                }
+                if (item == "" || item == null)
+                    continue;
+                GroupClaimModel groupClaim = new GroupClaimModel();
+                groupClaim.OperationClaimId = Guid.Parse(item);
+                groupModel.GroupClaims.Add(groupClaim);
             }
-            return View(result);
+            var result = await _groupService.UpdateAsync(groupModel);
+            //return View(result);
+            return result;
         }
 
         [HttpPost]
-        public async Task<IActionResult> DeleteGroup(IFormCollection collection)
+        public async Task<ResponseMessage<List<Group>>> DeleteGroup(IFormCollection collection)
         {
+            string xxx = collection["ID"];
+            Guid xxxss = Guid.Parse(collection["ID"]);
             var result = await _groupService.DeleteAsync(Guid.Parse(collection["ID"]));
-            return View(result);
+            //return View(result);
+            return result;
         }
 
-        //[HttpPost]
-        //public async Task<IActionResult> GroupIslem(IFormCollection collection)
-        //{
-        //    string type = collection["type"];
-        //    Group item = new Group();
-        //    item.Id = Guid.Parse(collection["ID"]);
-        //    if (type == "Kaydet")
-        //    {
-        //        item.GroupName = collection["txtGroupName"];
-        //        if (item.Id != Guid.Empty)
-        //        {
-        //            var result = await _groupService.AddAsync(item);
-        //            return View(result);
-        //        }
-        //        else
-        //        {
-        //            var result = await _groupService.UpdateAsync(item);
-        //            return View(result);
-        //        }
-        //    }
-        //    else if (type == "Sil")
-        //    {
-        //        var result = await _groupService.DeleteAsync(item.Id);
-        //        return View(result);
-        //    }
-        //    else
-        //    {
-        //        return View();
-        //    }
-        //}
         #endregion
     }
 }

@@ -5,19 +5,20 @@
 @using Circle.Core.Entities.Concrete
 @using Circle.Frontends.Web.Models
 @using Circle.Library.Entities.ComplexTypes
+@using Circle.Library.Business.Helpers
 
 @model ResponseMessage<List<GroupModel>>
 
 
 <div id="mdlForm" class="modal-content">
     <div class="modal-header">
-        @if (Model.Data.FirstOrDefault().Group_.Id == Guid.Empty)
+        @if (Model.Data.FirstOrDefault().Group.Id == Guid.Empty)
         {
             <h2 class="fw-bolder">Add Rolesss</h2>
         }
         else
         {
-            <h2 class="fw-bolder">Update Rolesss - @Model.Data.FirstOrDefault().Group_.GroupName</h2>
+            <h2 class="fw-bolder">Update Rolesss - @Model.Data.FirstOrDefault().Group.GroupName</h2>
         }
         <div class="btn btn-icon btn-sm btn-active-icon-primary" data-kt-roles-modal-action="close">
             <span class="svg-icon svg-icon-1">
@@ -33,9 +34,16 @@
             <div class="d-flex flex-column scroll-y me-n7 pe-7" id="kt_modal_update_role_scroll" data-kt-scroll="true" data-kt-scroll-activate="{default: false, lg: true}" data-kt-scroll-max-height="auto" data-kt-scroll-dependencies="#kt_modal_update_role_header" data-kt-scroll-wrappers="#kt_modal_update_role_scroll" data-kt-scroll-offset="300px">
                 <div class="fv-row mb-10">
                     <label class="fs-5 fw-bolder form-label mb-2">
-                        <span class="required">Role name</span>
+                        <span class="required">Rol adı (Türkçe)</span>
                     </label>
-                    <input class="form-control form-control-solid" placeholder="Enter a role name" name="GroupName" value="@Model.Data.FirstOrDefault().Group_.GroupName" />
+                    <input class="form-control form-control-solid" placeholder="rol adı giriniz (türkçe)" name="GroupNameTr" value="@(Model.Data.Where(x => x.Group.LanguageId == LanguageExtension.LanguageId_Tr).Count()>0?Model.Data.Where(x => x.Group.LanguageId == LanguageExtension.LanguageId_Tr).FirstOrDefault().Group.GroupName:"")" />
+                </div>
+                <div class="fv-row mb-10">
+                    <label class="fs-5 fw-bolder form-label mb-2">
+                        <span class="required">Rol adı (İngilizce)</span>
+                    </label>
+                    <input class="form-control form-control-solid" placeholder="rol adı giriniz (ingilizce)" name="GroupNameEn" value="@(Model.Data.Where(x => x.Group.LanguageId == LanguageExtension.LanguageId_En).Count()>0?Model.Data.Where(x => x.Group.LanguageId == LanguageExtension.LanguageId_En).FirstOrDefault().Group.GroupName:"")" />
+
                 </div>
                 <div class="fv-row">
                     <label class="fs-5 fw-bolder form-label mb-2">Role Permissions</label>
@@ -54,57 +62,40 @@
                                         </label>
                                     </td>
                                 </tr>
-
-                                @for (int i = 0; i < ((ResponseMessage<List<OperationClaim>>)TempData["OperationClaims"]).Data.Count; i = i + 2)
+                                @{ List<OperationClaim> lstSelect = ((List<OperationClaim>)TempData["OperationClaims"]); }
+                                @for (int i = 0; i < lstSelect.Count; i = i + 2)
                                 {
                                     <tr>
-                                        <td class="text-gray-800">@(((ResponseMessage<List<OperationClaim>>)TempData["OperationClaims"]).Data[i].Description)</td>
+                                        <td class="text-gray-800">@(lstSelect[i].Description)</td>
                                         <td>
                                             <div class="d-flex">
                                                 <label class="form-check form-check-sm form-check-custom form-check-solid me-5 me-lg-20">
-                                                    <input class="form-check-input" data-mode="role" type="checkbox" value="@(((ResponseMessage<List<OperationClaim>>)TempData["OperationClaims"]).Data[i].Id)" name="user_management_read" data-data1="@(Model.Data.FirstOrDefault().GroupClaims.Where(x => x.OperationClaimId == ((ResponseMessage<List<OperationClaim>>)TempData["OperationClaims"]).Data[i].Id).Count() > 0 ? Model.Data.FirstOrDefault().GroupClaims.Where(x => x.OperationClaimId == ((ResponseMessage<List<OperationClaim>>)TempData["OperationClaims"]).Data[i ].Id).FirstOrDefault().Id : Guid.Empty)" @(Model.Data.FirstOrDefault().GroupClaims.Where(x => x.OperationClaimId == ((ResponseMessage<List<OperationClaim>>)TempData["OperationClaims"]).Data[i].Id).Count() > 0 ? "checked=checked" : "") />
-                                                    <span class="form-check-label">Authorized</span>
+                                                    <input class="form-check-input" data-mode="role" type="checkbox" value="@(lstSelect[i].Id)" name="user_management_read" @(Model.Data.FirstOrDefault().GroupClaims.Where(x => x.OperationClaimId == lstSelect[i].Id).Count() > 0 ? "checked=checked" : "") />
                                                 </label>
                                             </div>
                                         </td>
-                                        @if (i + 1 < ((ResponseMessage<List<OperationClaim>>)TempData["OperationClaims"]).Data.Count)
+                                        @if (i + 1 < lstSelect.Count)
                                         {
-                                            <td class="text-gray-800">@(((ResponseMessage<List<OperationClaim>>)TempData["OperationClaims"]).Data[i+1].Description)</td>
+                                            <td class="text-gray-800">@(lstSelect[i+1].Description)</td>
                                             <td>
                                                 <div class="d-flex">
                                                     <label class="form-check form-check-sm form-check-custom form-check-solid me-5 me-lg-20">
-                                                        <input class="form-check-input" data-mode="role" type="checkbox" value="@(((ResponseMessage<List<OperationClaim>>)TempData["OperationClaims"]).Data[i+1].Id)" name="user_management_read" data-data1="@(Model.Data.FirstOrDefault().GroupClaims.Where(x => x.OperationClaimId == ((ResponseMessage<List<OperationClaim>>)TempData["OperationClaims"]).Data[i + 1].Id).Count() > 0 ? Model.Data.FirstOrDefault().GroupClaims.Where(x => x.OperationClaimId == ((ResponseMessage<List<OperationClaim>>)TempData["OperationClaims"]).Data[i + 1].Id).FirstOrDefault().Id : Guid.Empty)" @(Model.Data.FirstOrDefault().GroupClaims.Where(x => x.OperationClaimId == ((ResponseMessage<List<OperationClaim>>)TempData["OperationClaims"]).Data[i + 1].Id).Count() > 0 ? "checked=checked" : "") />
-                                                        <span class="form-check-label">Authorized</span>
+                                                        <input class="form-check-input" data-mode="role" type="checkbox" value="@(lstSelect[i+1].Id)" name="user_management_read" @(Model.Data.FirstOrDefault().GroupClaims.Where(x => x.OperationClaimId == lstSelect[i + 1].Id).Count() > 0 ? "checked=checked" : "") />
                                                     </label>
                                                 </div>
                                             </td>
                                         }
                                     </tr>
                                 }
-                                @*@foreach (var item in ((ResponseMessage<List<OperationClaim>>)TempData["OperationClaims"]).Data)
-                                    {
-                                        <tr>
-                                            <td class="text-gray-800">@item.Description</td>
-                                            <td>
-                                                <div class="d-flex">
-                                                    <label class="form-check form-check-sm form-check-custom form-check-solid me-5 me-lg-20">
-                                                        <input class="form-check-input" type="checkbox" value="@item.Id" name="user_management_read" @(Model.Data.FirstOrDefault().GroupClaims.Where(x => x.OperationClaimId == item.Id).Count() > 0 ? "checked=checked" : "") />
-                                                        <span class="form-check-label">Authorized</span>
-                                                    </label>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    }*@
-
                             </tbody>
                         </table>
                     </div>
                 </div>
             </div>
             <div class="text-center pt-15">
-                <input type="hidden" name="Id" value="@Model.Data.FirstOrDefault().Group_.Id" />
+                <input type="hidden" name="Id" value="@Model.Data.FirstOrDefault().Group.Id" />
                 <button type="reset" class="btn btn-light me-3" data-kt-roles-modal-action="cancel">Discard</button>
-                <a data-mode="GroupIslem" data-url="@(Model.Data.FirstOrDefault().Group_.Id==Guid.Empty?"/Admin/Groups/AddGroup/":"/Admin/Groups/UpdateGroup/")" class="btn btn-primary" data-kt-roles-modal-action="submit">
+                <a data-mode="GroupIslem" data-url="@(Model.Data.FirstOrDefault().Group.Id==Guid.Empty?"/Admin/Groups/AddGroup/":"/Admin/Groups/UpdateGroup/")" class="btn btn-primary" data-kt-roles-modal-action="submit">
                     <span class="indicator-label">Submit</span>
                     <span class="indicator-progress">
                         Please wait...

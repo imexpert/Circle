@@ -44,11 +44,6 @@ namespace Circle.Frontends.Web.Services.Concrete
 
                 var groupClaim = JsonConvert.DeserializeObject<ResponseMessage<GroupClaim>>(data);
 
-                if (groupClaim.IsSuccess)
-                {
-                    await AddAsync(groupClaim.Data);
-                }
-
                 // Deserialize the data
                 return groupClaim;
             }

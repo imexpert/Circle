@@ -14,6 +14,7 @@ namespace Circle.Core.DataAccess
         void AddRange(List<T> entity);
         T Update(T entity);
         void Delete(T entity);
+        void DeleteRange(List<T> entity);
         IEnumerable<T> GetList(Expression<Func<T, bool>> expression = null);
         Task<List<T>> GetListAsync(Expression<Func<T, bool>> expression = null);
         T Get(Expression<Func<T, bool>> expression);

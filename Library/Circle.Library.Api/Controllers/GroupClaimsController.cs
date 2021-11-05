@@ -4,6 +4,7 @@ using Circle.Library.Business.Handlers.GroupClaims.Queries;
 using Circle.Core.Entities.Concrete;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using Circle.Library.Entities.ComplexTypes;
 
 namespace Circle.Library.Api.Controllers
 {
@@ -46,14 +47,14 @@ namespace Circle.Library.Api.Controllers
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="groupClaim"></param>
+        /// <param name="groupWithGroupClaimsModel"></param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<IActionResult> Add([FromBody]GroupClaim groupClaim)
+        public async Task<IActionResult> Add([FromBody] GroupModel groupModel)
         {
             CreateGroupClaimCommand command = new CreateGroupClaimCommand()
             {
-                Model = groupClaim
+                Model = groupModel
             };
 
             return CreateActionResultInstance(await Mediator.Send(command));

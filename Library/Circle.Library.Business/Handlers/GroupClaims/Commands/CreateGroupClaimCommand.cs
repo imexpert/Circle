@@ -7,14 +7,16 @@ using MediatR;
 using Circle.Library.Business.Helpers;
 using Circle.Core.Utilities.Messages;
 using Circle.Library.Business.BusinessAspects;
+using System.Collections.Generic;
+using Circle.Library.Entities.ComplexTypes;
 
 namespace Circle.Library.Business.Handlers.GroupClaims.Commands
 {
-    public class CreateGroupClaimCommand : IRequest<ResponseMessage<GroupClaim>>
+    public class CreateGroupClaimCommand : IRequest<ResponseMessage<List<GroupClaim>>>
     {
-        public GroupClaim Model { get; set; }
+        public GroupModel Model { get; set; }
 
-        public class CreateGroupClaimCommandHandler : IRequestHandler<CreateGroupClaimCommand, ResponseMessage<GroupClaim>>
+        public class CreateGroupClaimCommandHandler : IRequestHandler<CreateGroupClaimCommand, ResponseMessage<List<GroupClaim>>>
         {
             private readonly IGroupClaimRepository _groupClaimRepository;
             private readonly IGroupRepository _groupRepository;
@@ -30,30 +32,38 @@ namespace Circle.Library.Business.Handlers.GroupClaims.Commands
             }
 
             [SecuredOperation(Priority = 1)]
-            public async Task<ResponseMessage<GroupClaim>> Handle(CreateGroupClaimCommand request, CancellationToken cancellationToken)
+            public async Task<ResponseMessage<List<GroupClaim>>> Handle(CreateGroupClaimCommand request, CancellationToken cancellationToken)
             {
-                var groupClaim = new GroupClaim
-                {
-                    OperationClaimId = request.Model.OperationClaimId,
-                    GroupId = request.Model.GroupId
-                };
-
-                var isGroupExists = await _groupRepository.GetAsync(s => s.Id == groupClaim.GroupId);
+                var isGroupExists = await _groupRepository.GetAsync(s => s.Id == request.Model.Group.Id);
                 if (isGroupExists == null || isGroupExists.Id == System.Guid.Empty)
                 {
-                    return await _returnUtility.Fail<GroupClaim>(MessageDefinitions.KAYIT_BULUNAMADI);
+                    return await _returnUtility.Fail<List<GroupClaim>>(MessageDefinitions.KAYIT_BULUNAMADI);
                 }
 
-                var isOperationExists = await _operationClaimRepository.GetAsync(s => s.Id == groupClaim.OperationClaimId);
-                if (isOperationExists == null || isOperationExists.Id == System.Guid.Empty)
+                var groupClaimsToDelete = await _groupClaimRepository.GetListAsync(x => x.GroupId == isGroupExists.Id);
+                if (groupClaimsToDelete.Count > 0)
                 {
-                    return await _returnUtility.Fail<GroupClaim>(MessageDefinitions.KAYIT_BULUNAMADI);
+                    _groupClaimRepository.DeleteRange(groupClaimsToDelete);
+                    await _groupClaimRepository.SaveChangesAsync();
                 }
-
-                _groupClaimRepository.Add(groupClaim);
+                List<GroupClaim> groupClaims = new List<GroupClaim>();
+                foreach (var item in request.Model.GroupClaims)
+                {
+                    var groupClaim = new GroupClaim
+                    {
+                        OperationClaimId = item.OperationClaimId,
+                        GroupId = isGroupExists.Id
+                    };
+                    var isOperationExists = await _operationClaimRepository.GetAsync(s => s.Id == groupClaim.OperationClaimId);
+                    if (isOperationExists == null || isOperationExists.Id == System.Guid.Empty)
+                    {
+                        return await _returnUtility.Fail<List<GroupClaim>>(MessageDefinitions.KAYIT_BULUNAMADI);
+                    }
+                    groupClaims.Add(_groupClaimRepository.Add(groupClaim));
+                }
                 await _groupClaimRepository.SaveChangesAsync();
 
-                return await _returnUtility.SuccessWithData(MessageDefinitions.KAYIT_ISLEMI_BASARILI, groupClaim);
+                return await _returnUtility.SuccessWithData(MessageDefinitions.KAYIT_ISLEMI_BASARILI, groupClaims);
             }
         }
     }

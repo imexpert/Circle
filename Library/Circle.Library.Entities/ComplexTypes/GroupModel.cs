@@ -10,7 +10,8 @@ namespace Circle.Library.Entities.ComplexTypes
 
     public class GroupModel
     {
-        public Group Group_ { get; set; }
+        public Group Group { get; set; }
+        public Group GroupEn { get; set; }
         public List<GroupClaimModel> GroupClaims { get; set; }
     }
 }

@@ -7,43 +7,31 @@
         if (mode === "GetGroupFormModal") {
             $(buton).data('url', "/Admin/Groups/GetGroupFormModal");
             formData.append("ID", $(buton).data("data1"));
-            ButtonExecute("partial", "", this, formData, function () {
+            ButtonExecute("partial", "", buton, formData, function () {
                 $("#mdl").modal("show");
             }, function () { }, "false", "#dvMdlDialog");
         }
-        //else if (mode === "GroupIslem") {
-        //    $(buton).data('url', "/Admin/Groups/GroupIslem/");
-        //    formData.append("ID", $(buton).data("data1"));
-        //    formData.append("type", $(buton).data("type"));
-        //    if (FormValidate(buton)) {
-        //        ButtonExecute("post", "#mdlForm", buton, formData, function (result) {
-        //            if (result.split("|")[0] === "Ok") {
-        //                location.reload();
-        //            }
-        //            else {
-        //                alert(result.split("|")[1]);
-        //            }
-        //        }, function () { }, "false", "");
-        //    }
-        //}
         else if (mode === "GroupIslem") {
-            //$(buton).data('url', "/Admin/Groups/GroupIslem/");
-            if ($(buton).data("url") === "/Admin/Groups/DeleteGroup/") formData.append("ID", $(buton).data("data1"));
-
+            //if ($(buton).data("url") === "/Admin/Groups/DeleteGroup/") formData.append("ID", $(buton).data("data1"));
             var roleList = "";
             $('input[data-mode=role]').each(function () {
                 if (this.checked)
-                    roleList += $(this).val() + "#" + $(this).data("data1") + ",";
+                    roleList += $(this).val() + ",";
             });
             formData.append("roleList", roleList);
 
             //if (FormValidate(buton)) {
             ButtonExecute("post", "#mdlForm", buton, formData, function (result) {
-                if (result.split("|")[0] === "Ok") {
+                console.log("result.IsSuccess---" + result.IsSuccess)
+                console.log("result.StatusCode---" + result.StatusCode)
+                console.log("result.RecordsTotal---" + result.RecordsTotal)
+                console.log("result.RecordsFiltered---" + result.RecordsFiltered)
+                console.log("result.Data---" + result.Data)
+                if (result.IsSuccess) {
                     location.reload();
                 }
                 else {
-                    alert(result.split("|")[1]);
+                    //alert(result.split("|")[1]);
                 }
             }, function () { }, "false", "");
             //}
@@ -63,7 +51,14 @@
                     $(buton).data('url', "/Admin/Groups/DeleteGroup/");
                     formData.append("ID", id);
                     ButtonExecute("post", "#mdlForm", buton, formData, function (result) {
-                        Swal.fire('Silme işlemi tamamlandı!', '', 'success');
+                        if (result.IsSuccess) {
+                            Swal.fire(result.Message, '', 'success');
+                            location.reload();
+                        }
+                        else {
+                            Swal.fire(result.Message, '', 'warning');
+                        }
+
                     }, function (result) {
                         Swal.fire("Bir hata oluştu!" + result, 'warning');
                     }, "false", "");

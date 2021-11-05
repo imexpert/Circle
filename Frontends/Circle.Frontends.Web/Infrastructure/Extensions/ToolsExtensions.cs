@@ -26,7 +26,8 @@ namespace Circle.Frontends.Web.Infrastructure.Extensions
                     $"{request.RequestUri.Segments[2]}" +
                     $"{culture}/" +
                     $"{request.RequestUri.Segments[3]}" +
-                    $"{request.RequestUri.Segments[4]}");
+                    $"{request.RequestUri.Segments[4]}" +
+                    $"{request.RequestUri.Query}");
             }
 
             return new Uri(
@@ -34,7 +35,8 @@ namespace Circle.Frontends.Web.Infrastructure.Extensions
                     $"{request.RequestUri.Segments[1]}" +
                     $"{culture}/" +
                     $"{request.RequestUri.Segments[2]}" +
-                    $"{request.RequestUri.Segments[3]}");
+                    $"{request.RequestUri.Segments[3]}" +
+                    $"{request.RequestUri.Query}");
         }
     }
 }

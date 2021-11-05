@@ -27,7 +27,7 @@ namespace Circle.Frontends.Web.Services.Concrete
             return JsonConvert.DeserializeObject<ResponseMessage<List<Group>>>(data);
         }
 
-        public async Task<ResponseMessage<Group>> AddAsync(Group groupModel)
+        public async Task<ResponseMessage<Group>> AddAsync(GroupModel groupModel)
         {
             string json = JsonConvert.SerializeObject(groupModel,
                 new JsonSerializerSettings
@@ -44,17 +44,12 @@ namespace Circle.Frontends.Web.Services.Concrete
 
                 var group = JsonConvert.DeserializeObject<ResponseMessage<Group>>(data);
 
-                if (group.IsSuccess)
-                {
-                    await AddAsync(group.Data);
-                }
-
                 // Deserialize the data
                 return group;
             }
         }
 
-        public async Task<ResponseMessage<Group>> UpdateAsync(Group groupModel)
+        public async Task<ResponseMessage<Group>> UpdateAsync(GroupModel groupModel)
         {
             string json = JsonConvert.SerializeObject(groupModel,
                 new JsonSerializerSettings
@@ -64,7 +59,7 @@ namespace Circle.Frontends.Web.Services.Concrete
 
             using (StringContent content = new StringContent(json, Encoding.UTF8, "application/json"))
             {
-                var response = await _httpClient.PostAsync("Groups/Update", content);
+                var response = await _httpClient.PutAsync("Groups/Update", content);
 
                 // Get string data
                 string data = await response.Content.ReadAsStringAsync();
@@ -85,16 +80,14 @@ namespace Circle.Frontends.Web.Services.Concrete
 
         public async Task<ResponseMessage<List<Group>>> DeleteAsync(Guid groupId)
         {
-            HttpResponseMessage response = await _httpClient.GetAsync("Groups/Delete/" + groupId);
+            HttpResponseMessage response = await _httpClient.DeleteAsync("Groups/Delete?groupId=" + groupId);
             string data = await response.Content.ReadAsStringAsync();
             return JsonConvert.DeserializeObject<ResponseMessage<List<Group>>>(data);
         }
 
-
-
         public async Task<ResponseMessage<List<GroupModel>>> GetWithClaimsAsync(Guid groupId)
         {
-            HttpResponseMessage response = await _httpClient.GetAsync("Groups/GetWithClaims/" + groupId);
+            HttpResponseMessage response = await _httpClient.GetAsync("Groups/GetWithClaims?groupId=" + groupId);
             string data = await response.Content.ReadAsStringAsync();
             return JsonConvert.DeserializeObject<ResponseMessage<List<GroupModel>>>(data);
         }

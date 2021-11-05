@@ -30,7 +30,7 @@ namespace Circle.Library.Business.Handlers.OperationClaims.Queries
             [SecuredOperation(Priority = 1)]
             public async Task<ResponseMessage<List<OperationClaim>>> Handle(GetOperationClaimsQuery request, CancellationToken cancellationToken)
             {
-                var list = await _operationClaimRepository.GetListAsync();
+                var list = await _operationClaimRepository.GetListAsync(s=>s.LanguageId == LanguageExtension.LanguageId);
                 if (list == null || list.Count() <= 0)
                 {
                     return await _returnUtility.NoDataFound<List<OperationClaim>>(MessageDefinitions.KAYIT_BULUNAMADI);

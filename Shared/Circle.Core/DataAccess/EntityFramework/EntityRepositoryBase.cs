@@ -46,6 +46,11 @@ namespace Circle.Core.DataAccess.EntityFramework
             Context.Remove(entity);
         }
 
+        public void DeleteRange(List<TEntity> entity)
+        {
+            Context.RemoveRange(entity);
+        }
+
         public TEntity Get(Expression<Func<TEntity, bool>> expression)
         {
             return Context.Set<TEntity>().FirstOrDefault(expression);

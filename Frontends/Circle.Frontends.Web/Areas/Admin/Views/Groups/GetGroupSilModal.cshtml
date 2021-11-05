@@ -6,16 +6,16 @@
 @using Circle.Core.Entities.Concrete
 @using Circle.Frontends.Web.Models
 
-@model PageItem
+@model ResponseMessage<List<Group>>
 
 <div class="modal-content">
     <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">Silme işlemi</h5>
         <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
     </div>
-    <div class="modal-body"> @Model.listGroup.FirstOrDefault().GroupName isimli role kaydını silmek istediğinize emin misiniz?</div>
+    <div class="modal-body"> @Model.Data.FirstOrDefault().GroupName isimli rol kaydını silmek istediğinize emin misiniz?</div>
     <div class="modal-footer">
         <button class="btn btn-outline-secondary" type="button" data-dismiss="modal">İptal</button>
-        <a class="btn btn-danger" data-mode="GroupIslem" data-url="/Admin/Groups/DeleteGroup/" data-data1="@Model.listGroup.FirstOrDefault().Id">SİL</a>
+        <a class="btn btn-danger" data-mode="GroupIslem" data-url="/Admin/Groups/DeleteGroup/" data-data1="@Model.Data.FirstOrDefault().Id">SİL</a>
     </div>
 </div>

@@ -4,6 +4,7 @@ using Circle.Core.Entities.Concrete;
 using Microsoft.AspNetCore.Mvc;
 using Circle.Library.Business.Handlers.Groups.Queries;
 using System;
+using Circle.Library.Entities.ComplexTypes;
 
 namespace Circle.Library.Api.Controllers
 {
@@ -59,17 +60,17 @@ namespace Circle.Library.Api.Controllers
             return CreateActionResultInstance(await Mediator.Send(command));
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="group"></param>
-        /// <returns></returns>
+       /// <summary>
+       /// 
+       /// </summary>
+       /// <param name="groupWithGroupClaimsModel"></param>
+       /// <returns></returns>
         [HttpPost]
-        public async Task<IActionResult> Add(Group group)
+        public async Task<IActionResult> Add(GroupModel groupModel)
         {
             CreateGroupCommand command = new CreateGroupCommand()
             {
-                GroupName = group.GroupName
+                Model = groupModel
             };
 
             return CreateActionResultInstance(await Mediator.Send(command));
@@ -78,14 +79,14 @@ namespace Circle.Library.Api.Controllers
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="group"></param>
+        /// <param name="groupModel"></param>
         /// <returns></returns>
         [HttpPut]
-        public async Task<IActionResult> Update([FromBody] Group group)
+        public async Task<IActionResult> Update([FromBody] GroupModel groupModel)
         {
             UpdateGroupCommand command = new UpdateGroupCommand()
             {
-                Group = group
+                Model = groupModel
             };
 
             return CreateActionResultInstance(await Mediator.Send(command));

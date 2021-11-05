@@ -44,11 +44,6 @@ namespace Circle.Frontends.Web.Services.Concrete
 
                 var operationClaim = JsonConvert.DeserializeObject<ResponseMessage<OperationClaim>>(data);
 
-                if (operationClaim.IsSuccess)
-                {
-                    await AddAsync(operationClaim.Data);
-                }
-
                 // Deserialize the data
                 return operationClaim;
             }

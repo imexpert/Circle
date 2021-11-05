@@ -186,6 +186,9 @@
   <data name="Enter User Phone" xml:space="preserve">
     <value>Enter User Phone</value>
   </data>
+  <data name="Enter Users Groups" xml:space="preserve">
+    <value>Authorizations of the User</value>
+  </data>
   <data name="Filter" xml:space="preserve">
     <value>Filter</value>
   </data>
@@ -228,8 +231,14 @@
   <data name="Search Users" xml:space="preserve">
     <value>Search User</value>
   </data>
+  <data name="Select User Department" xml:space="preserve">
+    <value>Choose Department</value>
+  </data>
   <data name="SignOut" xml:space="preserve">
     <value>Sign Out</value>
+  </data>
+  <data name="User Groups" xml:space="preserve">
+    <value>User Groups</value>
   </data>
   <data name="User List" xml:space="preserve">
     <value>Users List</value>

@@ -11,5 +11,6 @@ namespace Circle.Library.Entities.ComplexTypes
     {
         public List<User> UserList { get; set; }
         public List<Department> DepartmentList { get; set; }
+        public List<Group> GroupList { get; set; }
     }
 }

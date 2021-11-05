@@ -171,6 +171,24 @@
   <data name="Enter Department Name" xml:space="preserve">
     <value>Departman adını giriniz</value>
   </data>
+  <data name="Enter User Birthdate" xml:space="preserve">
+    <value>Doğum Tarihini Giriniz</value>
+  </data>
+  <data name="Enter User Email" xml:space="preserve">
+    <value>E-Mail Giriniz</value>
+  </data>
+  <data name="Enter User Firstname" xml:space="preserve">
+    <value>Kullanıcı İsmini Giriniz</value>
+  </data>
+  <data name="Enter User Lasttname" xml:space="preserve">
+    <value>Kullanıcı Soyadını Giriniz</value>
+  </data>
+  <data name="Enter User Phone" xml:space="preserve">
+    <value>Telefon Giriniz</value>
+  </data>
+  <data name="Enter Users Groups" xml:space="preserve">
+    <value>Kullanıcının Sahip Olduğu Yetkiler</value>
+  </data>
   <data name="Filter" xml:space="preserve">
     <value>Filtrele</value>
   </data>
@@ -213,8 +231,14 @@
   <data name="Search Users" xml:space="preserve">
     <value>Kullanıcı Ara</value>
   </data>
+  <data name="Select User Department" xml:space="preserve">
+    <value>Departman Seçiniz</value>
+  </data>
   <data name="SignOut" xml:space="preserve">
     <value>Çıkış</value>
+  </data>
+  <data name="User Groups" xml:space="preserve">
+    <value>Kullanıcı Grupları</value>
   </data>
   <data name="User List" xml:space="preserve">
     <value>Kullanıcı Listesi</value>

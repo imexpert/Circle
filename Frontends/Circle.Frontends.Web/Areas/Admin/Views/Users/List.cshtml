@@ -1,4 +1,4 @@
-﻿@model List<Circle.Core.Entities.Concrete.User>
+﻿@model Circle.Library.Entities.ComplexTypes.UserListModel
 
 @using Microsoft.AspNetCore.Mvc.Localization
 
@@ -9,12 +9,13 @@
 
 @inject LocService T
 
+    
 <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
     <!--begin::Post-->
     <div class="post d-flex flex-column-fluid" id="kt_post">
         <!--begin::Container-->
         <div id="kt_content_container" class="container-xxl">
-            @(Html.CircleTable(Model)
+            @(Html.CircleTable(Model.UserList)
             .PKColumn(a => a.Id)
             .HasFooter(false)
             .SetToolbarSearchInputPlaceHolder("Ara Kullanıcı")
@@ -30,7 +31,7 @@
             })
             .RowButtons(s=>
             {
-                s.Add(Circle.Core.Bootstrap.Grid.Button.GridButtonType.update).Icon("fa-user");
+                s.Add(Circle.Helper.Bootstrap.Grid.Button.GridButtonType.update).Icon("fa-user");
             }))
         </div>
         <!--end::Container-->
@@ -66,7 +67,7 @@
                     <!--begin::Heading-->
                     <div class="mb-13 text-center">
                         <!--begin::Title-->
-                        <h1 class="mb-3">@T.GetLocalizedHtmlString("Add Department")</h1>
+                        <h1 class="mb-3">@T.GetLocalizedHtmlString("Add User")</h1>
                         <!--end::Title-->
                     </div>
                     <!--end::Heading-->
@@ -74,11 +75,17 @@
                     <div class="d-flex flex-column mb-8 fv-row fv-plugins-icon-container">
                         <!--begin::Label-->
                         <label class="d-flex align-items-center fs-6 fw-bold mb-2">
-                            <span class="required">@T.GetLocalizedHtmlString("Department Title Input TR")</span>
-                            <i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="" data-bs-original-title="@T.GetLocalizedHtmlString("Enter Department Name")"></i>
+                            <span class="required">@T.GetLocalizedHtmlString("User Groups")</span>
+                            <i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="" data-bs-original-title="@T.GetLocalizedHtmlString("Enter Users Groups")"></i>
                         </label>
                         <!--end::Label-->
-                        <input type="text" class="form-control form-control-solid" placeholder="@T.GetLocalizedHtmlString("Enter Department Name")" name="TitleTr">
+                        <select class="form-select form-select-solid" data-control="select2" multiple data-placeholder="Grup Seçiniz" data-allow-clear="true">
+                            <option></option>
+                            @foreach (var item in Model.GroupList)
+                            {
+                                <option value="@item.Id">@item.GroupName</option>
+                            }
+                        </select>
                         <div class="fv-plugins-message-container invalid-feedback"></div>
                     </div>
                     <!--end::Input group-->
@@ -86,11 +93,77 @@
                     <div class="d-flex flex-column mb-8 fv-row fv-plugins-icon-container">
                         <!--begin::Label-->
                         <label class="d-flex align-items-center fs-6 fw-bold mb-2">
-                            <span class="required">@T.GetLocalizedHtmlString("Department Title Input US")</span>
-                            <i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="" data-bs-original-title="@T.GetLocalizedHtmlString("Enter Department Name")"></i>
+                            <span class="required">@T.GetLocalizedHtmlString("Select User Department")</span>
+                            <i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="" data-bs-original-title="@T.GetLocalizedHtmlString("Select User Department")"></i>
                         </label>
                         <!--end::Label-->
-                        <input type="text" class="form-control form-control-solid" placeholder="@T.GetLocalizedHtmlString("Enter Department Name")" name="TitleUs">
+                        <select class="form-select form-select-solid" data-control="select2" data-placeholder="@T.GetLocalizedHtmlString("Select User Department")" data-allow-clear="true">
+                            <option></option>
+                            @foreach (var item in Model.DepartmentList)
+                            {
+                                <option value="@item.Id">@item.Title</option>
+                            }
+                        </select>
+                        <div class="fv-plugins-message-container invalid-feedback"></div>
+                    </div>
+                    <!--end::Input group-->
+                    <!--begin::Input group-->
+                    <div class="d-flex flex-column mb-8 fv-row fv-plugins-icon-container">
+                        <!--begin::Label-->
+                        <label class="d-flex align-items-center fs-6 fw-bold mb-2">
+                            <span class="required">@T.GetLocalizedHtmlString("Firstname")</span>
+                            <i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="" data-bs-original-title="@T.GetLocalizedHtmlString("Enter User Firstname")"></i>
+                        </label>
+                        <!--end::Label-->
+                        <input type="text" class="form-control form-control-solid" placeholder="@T.GetLocalizedHtmlString("Enter User Firstname")" name="TitleTr">
+                        <div class="fv-plugins-message-container invalid-feedback"></div>
+                    </div>
+                    <!--end::Input group-->
+                    <!--begin::Input group-->
+                    <div class="d-flex flex-column mb-8 fv-row fv-plugins-icon-container">
+                        <!--begin::Label-->
+                        <label class="d-flex align-items-center fs-6 fw-bold mb-2">
+                            <span class="required">@T.GetLocalizedHtmlString("Lastname")</span>
+                            <i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="" data-bs-original-title="@T.GetLocalizedHtmlString("Enter User Lasttname")"></i>
+                        </label>
+                        <!--end::Label-->
+                        <input type="text" class="form-control form-control-solid" placeholder="@T.GetLocalizedHtmlString("Enter User Lasttname")" name="TitleTr">
+                        <div class="fv-plugins-message-container invalid-feedback"></div>
+                    </div>
+                    <!--end::Input group-->
+                    <!--begin::Input group-->
+                    <div class="d-flex flex-column mb-8 fv-row fv-plugins-icon-container">
+                        <!--begin::Label-->
+                        <label class="d-flex align-items-center fs-6 fw-bold mb-2">
+                            <span class="required">@T.GetLocalizedHtmlString("Email")</span>
+                            <i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="" data-bs-original-title="@T.GetLocalizedHtmlString("Enter User Email")"></i>
+                        </label>
+                        <!--end::Label-->
+                        <input inputmode="text" class="form-control form-control-solid Email" placeholder="@T.GetLocalizedHtmlString("Enter User Email")" name="TitleTr">
+                        <div class="fv-plugins-message-container invalid-feedback"></div>
+                    </div>
+                    <!--end::Input group-->
+                    <!--begin::Input group-->
+                    <div class="d-flex flex-column mb-8 fv-row fv-plugins-icon-container">
+                        <!--begin::Label-->
+                        <label class="d-flex align-items-center fs-6 fw-bold mb-2">
+                            <span class="required">@T.GetLocalizedHtmlString("Phone")</span>
+                            <i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="" data-bs-original-title="@T.GetLocalizedHtmlString("Enter User Phone")"></i>
+                        </label>
+                        <!--end::Label-->
+                        <input inputmode="text" class="form-control form-control-solid Telefon" placeholder="@T.GetLocalizedHtmlString("Enter User Phone")" name="TitleTr">
+                        <div class="fv-plugins-message-container invalid-feedback"></div>
+                    </div>
+                    <!--end::Input group-->
+                    <!--begin::Input group-->
+                    <div class="d-flex flex-column mb-8 fv-row fv-plugins-icon-container">
+                        <!--begin::Label-->
+                        <label class="d-flex align-items-center fs-6 fw-bold mb-2">
+                            <span class="required">@T.GetLocalizedHtmlString("Birthdate")</span>
+                            <i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="" data-bs-original-title="@T.GetLocalizedHtmlString("Enter User Birthdate")"></i>
+                        </label>
+                        <!--end::Label-->
+                        <input inputmode="text" class="form-control form-control-solid Tarih" placeholder="@T.GetLocalizedHtmlString("Enter User Birthdate")" name="BirthDate" id="BirthDate">
                         <div class="fv-plugins-message-container invalid-feedback"></div>
                     </div>
                     <!--end::Input group-->

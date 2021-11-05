@@ -171,6 +171,24 @@
   <data name="Enter Department Name" xml:space="preserve">
     <value>Enter Department Name</value>
   </data>
+  <data name="Enter User Birthdate" xml:space="preserve">
+    <value>Enter User Birthdate</value>
+  </data>
+  <data name="Enter User Email" xml:space="preserve">
+    <value>Enter User E-Mail</value>
+  </data>
+  <data name="Enter User Firstname" xml:space="preserve">
+    <value>Enter User Firstname</value>
+  </data>
+  <data name="Enter User Lasttname" xml:space="preserve">
+    <value>Enter User Lasttname</value>
+  </data>
+  <data name="Enter User Phone" xml:space="preserve">
+    <value>Enter User Phone</value>
+  </data>
+  <data name="Enter Users Groups" xml:space="preserve">
+    <value>Authorizations of the User</value>
+  </data>
   <data name="Filter" xml:space="preserve">
     <value>Filter</value>
   </data>
@@ -213,8 +231,14 @@
   <data name="Search Users" xml:space="preserve">
     <value>Search User</value>
   </data>
+  <data name="Select User Department" xml:space="preserve">
+    <value>Choose Department</value>
+  </data>
   <data name="SignOut" xml:space="preserve">
     <value>Sign Out</value>
+  </data>
+  <data name="User Groups" xml:space="preserve">
+    <value>User Groups</value>
   </data>
   <data name="User List" xml:space="preserve">
     <value>Users List</value>

@@ -15,6 +15,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Library\Circle.Library.Entities\Circle.Library.Entities.csproj" />
     <ProjectReference Include="..\..\Shared\Circle.Core\Circle.Core.csproj" />
+    <ProjectReference Include="..\..\Shared\Circle.Helper\Circle.Helper.csproj" />
   </ItemGroup>
 
   <ItemGroup>

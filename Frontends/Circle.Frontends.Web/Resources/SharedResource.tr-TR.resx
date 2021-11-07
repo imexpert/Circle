@@ -132,6 +132,9 @@
   <data name="Add User" xml:space="preserve">
     <value>Kullanıcı Ekle</value>
   </data>
+  <data name="Address" xml:space="preserve">
+    <value>Adres</value>
+  </data>
   <data name="Administration" xml:space="preserve">
     <value>Yönetim İşlemleri</value>
   </data>
@@ -140,6 +143,9 @@
   </data>
   <data name="Cancel" xml:space="preserve">
     <value>Vazgeç</value>
+  </data>
+  <data name="Choose User Gender" xml:space="preserve">
+    <value>Cinsiyet Seçiniz</value>
   </data>
   <data name="Delete" xml:space="preserve">
     <value>Sil</value>
@@ -168,8 +174,14 @@
   <data name="Email" xml:space="preserve">
     <value>E-Mail</value>
   </data>
+  <data name="Enter About User Notes" xml:space="preserve">
+    <value>Kullanıcı hakkında bilgi giriniz</value>
+  </data>
   <data name="Enter Department Name" xml:space="preserve">
     <value>Departman adını giriniz</value>
+  </data>
+  <data name="Enter User Address" xml:space="preserve">
+    <value>Adres bilgisini giriniz</value>
   </data>
   <data name="Enter User Birthdate" xml:space="preserve">
     <value>Doğum Tarihini Giriniz</value>
@@ -180,7 +192,7 @@
   <data name="Enter User Firstname" xml:space="preserve">
     <value>Kullanıcı İsmini Giriniz</value>
   </data>
-  <data name="Enter User Lasttname" xml:space="preserve">
+  <data name="Enter User Lastname" xml:space="preserve">
     <value>Kullanıcı Soyadını Giriniz</value>
   </data>
   <data name="Enter User Phone" xml:space="preserve">
@@ -194,6 +206,9 @@
   </data>
   <data name="Firstname" xml:space="preserve">
     <value>Ad</value>
+  </data>
+  <data name="Gender" xml:space="preserve">
+    <value>Cinsiyet</value>
   </data>
   <data name="Language" xml:space="preserve">
     <value>Dil</value>
@@ -209,6 +224,9 @@
   </data>
   <data name="MyProfile" xml:space="preserve">
     <value>Profilim</value>
+  </data>
+  <data name="Notes" xml:space="preserve">
+    <value>Not</value>
   </data>
   <data name="Passive" xml:space="preserve">
     <value>Pasif</value>

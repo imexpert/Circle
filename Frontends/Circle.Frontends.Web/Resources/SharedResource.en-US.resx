@@ -132,6 +132,9 @@
   <data name="Add User" xml:space="preserve">
     <value>Add User</value>
   </data>
+  <data name="Address" xml:space="preserve">
+    <value>Address</value>
+  </data>
   <data name="Administration" xml:space="preserve">
     <value>Administration</value>
   </data>
@@ -140,6 +143,9 @@
   </data>
   <data name="Cancel" xml:space="preserve">
     <value>Cancel</value>
+  </data>
+  <data name="Choose User Gender" xml:space="preserve">
+    <value>Choose User Gender</value>
   </data>
   <data name="Delete" xml:space="preserve">
     <value>Delete</value>
@@ -168,8 +174,14 @@
   <data name="Email" xml:space="preserve">
     <value>Email</value>
   </data>
+  <data name="Enter About User Notes" xml:space="preserve">
+    <value>Enter About User Notes</value>
+  </data>
   <data name="Enter Department Name" xml:space="preserve">
     <value>Enter Department Name</value>
+  </data>
+  <data name="Enter User Address" xml:space="preserve">
+    <value>Enter User Address</value>
   </data>
   <data name="Enter User Birthdate" xml:space="preserve">
     <value>Enter User Birthdate</value>
@@ -180,8 +192,8 @@
   <data name="Enter User Firstname" xml:space="preserve">
     <value>Enter User Firstname</value>
   </data>
-  <data name="Enter User Lasttname" xml:space="preserve">
-    <value>Enter User Lasttname</value>
+  <data name="Enter User Lastname" xml:space="preserve">
+    <value>Enter User Lastname</value>
   </data>
   <data name="Enter User Phone" xml:space="preserve">
     <value>Enter User Phone</value>
@@ -194,6 +206,9 @@
   </data>
   <data name="Firstname" xml:space="preserve">
     <value>Firstname</value>
+  </data>
+  <data name="Gender" xml:space="preserve">
+    <value>Gender</value>
   </data>
   <data name="Language" xml:space="preserve">
     <value>Language</value>
@@ -209,6 +224,9 @@
   </data>
   <data name="MyProfile" xml:space="preserve">
     <value>My Profile</value>
+  </data>
+  <data name="Notes" xml:space="preserve">
+    <value>Notes</value>
   </data>
   <data name="Passive" xml:space="preserve">
     <value>Passive</value>

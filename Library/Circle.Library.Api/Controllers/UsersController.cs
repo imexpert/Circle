@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Circle.Library.Business.Handlers.Users.Queries;
 using System;
+using Circle.Library.Entities.ComplexTypes;
 
 namespace Circle.Library.Api.Controllers
 {
@@ -55,9 +56,9 @@ namespace Circle.Library.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(string))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(string))]
         [HttpPost]
-        public async Task<IActionResult> Add([FromBody] CreateUserCommand createUser)
+        public async Task<IActionResult> Add([FromBody] CreateUserModel createUser)
         {
-            return GetResponseOnlyResultMessage(await Mediator.Send(createUser));
+            return CreateActionResultInstance(await Mediator.Send(new CreateUserCommand() { Model = createUser }));
         }
 
         /// <summary>

@@ -31,6 +31,21 @@ namespace Circle.Library.Api.Controllers
         }
 
         /// <summary>
+        /// It brings the details according to its id.
+        /// </summary>
+        /// <remarks>bla bla bla </remarks>
+        /// <return>Language List</return>
+        /// <response code="200"></response>
+        [Produces("application/json", "text/plain")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Language))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(string))]
+        [HttpGet]
+        public async Task<IActionResult> GetByCode(string code)
+        {
+            return CreateActionResultInstance(await Mediator.Send(new GetLanguageByCodeQuery { Code = code }));
+        }
+
+        /// <summary>
         /// Add Language.
         /// </summary>
         /// <param name="createLanguage"></param>

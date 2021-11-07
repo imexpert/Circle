@@ -1,9 +1,9 @@
 ﻿using Circle.Core.Entities.Concrete;
 using Circle.Core.Utilities.Results;
 using Circle.Frontends.Web.Controllers;
+using Circle.Frontends.Web.Infrastructure.Extensions;
 using Circle.Frontends.Web.Models;
 using Circle.Frontends.Web.Services.Abstract;
-using Circle.Library.Business.Helpers;
 using Circle.Library.Entities.ComplexTypes;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -49,14 +49,14 @@ namespace Circle.Frontends.Web.Areas.Admin.Controllers
             else
             {
                 GroupModel item = new GroupModel();
-                item.Group = new Group { GroupName = "", Id = Guid.Empty, LanguageId = LanguageExtension.LanguageId_Tr };
-                item.GroupEn = new Group { GroupName = "", Id = Guid.Empty, LanguageId = LanguageExtension.LanguageId_En };
+                item.Group = new Group { GroupName = "", Id = Guid.Empty, LanguageId = LanguageExtension.TrLanguageId};
+                item.GroupEn = new Group { GroupName = "", Id = Guid.Empty, LanguageId = LanguageExtension.UsLanguageId};
                 item.GroupClaims = new List<GroupClaimModel>();
                 result.IsSuccess = true;
                 result.StatusCode = 200;
                 result.Data = new List<GroupModel>();
                 result.Data.Add(item);
-                result.Data.Add(new GroupModel { Group = new Group { GroupName = "", Id = Guid.Empty, LanguageId = LanguageExtension.LanguageId_En }, GroupClaims = new List<GroupClaimModel>() });
+                result.Data.Add(new GroupModel { Group = new Group { GroupName = "", Id = Guid.Empty, LanguageId = LanguageExtension.UsLanguageId }, GroupClaims = new List<GroupClaimModel>() });
             }
             var xxx = await _operationClaimService.GetList();
             TempData["OperationClaims"] = xxx.Data;
@@ -76,8 +76,8 @@ namespace Circle.Frontends.Web.Areas.Admin.Controllers
         public async Task<ResponseMessage<Group>> AddGroup(IFormCollection collection)
         {
             GroupModel groupModel = new GroupModel();
-            groupModel.Group = new Group { Id = Guid.NewGuid(), LanguageId = LanguageExtension.LanguageId_Tr, GroupName = collection["GroupNameTr"] };
-            groupModel.GroupEn = new Group { Id = groupModel.Group.Id, LanguageId = LanguageExtension.LanguageId_En, GroupName = collection["GroupNameEn"] };
+            groupModel.Group = new Group { Id = Guid.NewGuid(), LanguageId = LanguageExtension.TrLanguageId, GroupName = collection["GroupNameTr"] };
+            groupModel.GroupEn = new Group { Id = groupModel.Group.Id, LanguageId = LanguageExtension.UsLanguageId, GroupName = collection["GroupNameEn"] };
 
             groupModel.GroupClaims = new List<GroupClaimModel>();
             string roleList = collection["roleList"];
@@ -99,8 +99,8 @@ namespace Circle.Frontends.Web.Areas.Admin.Controllers
         public async Task<ResponseMessage<Group>>/*Task<IActionResult>*/ UpdateGroup(IFormCollection collection)
         {
             GroupModel groupModel = new GroupModel();
-            groupModel.Group = new Group { LanguageId = LanguageExtension.LanguageId_Tr, GroupName = collection["GroupNameTr"], Id = Guid.Parse(collection["Id"]) };
-            groupModel.GroupEn = new Group { LanguageId = LanguageExtension.LanguageId_En, GroupName = collection["GroupNameEn"], Id = groupModel.Group.Id };
+            groupModel.Group = new Group { LanguageId = LanguageExtension.TrLanguageId, GroupName = collection["GroupNameTr"], Id = Guid.Parse(collection["Id"]) };
+            groupModel.GroupEn = new Group { LanguageId = LanguageExtension.UsLanguageId, GroupName = collection["GroupNameEn"], Id = groupModel.Group.Id };
 
             groupModel.GroupClaims = new List<GroupClaimModel>();
             string roleList = collection["roleList"];

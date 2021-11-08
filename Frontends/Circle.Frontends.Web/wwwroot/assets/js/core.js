@@ -13,6 +13,19 @@ function PostForm(methodName, formName) {
     });
 }
 
+function PostFormWithFile(methodName, formData) {
+    url = methodName;
+    return $.ajax({
+        url: url,
+        type: "POST",
+        data: formData,
+        dataType: 'json',
+        contentType: false,
+        processData: false,
+        error: handleError,
+    });
+}
+
 function PostData(methodName, data) {
     url = methodName;
     return $.ajax({
@@ -59,7 +72,7 @@ function handleError(err) {
         ShowErrorMessage("Method bulunamadı - " + url);
     }
     else {
-        ShowErrorMessage(err.statusText + " - " + url);
+        ShowErrorMessage(err.responseText + " - " + url);
     }
 }
 

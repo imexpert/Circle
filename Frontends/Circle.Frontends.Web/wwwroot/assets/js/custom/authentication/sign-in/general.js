@@ -67,7 +67,8 @@ var KTSigninGeneral = function() {
                         submitButton.removeAttribute("data-kt-indicator");
                         // Disable button to avoid multiple click 
                         submitButton.disabled = false;
-
+                        // Show loading indication
+                        submitButton.setAttribute('data-kt-indicator', 'off');
                         if (response.IsSuccess) {
                             window.location.href = "/Home/Index";
                         }

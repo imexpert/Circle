@@ -144,8 +144,20 @@
   <data name="Cancel" xml:space="preserve">
     <value>Cancel</value>
   </data>
+  <data name="Category List" xml:space="preserve">
+    <value>Category List</value>
+  </data>
+  <data name="Category Management" xml:space="preserve">
+    <value>Category Management</value>
+  </data>
   <data name="Choose User Gender" xml:space="preserve">
     <value>Choose User Gender</value>
+  </data>
+  <data name="Create Product" xml:space="preserve">
+    <value>Create Product</value>
+  </data>
+  <data name="Create Unique Code" xml:space="preserve">
+    <value>Create Code</value>
   </data>
   <data name="Delete" xml:space="preserve">
     <value>Delete</value>
@@ -210,6 +222,9 @@
   <data name="Gender" xml:space="preserve">
     <value>Gender</value>
   </data>
+  <data name="Hello welcome" xml:space="preserve">
+    <value>Hello, welcome</value>
+  </data>
   <data name="Language" xml:space="preserve">
     <value>Language</value>
   </data>
@@ -234,6 +249,9 @@
   <data name="Phone" xml:space="preserve">
     <value>Phone</value>
   </data>
+  <data name="Product Management" xml:space="preserve">
+    <value>Product Management</value>
+  </data>
   <data name="Roles" xml:space="preserve">
     <value>Roles</value>
   </data>
@@ -254,6 +272,12 @@
   </data>
   <data name="SignOut" xml:space="preserve">
     <value>Sign Out</value>
+  </data>
+  <data name="Unique Code Description" xml:space="preserve">
+    <value>How about making things easier for everyone by creating a unique code?</value>
+  </data>
+  <data name="Unique Code Generation" xml:space="preserve">
+    <value>Unique Code Generation</value>
   </data>
   <data name="User Groups" xml:space="preserve">
     <value>User Groups</value>

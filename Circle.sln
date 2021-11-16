@@ -23,6 +23,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Circle.Library.Api", "Libra
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Circle.Helper", "Shared\Circle.Helper\Circle.Helper.csproj", "{6AB4877E-BE33-4B61-8CC4-D1B1BCC86BA3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Circle.Web.Helper", "Shared\Circle.Web.Helper\Circle.Web.Helper.csproj", "{DB35F687-74E7-4299-B991-ED7738D4E13C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -57,6 +59,10 @@ Global
 		{6AB4877E-BE33-4B61-8CC4-D1B1BCC86BA3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6AB4877E-BE33-4B61-8CC4-D1B1BCC86BA3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6AB4877E-BE33-4B61-8CC4-D1B1BCC86BA3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DB35F687-74E7-4299-B991-ED7738D4E13C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DB35F687-74E7-4299-B991-ED7738D4E13C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DB35F687-74E7-4299-B991-ED7738D4E13C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DB35F687-74E7-4299-B991-ED7738D4E13C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -69,6 +75,7 @@ Global
 		{5AB1A96D-3536-42C9-9EAB-AD8B41317203} = {6ADBD3CE-417E-463C-BC06-8E0AA88FAFEE}
 		{8E10D5FF-E68F-4E51-B6B4-392A0DB38E92} = {6ADBD3CE-417E-463C-BC06-8E0AA88FAFEE}
 		{6AB4877E-BE33-4B61-8CC4-D1B1BCC86BA3} = {791571C8-DCEB-4481-A2F9-911A1B619432}
+		{DB35F687-74E7-4299-B991-ED7738D4E13C} = {791571C8-DCEB-4481-A2F9-911A1B619432}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A11044CF-3F3C-4482-B726-4E346FF9AEAD}

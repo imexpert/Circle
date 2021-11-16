@@ -144,8 +144,20 @@
   <data name="Cancel" xml:space="preserve">
     <value>Vazgeç</value>
   </data>
+  <data name="Category List" xml:space="preserve">
+    <value>Kategori Listesi</value>
+  </data>
+  <data name="Category Management" xml:space="preserve">
+    <value>Kategori Yönetimi</value>
+  </data>
   <data name="Choose User Gender" xml:space="preserve">
     <value>Cinsiyet Seçiniz</value>
+  </data>
+  <data name="Create Product" xml:space="preserve">
+    <value>Ürün Oluştur</value>
+  </data>
+  <data name="Create Unique Code" xml:space="preserve">
+    <value>Kod Oluştur</value>
   </data>
   <data name="Delete" xml:space="preserve">
     <value>Sil</value>
@@ -210,6 +222,9 @@
   <data name="Gender" xml:space="preserve">
     <value>Cinsiyet</value>
   </data>
+  <data name="Hello welcome" xml:space="preserve">
+    <value>Merhaba hoş geldin!</value>
+  </data>
   <data name="Language" xml:space="preserve">
     <value>Dil</value>
   </data>
@@ -234,6 +249,9 @@
   <data name="Phone" xml:space="preserve">
     <value>Telefon No</value>
   </data>
+  <data name="Product Management" xml:space="preserve">
+    <value>Ürün Yönetimi</value>
+  </data>
   <data name="Roles" xml:space="preserve">
     <value>Yetki Grupları</value>
   </data>
@@ -254,6 +272,12 @@
   </data>
   <data name="SignOut" xml:space="preserve">
     <value>Çıkış</value>
+  </data>
+  <data name="Unique Code Description" xml:space="preserve">
+    <value>Benzersiz bir kod oluşturarak herkes için işleri kolaylaştırmaya ne dersin?</value>
+  </data>
+  <data name="Unique Code Generation" xml:space="preserve">
+    <value>Benzersiz Kod Oluşturma</value>
   </data>
   <data name="User Groups" xml:space="preserve">
     <value>Kullanıcı Grupları</value>

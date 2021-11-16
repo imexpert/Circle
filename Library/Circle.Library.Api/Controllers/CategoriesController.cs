@@ -17,12 +17,22 @@ namespace Circle.Library.Api.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        [HttpGet("getall")]
         public async Task<IActionResult> GetAll()
         {
-            GetCategoryQuery command = new GetCategoryQuery();
+            GetCategoriesQuery command = new GetCategoriesQuery();
 
             return CreateActionResultInstance(await Mediator.Send(command));
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="categoryId"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public async Task<IActionResult> GetAllSubCategories(Guid categoryId)
+        {
+            return CreateActionResultInstance(await Mediator.Send(new GetSubCategoriesQuery { Id = categoryId }));
         }
 
         /// <summary>

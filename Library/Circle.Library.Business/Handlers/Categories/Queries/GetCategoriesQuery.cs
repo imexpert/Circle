@@ -8,19 +8,20 @@ using MediatR;
 using System;
 using Circle.Library.Business.Helpers;
 using Circle.Core.Utilities.Messages;
+using System.Collections.Generic;
 
 namespace Circle.Library.Business.Handlers.Categories.Queries
 {
-    public class GetCategoryQuery : IRequest<ResponseMessage<Category>>
+    public class GetCategoriesQuery : IRequest<ResponseMessage<List<Category>>>
     {
         public Guid Id { get; set; }
 
-        public class GetCategoryQueryHandler : IRequestHandler<GetCategoryQuery, ResponseMessage<Category>>
+        public class GetCategoriesQueryHandler : IRequestHandler<GetCategoriesQuery, ResponseMessage<List<Category>>>
         {
             private readonly ICategoryRepository _categoryRepository;
             private readonly IReturnUtility _returnUtility;
 
-            public GetCategoryQueryHandler(
+            public GetCategoriesQueryHandler(
                 ICategoryRepository categoryRepository,
                 IReturnUtility returnUtility)
             {
@@ -28,14 +29,14 @@ namespace Circle.Library.Business.Handlers.Categories.Queries
                 _returnUtility = returnUtility;
             }
 
-            [SecuredOperation(Priority = 1)]
-            public async Task<ResponseMessage<Category>> Handle(GetCategoryQuery request, CancellationToken cancellationToken)
+            //[SecuredOperation(Priority = 1)]
+            public async Task<ResponseMessage<List<Category>>> Handle(GetCategoriesQuery request, CancellationToken cancellationToken)
             {
-                var category = await _categoryRepository.GetAsync(x => x.Id == request.Id && x.LanguageId == LanguageExtension.LanguageId);
+                var category = await _categoryRepository.GetListAsync(x => x.LanguageId == LanguageExtension.LanguageId);
 
                 if (category == null)
                 {
-                    return await _returnUtility.NoDataFound<Category>(MessageDefinitions.KAYIT_BULUNAMADI);
+                    return await _returnUtility.NoDataFound<List<Category>>(MessageDefinitions.KAYIT_BULUNAMADI);
                 }
 
                 return _returnUtility.SuccessData(category);

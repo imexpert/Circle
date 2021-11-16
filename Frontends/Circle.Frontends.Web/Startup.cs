@@ -1,3 +1,4 @@
+using Circle.Core.Utilities.IoC;
 using Circle.Frontends.Web.Infrastructure.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
@@ -25,6 +26,8 @@ namespace Circle.Frontends.Web
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHttpContextAccessor httpContextAccessor)
         {
+            ServiceTool.ServiceProvider = app.ApplicationServices;
+
             app.ConfigureRequestPipeline(httpContextAccessor);
         }
     }

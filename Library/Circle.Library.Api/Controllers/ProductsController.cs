@@ -1,7 +1,8 @@
 ﻿using Circle.Core.Entities.Concrete;
 using Circle.Library.Business.Handlers.Categories.Commands;
 using Circle.Library.Business.Handlers.Categories.Queries;
-
+using Circle.Library.Business.Handlers.Groups.Commands;
+using Circle.Library.Entities.Concrete;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -13,18 +14,14 @@ namespace Circle.Library.Api.Controllers
     public class ProductsController : BaseApiController
     {
         /// <summary>
-        /// Add Category.
+        /// 
         /// </summary>
-        /// <param name="createCategory"></param>
+        /// <param name="product"></param>
         /// <returns></returns>
-        [Consumes("application/json")]
-        [Produces("application/json", "text/plain")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(string))]
-        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(string))]
         [HttpPost]
-        public async Task<IActionResult> Add([FromBody] CreateCategoryCommand createCategory)
+        public async Task<IActionResult> Add([FromBody] Product product)
         {
-            return CreateActionResultInstance(await Mediator.Send(createCategory));
+            return CreateActionResultInstance(await Mediator.Send(new CreateProductCommand() { Model = product }));
         }
     }
 }

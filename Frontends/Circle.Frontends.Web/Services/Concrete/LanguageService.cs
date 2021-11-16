@@ -23,7 +23,7 @@ namespace Circle.Frontends.Web.Services.Concrete
         {
             ResponseMessage<Language> result = new ResponseMessage<Language>();
 
-            HttpResponseMessage response = await _client.GetAsync("Departments/GetByCode/" + code);
+            HttpResponseMessage response = await _client.GetAsync("Languages/GetByCode?code=" + code);
             string data = await response.Content.ReadAsStringAsync();
             return JsonConvert.DeserializeObject<ResponseMessage<Language>>(data);
         }

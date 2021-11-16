@@ -24,7 +24,7 @@ namespace Circle.Library.Business.Handlers.Languages.Queries
                 _mediator = mediator;
             }
 
-            [SecuredOperation(Priority = 1)]
+            //[SecuredOperation(Priority = 1)]
             public async Task<ResponseMessage<Language>> Handle(GetLanguageByCodeQuery request, CancellationToken cancellationToken)
             {
                 var language = await _languageRepository.GetAsync(p => p.Code == request.Code);

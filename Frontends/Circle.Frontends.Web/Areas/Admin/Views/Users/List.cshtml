@@ -1,6 +1,7 @@
 ﻿@model Circle.Library.Entities.ComplexTypes.UserListModel
 
 @using Microsoft.AspNetCore.Mvc.Localization
+@using Circle.Web.Helper.Bootstrap.Grid.Button
 
 @inject IViewLocalizer Localizer
 
@@ -13,6 +14,25 @@
 <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
     <!--begin::Container-->
     <div id="kt_content_container" class="container-xxl">
+        @*@(Html.CustomTable(Model.UserList)
+            .PKColumn(s=> s.Id)
+            .Columns(s=>
+            {
+                s.Add(s => s.Firstname).Sortable(true).Title("Ad");
+                s.Add(s => s.Lastname).Sortable(true).Title("Soyad");
+                s.Add(s => s.MobilePhones).Title("Telefon");
+            })
+            .ToolbarButtons(s=>
+            {
+                s.Add(GridButtonType.insert);
+                s.Add(GridButtonType.print);
+            })
+            .RowButtons(s=>
+            {
+                s.Add(GridButtonType.update).Icon("fa-user");
+                s.Add(GridButtonType.delete).Icon("fa-trash");
+            })
+        )*@
         @(Html.CircleTable(Model.UserList)
             .PKColumn(a => a.Id)
             .HasFooter(false)

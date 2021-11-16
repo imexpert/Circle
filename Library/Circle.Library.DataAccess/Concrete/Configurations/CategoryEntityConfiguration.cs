@@ -15,10 +15,10 @@ namespace Circle.Library.DataAccess.Concrete.Configurations
 
             builder.HasIndex(s => new { s.LanguageId,s.Name}).IsUnique();
             
-            builder.Property(x => x.Code).HasMaxLength(50).IsRequired();
+            builder.Property(x => x.Code).HasMaxLength(50);
             builder.Property(x => x.Name).HasMaxLength(50).IsRequired();
-            builder.Property(x => x.Description).HasMaxLength(500).IsRequired();
-            builder.Property(x => x.IconName).HasMaxLength(50).IsRequired();
+            builder.Property(x => x.Description).HasMaxLength(500);
+            builder.Property(x => x.Image);
 
             builder.Property(s => s.RecordDate)
                .UsePropertyAccessMode(PropertyAccessMode.Field)

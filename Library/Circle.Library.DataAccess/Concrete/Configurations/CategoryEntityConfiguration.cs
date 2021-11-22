@@ -11,9 +11,9 @@ namespace Circle.Library.DataAccess.Concrete.Configurations
         {
             builder.ToTable("Categories", MsDbContext.DEFAULT_SCHEMA);
 
-            builder.HasKey(x => new { x.Id, x.LanguageId });
+            builder.HasKey(x => new { x.Id});
 
-            builder.HasIndex(s => new { s.LanguageId,s.Name}).IsUnique();
+            builder.HasIndex(s => new { s.Name}).IsUnique();
             
             builder.Property(x => x.Code).HasMaxLength(50);
             builder.Property(x => x.Name).HasMaxLength(50).IsRequired();

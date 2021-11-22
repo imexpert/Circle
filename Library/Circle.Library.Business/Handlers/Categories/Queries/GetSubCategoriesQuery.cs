@@ -31,7 +31,7 @@ namespace Circle.Library.Business.Handlers.Categories.Queries
                 _returnUtility = returnUtility;
             }
 
-            private List<string> GenerateProductCode(List<Category> all, Guid guid, List<string> urunKodList)
+            private List<Category> GenerateProductCode(List<Category> all, Guid guid, List<Category> urunKodList)
             {
                 if (guid == Guid.Empty)
                     return urunKodList;
@@ -39,7 +39,11 @@ namespace Circle.Library.Business.Handlers.Categories.Queries
                 var current = all.FirstOrDefault(s => s.Id == guid);
 
                 if (!string.IsNullOrEmpty(current.Code))
-                    urunKodList.Add(current.Code);
+                    urunKodList.Add(new Category()
+                    {
+                        Code = current.Code,
+                        Name = current.Name
+                    });
 
                 if (current.LinkedCategoryId.HasValue)
                 {
@@ -54,53 +58,55 @@ namespace Circle.Library.Business.Handlers.Categories.Queries
             {
                 CategoryListModel result = new CategoryListModel();
 
-                var butunKategoriler = await _categoryRepository.GetListAsync(s => s.LanguageId == LanguageExtension.LanguageId);
+                var butunKategoriler = await _categoryRepository.GetListAsync();
 
                 if (request.Id != Guid.Empty)
                 {
-                    List<string> urunKodList = new List<string>();
+                    List<Category> urunKodList = new List<Category>();
 
                     urunKodList = GenerateProductCode(butunKategoriler, request.Id, urunKodList);
 
                     urunKodList.Reverse();
 
-                    if (urunKodList != null && urunKodList.Count > 0)
-                        result.ProductCode = urunKodList.Aggregate((i, j) => i + "" + j);
+                    result.ProductCodeList = urunKodList;
                 }
 
-                //var parent = butunKategoriler.First(s=>s.li)
-
-                result.Category = await _categoryRepository.GetAsync(s => s.Id == request.Id);
+                result.Category = butunKategoriler.FirstOrDefault(s => s.Id == request.Id);
 
                 List<Category> categories = new List<Category>();
 
                 if (request.Id == Guid.Empty)
                 {
-                    categories = await _categoryRepository.GetListAsync(x => x.LanguageId == LanguageExtension.LanguageId && x.LinkedCategoryId == null);
+                    categories = butunKategoriler.Where(x =>x.LinkedCategoryId == null).ToList();
                 }
                 else
                 {
-                    categories = await _categoryRepository.GetListAsync(x => x.LanguageId == LanguageExtension.LanguageId && x.LinkedCategoryId == request.Id);
-                }
+                    categories = butunKategoriler.Where(x => x.LinkedCategoryId == request.Id).ToList();
 
-                foreach (var item in categories.OrderBy(s => s.Name).ToList())
-                {
-                    var subs = await _categoryRepository.GetListAsync(s => s.LinkedCategoryId == item.Id && s.LanguageId == LanguageExtension.LanguageId);
-
-                    if (subs.Count > 0)
+                    if (categories == null || categories.Count == 0)
                     {
-                        string desc = "<ul>#temp</ul>";
-                        string li = "";
-                        foreach (var s in subs.OrderBy(s => s.Name).ToList())
-                        {
-                            li += "<li>" + s.Name + "</li>";
-                        }
-
-                        item.Description = desc.Replace("#temp", li);
+                        result.IsLastCategory = true;
                     }
                 }
 
-                result.Categories = categories.OrderBy(s => s.Name).ToList();
+                //foreach (var item in categories.OrderBy(s => s.Name).ToList())
+                //{
+                //    var subs = butunKategoriler.Where(s => s.LinkedCategoryId == item.Id && s.LanguageId == LanguageExtension.LanguageId).ToList();
+
+                //    if (subs.Count > 0)
+                //    {
+                //        string desc = "<ul>#temp</ul>";
+                //        string li = "";
+                //        foreach (var s in subs.OrderBy(s => s.Name).ToList())
+                //        {
+                //            li += "<li>" + s.Name + "</li>";
+                //        }
+
+                //        item.Description = desc.Replace("#temp", li);
+                //    }
+                //}
+
+                result.Categories = categories.OrderBy(s => s.Order).ToList();
 
                 return _returnUtility.SuccessData(result);
             }

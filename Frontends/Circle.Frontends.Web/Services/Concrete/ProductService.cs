@@ -1,5 +1,6 @@
 ﻿using Circle.Core.Utilities.Results;
 using Circle.Frontends.Web.Services.Abstract;
+using Circle.Library.Entities.ComplexTypes;
 using Circle.Library.Entities.Concrete;
 using Newtonsoft.Json;
 using System;
@@ -40,6 +41,13 @@ namespace Circle.Frontends.Web.Services.Concrete
                 // Deserialize the data
                 return product;
             }
+        }
+
+        public async Task<ResponseMessage<ProductModel>> GetAsync(Guid productId)
+        {
+            HttpResponseMessage response = await _client.GetAsync("Products/GetWithId?productId=" + productId);
+            string data = await response.Content.ReadAsStringAsync();
+            return JsonConvert.DeserializeObject<ResponseMessage<ProductModel>>(data);
         }
     }
 }

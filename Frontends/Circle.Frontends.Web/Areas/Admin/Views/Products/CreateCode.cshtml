@@ -20,9 +20,9 @@
                     <!--begin::Body-->
                     <div class="card-body">
                         <a asp-action="CreateCode" asp-area="Admin" asp-controller="Products" asp-route-guid="@item.Id" class="card-title text-dark fw-bolder  text-hover-primary fs-4">@item.Name</a>
-                        <p class="text-muted fw-bold fs-5 m-0">
-                            @Html.Raw(@item.Description)
-                        </p>
+                        @*<p class="text-muted fw-bold fs-5 m-0">
+                                @Html.Raw(@item.Description)
+                            </p>*@
                     </div>
                     <!--end::Body-->
                 </div>
@@ -44,25 +44,64 @@
             <!--end::Statistics Widget 1-->
         </div>
     </div>
-    @if (Context.Request.QueryString.HasValue)
+    @if (Context.Request.QueryString.HasValue && Model.IsLastCategory)
     {
-        <div class="row">
-            <div class="col-md-12">
-                <div class="card bgi-no-repeat card-xl-stretch mb-xl-8">
-                    <!--begin::Body-->
-                    <div class="card-body">
-                        <span class="text-dark"> Ürün Kodu : </span>
-                        <span class="text-dark"> @Model.ProductCode</span>
+        <form method="post" asp-area="Admin" asp-action="CreateProduct" asp-controller="Products">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card bgi-no-repeat card-xl-stretch mb-xl-8">
+                        <!--begin::Body-->
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="input-group mb-5">
+                                        <span class="input-group-text" id="basic-addon3">Ürün Adı :</span>
+                                        @{
+                                            string urunCode = "";
+                                            if (Model.ProductCodeList.Count > 0)
+                                            {
+                                                urunCode = Model.ProductCodeList.Select(s => s.Name).Aggregate((i, j) => i + " " + j);
+                                            }
+                                        }
+                                        <input type="text" class="form-control" value="@urunCode" asp-for="@Model.ProductName">
+                                    </div>
+                                    
+                                    <input type="hidden" class="form-control form-control-solid" readonly="readonly" asp-for="@Model.SelectedCategory" value="@Context.Request.Query["guid"]">
+                                    <input type="hidden" class="form-control form-control-solid" readonly="readonly" asp-for="@Model.ProductCode" value="@urunCode">
+                                </div>
+                                <div class="col-md-8 mt-5">
+                                    <div class="row">
+                                        @foreach (var item in Model.ProductCodeList)
+                                        {
+                                            <div class="col-md-3">
+                                                @item.Name
+                                            </div>
+                                        }
+                                    </div>
+                                    <div class="row">
+                                        @foreach (var item in Model.ProductCodeList)
+                                        {
+                                            <div class="col-md-3">
+                                                @item.Code
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+
+                            @*<input class="form-control form-control-solid" readonly="readonly" asp-for="@Model.ProductCode">
+                                <input type="hidden" class="form-control form-control-solid" readonly="readonly" asp-for="@Model.SelectedCategory" value="@Context.Request.Query["guid"]">*@
+                        </div>
+                        <!--end::Body-->
                     </div>
-                    <!--end::Body-->
+                </div>
+                <div class="col-md-12">
+                    <!--begin::Action-->
+                    <button type="submit" class="btn btn-primary">@T.GetLocalizedHtmlString("Create Product")</button>
+                    <!--end::Action-->
                 </div>
             </div>
-            <div class="col-md-12">
-                <!--begin::Action-->
-                <a asp-area="Admin" asp-action="CreateProduct" asp-controller="Products" class="btn btn-primary">@T.GetLocalizedHtmlString("Create Product")</a>
-                <!--end::Action-->
-            </div>
-        </div>
+        </form>
     }
     <!--end::Row-->
 </div>

@@ -12,5 +12,6 @@ namespace Circle.Frontends.Web.Services.Abstract
     public interface IProductService
     {
         Task<ResponseMessage<Product>> AddAsync(Product product);
+        Task<ResponseMessage<ProductModel>> GetAsync(Guid guid);
     }
 }

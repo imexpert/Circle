@@ -2,6 +2,7 @@
 using Circle.Library.Business.Handlers.Categories.Commands;
 using Circle.Library.Business.Handlers.Categories.Queries;
 using Circle.Library.Business.Handlers.Groups.Commands;
+using Circle.Library.Business.Handlers.Products.Queries;
 using Circle.Library.Entities.Concrete;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -23,5 +24,18 @@ namespace Circle.Library.Api.Controllers
         {
             return CreateActionResultInstance(await Mediator.Send(new CreateProductCommand() { Model = product }));
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="code"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public async Task<IActionResult> GetWithId(Guid productId)
+        {
+            return CreateActionResultInstance(await Mediator.Send(new GetProductQuery { Id = productId }));
+        }
+
+        
     }
 }

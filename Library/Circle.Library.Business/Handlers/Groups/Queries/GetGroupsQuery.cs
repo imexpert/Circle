@@ -32,7 +32,7 @@ namespace Circle.Library.Business.Handlers.Groups.Queries
             [SecuredOperation(Priority = 1)]
             public async Task<ResponseMessage<List<Group>>> Handle(GetGroupsQuery request, CancellationToken cancellationToken)
             {
-                var list = await _groupRepository.GetListAsync();
+                var list = await _groupRepository.GetListAsync(x=> x.LanguageId == LanguageExtension.LanguageId);
                 if (list == null || list.Count() <= 0)
                 {
                     return await _returnUtility.NoDataFound<List<Group>>(MessageDefinitions.KAYIT_BULUNAMADI);

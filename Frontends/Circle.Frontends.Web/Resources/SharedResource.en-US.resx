@@ -192,6 +192,9 @@
   <data name="Enter Department Name" xml:space="preserve">
     <value>Enter Department Name</value>
   </data>
+  <data name="Enter Product Name" xml:space="preserve">
+    <value>Enter product name</value>
+  </data>
   <data name="Enter User Address" xml:space="preserve">
     <value>Enter User Address</value>
   </data>
@@ -249,8 +252,14 @@
   <data name="Phone" xml:space="preserve">
     <value>Phone</value>
   </data>
+  <data name="Product Image" xml:space="preserve">
+    <value>Product Image</value>
+  </data>
   <data name="Product Management" xml:space="preserve">
     <value>Product Management</value>
+  </data>
+  <data name="Product Name" xml:space="preserve">
+    <value>Product Name</value>
   </data>
   <data name="Roles" xml:space="preserve">
     <value>Roles</value>
@@ -278,6 +287,9 @@
   </data>
   <data name="Unique Code Generation" xml:space="preserve">
     <value>Unique Code Generation</value>
+  </data>
+  <data name="Update Product" xml:space="preserve">
+    <value>Update Product</value>
   </data>
   <data name="User Groups" xml:space="preserve">
     <value>User Groups</value>

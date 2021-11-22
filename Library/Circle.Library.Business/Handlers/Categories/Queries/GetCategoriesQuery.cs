@@ -32,7 +32,7 @@ namespace Circle.Library.Business.Handlers.Categories.Queries
             //[SecuredOperation(Priority = 1)]
             public async Task<ResponseMessage<List<Category>>> Handle(GetCategoriesQuery request, CancellationToken cancellationToken)
             {
-                var category = await _categoryRepository.GetListAsync(x => x.LanguageId == LanguageExtension.LanguageId);
+                var category = await _categoryRepository.GetListAsync();
 
                 if (category == null)
                 {

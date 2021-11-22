@@ -192,6 +192,9 @@
   <data name="Enter Department Name" xml:space="preserve">
     <value>Departman adını giriniz</value>
   </data>
+  <data name="Enter Product Name" xml:space="preserve">
+    <value>Ürün adını giriniz</value>
+  </data>
   <data name="Enter User Address" xml:space="preserve">
     <value>Adres bilgisini giriniz</value>
   </data>
@@ -249,8 +252,14 @@
   <data name="Phone" xml:space="preserve">
     <value>Telefon No</value>
   </data>
+  <data name="Product Image" xml:space="preserve">
+    <value>Ürün Resmi</value>
+  </data>
   <data name="Product Management" xml:space="preserve">
     <value>Ürün Yönetimi</value>
+  </data>
+  <data name="Product Name" xml:space="preserve">
+    <value>Ürün Adı</value>
   </data>
   <data name="Roles" xml:space="preserve">
     <value>Yetki Grupları</value>
@@ -278,6 +287,9 @@
   </data>
   <data name="Unique Code Generation" xml:space="preserve">
     <value>Benzersiz Kod Oluşturma</value>
+  </data>
+  <data name="Update Product" xml:space="preserve">
+    <value>Ürün Düzenle</value>
   </data>
   <data name="User Groups" xml:space="preserve">
     <value>Kullanıcı Grupları</value>

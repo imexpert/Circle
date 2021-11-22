@@ -2,6 +2,7 @@
 using Circle.Frontends.Web.Controllers;
 using Circle.Frontends.Web.Services.Abstract;
 using Circle.Library.Entities.ComplexTypes;
+using Circle.Library.Entities.Concrete;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -14,15 +15,31 @@ namespace Circle.Frontends.Web.Areas.Admin.Controllers
     public class ProductsController : BaseController
     {
         ICategoryService _categoryService;
+        IProductService _productService;
 
-        public ProductsController(ICategoryService categoryService)
+        public ProductsController(
+            ICategoryService categoryService,
+            IProductService productService)
         {
             _categoryService = categoryService;
+            _productService = productService;
         }
 
         public IActionResult UniqueCode()
         {
             return View();
+        }
+
+        public async Task<IActionResult> Product(Guid productId)
+        {
+            ProductModel product = new ProductModel();
+
+            var response = await _productService.GetAsync(productId);
+            if (response != null && response.IsSuccess)
+            {
+                product = response.Data;
+            }
+            return View(product);
         }
 
         public async Task<IActionResult> CreateCode(Guid guid)
@@ -39,8 +56,20 @@ namespace Circle.Frontends.Web.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateProduct()
+        public async Task<IActionResult> CreateProduct(CategoryListModel model)
         {
+            Product product = new Product()
+            {
+                CategoryId = model.SelectedCategory,
+                Name = model.ProductName
+            };
+
+            var response = await _productService.AddAsync(product);
+            if (response.IsSuccess)
+            {
+                return RedirectToAction("Product", new { productId = response.Data.Id });
+            }
+
             return Json(null);
         }
     }

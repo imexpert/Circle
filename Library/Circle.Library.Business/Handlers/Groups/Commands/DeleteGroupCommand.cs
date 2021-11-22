@@ -30,14 +30,14 @@ namespace Circle.Library.Business.Handlers.Groups.Commands
             [SecuredOperation(Priority = 1)]
             public async Task<ResponseMessage<NoContent>> Handle(DeleteGroupCommand request, CancellationToken cancellationToken)
             {
-                var groupToDelete = await _groupRepository.GetAsync(x => x.Id == request.Id);
+                var groupToDelete = await _groupRepository.GetListAsync(x => x.Id == request.Id);
 
-                if (groupToDelete == null || groupToDelete.Id == Guid.Empty)
+                if (groupToDelete == null || groupToDelete.Count == 0 /*groupToDelete.Id == Guid.Empty*/)
                 {
                     return await _returnUtility.NoDataFound<NoContent>(MessageDefinitions.KAYIT_BULUNAMADI);
                 }
 
-                _groupRepository.Delete(groupToDelete);
+                _groupRepository.DeleteRange(groupToDelete);
                 await _groupRepository.SaveChangesAsync();
 
                 return await _returnUtility.Success<NoContent>(MessageDefinitions.SILME_ISLEMI_BASARILI);

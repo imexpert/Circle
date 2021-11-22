@@ -32,7 +32,7 @@ namespace Circle.Library.Business.Handlers.Groups.Queries
             [SecuredOperation(Priority = 1)]
             public async Task<ResponseMessage<List<Group>>> Handle(GetGroupQuery request, CancellationToken cancellationToken)
             {
-                var group = await _groupRepository.GetListAsync(x => x.Id == request.GroupId);
+                var group = await _groupRepository.GetListAsync(x => x.Id == request.GroupId && x.LanguageId == LanguageExtension.LanguageId);
 
                 if (group == null)
                 {

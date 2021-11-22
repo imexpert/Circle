@@ -48,6 +48,8 @@ namespace Circle.Frontends.Web.Areas.Admin.Controllers
             }
             else
             {
+                Guid sss = LanguageExtension.TrLanguageId;
+
                 GroupModel item = new GroupModel();
                 item.Group = new Group { GroupName = "", Id = Guid.Empty, LanguageId = LanguageExtension.TrLanguageId};
                 item.GroupEn = new Group { GroupName = "", Id = Guid.Empty, LanguageId = LanguageExtension.UsLanguageId};

@@ -42,9 +42,9 @@ namespace Circle.Library.Business.Handlers.Groups.Queries
             public async Task<ResponseMessage<List<GroupModel>>> Handle(GetGroupWithClaimsQuery request, CancellationToken cancellationToken)
             {
                 List<GroupModel> result = new List<GroupModel>();
-                var list = await _groupRepository.GetListAsync(x => x.Id == request.GroupId || request.GroupId == Guid.Empty);
+                var list = await _groupRepository.GetListAsync(x => (x.LanguageId == LanguageExtension.LanguageId) && (x.Id == request.GroupId || request.GroupId == Guid.Empty));
                 var groupClaim = await _groupClaimRepository.GetListAsync(x => x.GroupId == request.GroupId || request.GroupId == Guid.Empty);
-                var operationClaim = await _operationClaimRepository.GetListAsync();
+                var operationClaim = await _operationClaimRepository.GetListAsync(x=> x.LanguageId == LanguageExtension.LanguageId);
                 result = list.Select
                     (x => new GroupModel
                     {

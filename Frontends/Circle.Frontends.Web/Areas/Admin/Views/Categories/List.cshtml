@@ -8,17 +8,47 @@
 @using Circle.Frontends.Web.Resources
 
 @inject LocService T
+<link href="~/assets/plugins/custom/jstree/jstree.bundle.css" rel="stylesheet" type="text/css" />
 
 <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
-    <!--begin::Post-->
     <div class="post d-flex flex-column-fluid" id="kt_post">
-        <!--begin::Container-->
         <div id="kt_content_container" class="container-xxl">
-            
+            <div id="kt_docs_jstree_basic">
+                <ul>
+                    <li>
+                        Kategori 1
+                        <ul>
+                            <li @*data-jstree='{ "selected" : true }'*@>
+                                <a href="javascript:;">
+                                    Alt Kategori 1
+                                </a>
+                            </li>
+                            <li @*data-jstree='{ "icon" : "flaticon2-gear text-success " }'*@>
+                                Alt Kategori 2
+                            </li>
+                            <li @*data-jstree='{ "opened" : true }'*@>
+                                Alt Kategori 3
+                                <ul>
+                                    <li @*data-jstree='{ "disabled" : true }'*@>
+                                        Alt Alt Kategori 1
+                                    </li>
+                                    <li @*data-jstree='{ "type" : "file" }'*@>
+                                        Alt Alt Kategori 2
+                                    </li>
+                                </ul>
+                            </li>
+                            <li @*data-jstree='{ "icon" : "flaticon2-rectangular text-danger" }'*@>
+                                Alt Kategori 4
+                            </li>
+                        </ul>
+                    </li>
+                    <li @*data-jstree='{ "type" : "file" }'*@>
+                        Kategori 2
+                    </li>
+                </ul>
+            </div>
         </div>
-        <!--end::Container-->
     </div>
-    <!--end::Post-->
 </div>
 
 <div class="modal fade" id="modalDepartment" tabindex="-1" aria-hidden="true" style="display: none;" data-keyboard="false" data-backdrop="static">
@@ -112,5 +142,25 @@
 
 @section Scripts{
     <script src="~/assets/js/custom/departmentmanagement/addDepartment.js"></script>
+    <script src="~/assets/plugins/custom/jstree/jstree.bundle.js"></script>
     @*<script src="~/assets/js/custom/departmentmanagement/list.js" asp-append-version="true"></script>*@
+
+    <script type="text/javascript">
+        $('#kt_docs_jstree_basic').jstree({
+            "core": {
+                "themes": {
+                    "responsive": false
+                }
+            },
+            "types": {
+                "default": {
+                    "icon": "fa fa-folder"
+                },
+                "file": {
+                    "icon": "fa fa-file"
+                }
+            },
+            "plugins": ["types"]
+        });
+    </script>
 }

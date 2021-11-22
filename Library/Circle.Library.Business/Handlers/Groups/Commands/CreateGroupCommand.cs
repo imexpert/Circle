@@ -36,17 +36,22 @@ namespace Circle.Library.Business.Handlers.Groups.Commands
             {
                 GroupModel groupModel = new GroupModel();
                 groupModel.Group = await _groupRepository.GetAsync(s => s.GroupName == request.Model.Group.GroupName.Trim().ToUpper());
+                groupModel.GroupEn = await _groupRepository.GetAsync(s => s.GroupName == request.Model.GroupEn.GroupName.Trim().ToUpper());
                 if (groupModel.Group != null)
                 {
                     return await _returnUtility.Fail<Group>(MessageDefinitions.KAYIT_ZATEN_MEVCUT);
                 }
-
+                if (groupModel.GroupEn != null)
+                {
+                    return await _returnUtility.Fail<Group>(MessageDefinitions.KAYIT_ZATEN_MEVCUT);
+                }
                 //groupModel.Group = new Group
                 //{
                 //    GroupName = request.Model.Group.GroupName,
                 //    LanguageId = LanguageExtension.LanguageId
                 //};
                 groupModel.Group = _groupRepository.Add(request.Model.Group);
+                groupModel.GroupEn = _groupRepository.Add(request.Model.GroupEn);
                 await _groupRepository.SaveChangesAsync();
 
                 #region ingilizce kayıt

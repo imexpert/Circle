@@ -13,6 +13,34 @@ namespace Circle.Library.DataAccess.Concrete.Configurations
             builder.ToTable("Products", MsDbContext.DEFAULT_SCHEMA);
 
             builder.HasKey(x => new { x.Id });
+
+            builder.Property(x => x.CategoryId);
+            builder.Property(x => x.Name).HasMaxLength(500);
+            builder.Property(x => x.Description).HasMaxLength(500);
+            builder.Property(x => x.Image);
+
+            builder.Property(s => s.RecordDate)
+               .UsePropertyAccessMode(PropertyAccessMode.Field)
+               .IsRequired();
+
+            builder.Property(s => s.RecordUsername)
+                .HasMaxLength(50)
+                .UsePropertyAccessMode(PropertyAccessMode.Field)
+                .IsRequired();
+
+            builder.Property(s => s.UpdateDate)
+                .UsePropertyAccessMode(PropertyAccessMode.Field)
+                .IsRequired();
+
+            builder.Property(s => s.UpdateUsername)
+                .HasMaxLength(50)
+                .UsePropertyAccessMode(PropertyAccessMode.Field)
+                .IsRequired();
+
+            builder.Property(s => s.Ip)
+                .HasMaxLength(20)
+                .UsePropertyAccessMode(PropertyAccessMode.Field)
+                .IsRequired();
         }
     }
 }

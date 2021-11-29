@@ -252,6 +252,9 @@
   <data name="Phone" xml:space="preserve">
     <value>Phone</value>
   </data>
+  <data name="Product Description" xml:space="preserve">
+    <value>Product Description</value>
+  </data>
   <data name="Product Image" xml:space="preserve">
     <value>Product Image</value>
   </data>

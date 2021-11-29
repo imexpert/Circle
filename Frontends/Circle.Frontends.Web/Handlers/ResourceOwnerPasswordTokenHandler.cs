@@ -1,4 +1,5 @@
-﻿using Circle.Frontends.Web.Infrastructure.Extensions;
+﻿using Circle.Frontends.Web.Exceptions;
+using Circle.Frontends.Web.Infrastructure.Extensions;
 using Circle.Frontends.Web.Services.Abstract;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
@@ -47,8 +48,9 @@ namespace Circle.Frontends.Web.Handlers
 
             if (response.StatusCode == HttpStatusCode.Unauthorized)
             {
-                _httpContextAccessor.HttpContext.Response.Redirect("/Login");
+                throw new UnAuthorizeException();
             }
+
             return response;
         }
     }

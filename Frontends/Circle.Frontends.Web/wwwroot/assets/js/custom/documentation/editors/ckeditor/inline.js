@@ -30,7 +30,7 @@ var KTFormsCKEditorInline = function () {
 
 // On document ready
 KTUtil.onDOMContentLoaded(function () {
-    KTFormsCKEditorInline.init();
+    //KTFormsCKEditorInline.init();
 });
 
 /******/ })()

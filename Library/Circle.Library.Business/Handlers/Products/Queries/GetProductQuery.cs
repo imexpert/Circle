@@ -37,7 +37,9 @@ namespace Circle.Library.Business.Handlers.Products.Queries
 
                 var urunKodList = await _mediator.Send(new GetProductCodeQuery() { Id = product.CategoryId });
 
-                string productCode = urunKodList.Select(s => s.Name).Aggregate((i, j) => i + " " + j);
+                urunKodList.Reverse();
+
+                string productCode = urunKodList.Select(s => s.Code).Aggregate((i, j) => i + " " + j);
 
                 ProductModel model = new ProductModel()
                 {
@@ -45,7 +47,8 @@ namespace Circle.Library.Business.Handlers.Products.Queries
                     Description = product.Description,
                     Image = product.Image,
                     Name = product.Name,
-                    ProductCode = productCode
+                    ProductCode = productCode,
+                    Id = product.Id
                 };
 
                 return ResponseMessage<ProductModel>.Success(model);

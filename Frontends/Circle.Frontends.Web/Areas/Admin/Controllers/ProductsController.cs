@@ -1,5 +1,6 @@
 ﻿using Circle.Core.Entities.Concrete;
 using Circle.Frontends.Web.Controllers;
+using Circle.Frontends.Web.Infrastructure.Extensions;
 using Circle.Frontends.Web.Services.Abstract;
 using Circle.Library.Entities.ComplexTypes;
 using Circle.Library.Entities.Concrete;
@@ -71,6 +72,24 @@ namespace Circle.Frontends.Web.Areas.Admin.Controllers
             }
 
             return Json(null);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UpdateProduct(UpdateProuctModel model)
+        {
+            int dosyaSayisi = HttpContext.Request.Form.Files.Count;
+            if (dosyaSayisi > 0)
+            {
+                model.Image = await HttpContext.Request.Form.Files[0].GetBytes();
+            }
+
+            if (HttpContext.Request.Form.ContainsKey("ProductDescription"))
+            {
+                model.ProductDescription = HttpContext.Request.Form["ProductDescription"][1];
+            }
+            
+            var userResponse = await _productService.UpdateAsync(model);
+            return Json(userResponse);
         }
     }
 }

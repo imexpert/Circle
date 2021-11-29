@@ -252,6 +252,9 @@
   <data name="Phone" xml:space="preserve">
     <value>Telefon No</value>
   </data>
+  <data name="Product Description" xml:space="preserve">
+    <value>Ürün Açıklaması</value>
+  </data>
   <data name="Product Image" xml:space="preserve">
     <value>Ürün Resmi</value>
   </data>

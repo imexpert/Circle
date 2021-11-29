@@ -27,6 +27,11 @@ namespace Circle.Frontends.Web.Controllers
             return View();
         }
 
+        public IActionResult Error()
+        {
+            return View();
+        }
+
         [HttpPost]
         public IActionResult SetLanguage2(LanguageModel model)
         {

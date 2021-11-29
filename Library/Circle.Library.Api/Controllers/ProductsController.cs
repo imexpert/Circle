@@ -3,6 +3,7 @@ using Circle.Library.Business.Handlers.Categories.Commands;
 using Circle.Library.Business.Handlers.Categories.Queries;
 using Circle.Library.Business.Handlers.Groups.Commands;
 using Circle.Library.Business.Handlers.Products.Queries;
+using Circle.Library.Entities.ComplexTypes;
 using Circle.Library.Entities.Concrete;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -23,6 +24,17 @@ namespace Circle.Library.Api.Controllers
         public async Task<IActionResult> Add([FromBody] Product product)
         {
             return CreateActionResultInstance(await Mediator.Send(new CreateProductCommand() { Model = product }));
+        }
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="product"></param>
+        /// <returns></returns>
+        [HttpPut]
+        public async Task<IActionResult> Update([FromBody] UpdateProuctModel product)
+        {
+            return CreateActionResultInstance(await Mediator.Send(new UpdateProductCommand() { Model = product }));
         }
 
         /// <summary>

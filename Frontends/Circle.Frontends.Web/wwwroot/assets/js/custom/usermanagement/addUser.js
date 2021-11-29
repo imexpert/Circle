@@ -117,6 +117,5 @@
         KTModalNewCard.init();
     });
     /******/
-})()
-    ;
+})() ;
 //# sourceMappingURL=new-card.js.map

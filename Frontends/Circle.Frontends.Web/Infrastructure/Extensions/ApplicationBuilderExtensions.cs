@@ -13,6 +13,7 @@ using System.Linq;
 using System.Runtime.ExceptionServices;
 using System.Threading.Tasks;
 using System.Net;
+using Circle.Frontends.Web.Exceptions;
 
 namespace Circle.Frontends.Web.Infrastructure.Extensions
 {
@@ -34,6 +35,16 @@ namespace Circle.Frontends.Web.Infrastructure.Extensions
             //{
 
             //}
+
+            application.Use(async (context, next) =>
+            {
+                await next();
+                if (context.Response.StatusCode == 404)
+                {
+                    context.Request.Path = "/Error/404";
+                    await next();
+                }
+            });
 
             application.UseStatusCodePages(async context =>
             {
@@ -191,12 +202,22 @@ namespace Circle.Frontends.Web.Infrastructure.Extensions
 
                     try
                     {
-                        context.Response.Redirect(context.Request.PathBase + "Login/Login");
+                        if (exception.GetType() == typeof(UnAuthorizeException))
+                        {
+                            foreach (var cookie in context.Request.Cookies.Keys)
+                            {
+                                context.Response.Cookies.Delete(cookie);
+                            }
+
+                            context.Response.Redirect(context.Request.PathBase + "/Login/Index");
+                        }
+
+                        context.Response.Redirect(context.Request.PathBase + "/Home/Error");
                     }
                     finally
                     {
                         //rethrow the exception to show the error page
-                        ExceptionDispatchInfo.Throw(exception);
+                        //ExceptionDispatchInfo.Throw(exception);
                     }
                 });
             });

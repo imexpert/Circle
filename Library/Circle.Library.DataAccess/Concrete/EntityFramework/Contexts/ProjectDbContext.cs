@@ -44,6 +44,7 @@ namespace Circle.Library.DataAccess.Concrete.EntityFramework.Contexts
         public DbSet<Log> Logs { get; set; }
         public DbSet<Language> Languages { get; set; }
         public DbSet<Category> Categories { get; set; }
+        public DbSet<CategoryAttribute> CategoryAttributes { get; set; }
 
         protected IConfiguration Configuration { get; }
 

@@ -17,13 +17,16 @@ namespace Circle.Frontends.Web.Areas.Admin.Controllers
     {
         ICategoryService _categoryService;
         IProductService _productService;
+        ICategoryAttributeService _categoryAttributeService;
 
         public ProductsController(
             ICategoryService categoryService,
-            IProductService productService)
+            IProductService productService,
+            ICategoryAttributeService categoryAttributeService)
         {
             _categoryService = categoryService;
             _productService = productService;
+            _categoryAttributeService = categoryAttributeService;
         }
 
         public IActionResult UniqueCode()
@@ -41,6 +44,20 @@ namespace Circle.Frontends.Web.Areas.Admin.Controllers
                 product = response.Data;
             }
             return View(product);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetListMaterials(Guid productId)
+        {
+            var response = await _categoryAttributeService.GetMaterials(productId);
+            return Json(response);
+        }
+        
+        [HttpGet]
+        public async Task<IActionResult> GetListMaterialDetails(Guid materialId)
+        {
+            var response = await _categoryAttributeService.GetMaterialDetails(materialId);
+            return Json(response);
         }
 
         public async Task<IActionResult> CreateCode(Guid guid)

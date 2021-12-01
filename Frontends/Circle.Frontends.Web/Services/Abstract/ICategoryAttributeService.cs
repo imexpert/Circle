@@ -11,5 +11,7 @@ namespace Circle.Frontends.Web.Services.Abstract
     public interface ICategoryAttributeService
     {
         Task<ResponseMessage<List<CategoryAttribute>>> GetAllAttributes(Guid categoryId);
+        Task<ResponseMessage<List<CategoryAttribute>>> GetMaterials(Guid productId);
+        Task<ResponseMessage<List<CategoryAttribute>>> GetMaterialDetails(Guid materialId);
     }
 }

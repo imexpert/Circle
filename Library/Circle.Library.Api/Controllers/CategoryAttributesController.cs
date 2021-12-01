@@ -22,5 +22,27 @@ namespace Circle.Library.Api.Controllers
         {
             return CreateActionResultInstance(await Mediator.Send(new GetCategoryAttributesQuery { CategoryId = categoryId }));
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="productId"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public async Task<IActionResult> GetMaterials(Guid productId)
+        {
+            return CreateActionResultInstance(await Mediator.Send(new GetMaterialsQuery { ProductId = productId }));
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="productId"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public async Task<IActionResult> GetMaterialDetails(Guid materialId)
+        {
+            return CreateActionResultInstance(await Mediator.Send(new GetMaterialDetailsQuery { MaterialId = materialId }));
+        }
     }
 }

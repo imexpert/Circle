@@ -90,6 +90,7 @@ namespace Circle.Library.Business
             services.AddTransient<IMessageRepository, MessageRepository>();
             services.AddTransient<IDepartmentRepository, DepartmentRepository>();
             services.AddTransient<IProductRepository, ProductRepository>();
+            services.AddTransient<ICategoryAttributeRepository, CategoryAttributeRepository>();
             services.AddTransient<IReturnUtility, ReturnUtility>();
 
 

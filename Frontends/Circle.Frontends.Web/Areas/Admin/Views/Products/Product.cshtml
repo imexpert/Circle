@@ -236,29 +236,30 @@
                     </div>
 
                     <div class="row">
-                        @*Product Name*@
+                        @*Hammadde*@
                         <div class="col-md-6 mt-3 fv-row fv-plugins-icon-container">
                             <label for="exampleFormControlInput1" class="required form-label">Hammadde</label>
-                            <select class="form-select form-select-sm rounded-start-0" data-control="select2" data-placeholder="Select an option">
-                                <option></option>
-                                <option value="1">Option 1</option>
-                                <option value="2">Option 2</option>
-                                <option value="3">Option 3</option>
-                                <option value="4">Option 4</option>
-                                <option value="5">Option 5</option>
-                            </select>
+                            <Dropdown url="/Admin/Products/GetListMaterials"
+                                      text-field="Name"
+                                      place-holder="Hammadde Seçiniz"
+                                      name="selectMaterial"
+                                      child-name="selectMaterialDetail"
+                                      query-string="productId"
+                                      param-name="materialId"
+                                      parent-modal="modalProductDetail"
+                                      value-field="Id">
+                            </Dropdown>
                         </div>
-                        @*Product Name*@
+                        @*Hammadde Çeşidi*@
                         <div class="col-md-6 mt-3 fv-row fv-plugins-icon-container">
                             <label for="exampleFormControlInput1" class="required form-label">Hammadde Çeşidi</label>
-                            <select class="form-select form-select-sm rounded-start-0" data-control="select2" data-placeholder="Select an option">
-                                <option></option>
-                                <option value="1">Option 1</option>
-                                <option value="2">Option 2</option>
-                                <option value="3">Option 3</option>
-                                <option value="4">Option 4</option>
-                                <option value="5">Option 5</option>
-                            </select>
+                            <Dropdown url="/Admin/Products/GetListMaterialDetails"
+                                      text-field="Name"
+                                      place-holder="Hammadde Seçiniz"
+                                      name="selectMaterialDetail"
+                                      parent-modal="modalProductDetail"
+                                      value-field="Id">
+                            </Dropdown>
                         </div>
                         @*Product Name*@
                         <div class="col-md-6 mt-3 fv-row fv-plugins-icon-container">

@@ -46,7 +46,7 @@ function generateSelect(thisFromReady) {
 
     $(thisFromReady).on('change', function () {
         var bolgeAdi = "";
-
+        alert("sdfsd");
         if ($(thisFromReady).attr("data-childName") != undefined && $(thisFromReady).attr("data-childName") != "" && $(thisFromReady).attr("data-childName") != null) {
 
             var childName = "#" + $(thisFromReady).attr("data-childName");
@@ -98,7 +98,7 @@ function generateSelect(thisFromReady) {
             $(childName).empty();
         }
 
-        $(childName).append(`<option value="${$(childName).attr("data-defaultOptionValue") != undefined ? $(childName).attr("data-defaultOptionValue") : $(childName).attr("data-defaultOptionText")}" disabled="disabled" selected="selected">${$(childName).attr("data-defaultOptionText")}</option>`);
+        $(childName).append(`<option value="0" disabled="disabled" selected="selected">Seçiniz</option>`);
 
         if ($(childName).attr("data-childName") != "" && $(childName).attr("data-childName") != undefined) {
             clearAndInitialize($(childName).attr("data-childName"), true);

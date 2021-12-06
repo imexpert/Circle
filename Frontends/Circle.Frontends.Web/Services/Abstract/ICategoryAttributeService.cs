@@ -13,5 +13,7 @@ namespace Circle.Frontends.Web.Services.Abstract
         Task<ResponseMessage<List<CategoryAttribute>>> GetAllAttributes(Guid categoryId);
         Task<ResponseMessage<List<CategoryAttribute>>> GetMaterials(Guid productId);
         Task<ResponseMessage<List<CategoryAttribute>>> GetMaterialDetails(Guid materialId);
+        Task<ResponseMessage<List<CategoryAttribute>>> GetDiameters(Guid productId);
+        Task<ResponseMessage<List<CategoryAttribute>>> GetLengths(Guid productId);
     }
 }

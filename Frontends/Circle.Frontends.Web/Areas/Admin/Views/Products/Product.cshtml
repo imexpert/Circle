@@ -34,7 +34,7 @@
                         </div>
                         <div class="col-md-9">
                             <span id="spanProductName">@Model.ProductCode</span>
-                            
+
                         </div>
                         <div class="col-md-12">
                             <hr />
@@ -230,7 +230,6 @@
                     <div class="mb-13 text-center">
                         <!--begin::Title-->
                         <h1 id="h1ProductTitle" class="mb-3">
-
                         </h1>
                         <!--end::Title-->
                     </div>
@@ -239,51 +238,61 @@
                         @*Hammadde*@
                         <div class="col-md-6 mt-3 fv-row fv-plugins-icon-container">
                             <label for="exampleFormControlInput1" class="required form-label">Hammadde</label>
-                            <Dropdown url="/Admin/Products/GetListMaterials"
-                                      text-field="Name"
-                                      place-holder="Hammadde Seçiniz"
-                                      name="selectMaterial"
-                                      child-name="selectMaterialDetail"
-                                      query-string="productId"
-                                      param-name="materialId"
-                                      parent-modal="modalProductDetail"
-                                      value-field="Id">
-                            </Dropdown>
+                            <CircleSelect Name="selectMaterial"
+                                          Url="/Admin/Products/GetListMaterials"
+                                          ParentModal="modalProductDetail"
+                                          QueryParam="productId"
+                                          TextField="Name"
+                                          ValueField="Id"
+                                          ChildControlId="selectMaterialDetail"
+                                          PlaceHolder="Hammadde Seçiniz">
+                            </CircleSelect>
+                            @*<Dropdown url="/Admin/Products/GetListMaterials"
+                                          text-field="Name"
+                                          place-holder="Hammadde Seçiniz"
+                                          name="selectMaterial"
+                                          child-name="selectMaterialDetail"
+                                          query-string="productId"
+                                          param-name="materialId"
+                                          parent-modal="modalProductDetail"
+                                          value-field="Id">
+                                </Dropdown>*@
                         </div>
                         @*Hammadde Çeşidi*@
                         <div class="col-md-6 mt-3 fv-row fv-plugins-icon-container">
                             <label for="exampleFormControlInput1" class="required form-label">Hammadde Çeşidi</label>
-                            <Dropdown url="/Admin/Products/GetListMaterialDetails"
-                                      text-field="Name"
-                                      place-holder="Hammadde Seçiniz"
-                                      name="selectMaterialDetail"
-                                      parent-modal="modalProductDetail"
-                                      value-field="Id">
-                            </Dropdown>
+                            <CircleSelect Name="selectMaterialDetail"
+                                          Url="/Admin/Products/GetListMaterialDetails"
+                                          ParentModal="modalProductDetail"
+                                          TextField="Name"
+                                          ValueField="Id"
+                                          ParamName="materialId"
+                                          PlaceHolder="Hammadde Detay Seçiniz">
+                            </CircleSelect>
                         </div>
                         @*Product Name*@
                         <div class="col-md-6 mt-3 fv-row fv-plugins-icon-container">
                             <label for="exampleFormControlInput1" class="required form-label">Diameter</label>
-                            <select class="form-select form-select-sm rounded-start-0" data-control="select2" data-placeholder="Select an option">
-                                <option></option>
-                                <option value="1">Option 1</option>
-                                <option value="2">Option 2</option>
-                                <option value="3">Option 3</option>
-                                <option value="4">Option 4</option>
-                                <option value="5">Option 5</option>
-                            </select>
+                            <CircleSelect Name="selectDiameter"
+                                          Url="/Admin/Products/GetListDiameters"
+                                          ParentModal="modalProductDetail"
+                                          TextField="Name"
+                                          ValueField="Id"
+                                          QueryParam="productId"
+                                          PlaceHolder="Diameter Seçiniz">
+                            </CircleSelect>
                         </div>
                         @*Product Name*@
                         <div class="col-md-6 mt-3 fv-row fv-plugins-icon-container">
                             <label for="exampleFormControlInput1" class="required form-label">Length</label>
-                            <select class="form-select form-select-sm rounded-start-0" data-control="select2" data-placeholder="Select an option">
-                                <option></option>
-                                <option value="1">Option 1</option>
-                                <option value="2">Option 2</option>
-                                <option value="3">Option 3</option>
-                                <option value="4">Option 4</option>
-                                <option value="5">Option 5</option>
-                            </select>
+                            <CircleSelect Name="selectLength"
+                                          Url="/Admin/Products/GetListLengths"
+                                          ParentModal="modalProductDetail"
+                                          TextField="Name"
+                                          ValueField="Id"
+                                          QueryParam="productId"
+                                          PlaceHolder="Length Seçiniz">
+                            </CircleSelect>
                         </div>
                         @*Product Name*@
                         <div class="col-md-6 mt-3 fv-row fv-plugins-icon-container">

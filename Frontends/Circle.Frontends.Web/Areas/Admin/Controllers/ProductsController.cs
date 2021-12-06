@@ -60,6 +60,20 @@ namespace Circle.Frontends.Web.Areas.Admin.Controllers
             return Json(response);
         }
 
+        [HttpGet]
+        public async Task<IActionResult> GetListDiameters(Guid productId)
+        {
+            var response = await _categoryAttributeService.GetDiameters(productId);
+            return Json(response);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetListLengths(Guid productId)
+        {
+            var response = await _categoryAttributeService.GetLengths(productId);
+            return Json(response);
+        }
+
         public async Task<IActionResult> CreateCode(Guid guid)
         {
             var categoryList = new CategoryListModel();

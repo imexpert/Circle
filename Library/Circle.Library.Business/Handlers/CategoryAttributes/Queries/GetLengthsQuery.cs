@@ -14,35 +14,41 @@ using System.Threading.Tasks;
 
 namespace Circle.Library.Business.Handlers.CategoryAttributes.Queries
 {
-    public class GetMaterialDetailsQuery : IRequest<ResponseMessage<List<CategoryAttribute>>>
+    public class GetLengthsQuery : IRequest<ResponseMessage<List<CategoryAttribute>>>
     {
-        public Guid MaterialId { get; set; }
+        public Guid ProductId { get; set; }
 
-        public class GetMaterialDetailsQueryHandler : IRequestHandler<GetMaterialDetailsQuery, ResponseMessage<List<CategoryAttribute>>>
+        public class GetLengthsQueryHandler : IRequestHandler<GetLengthsQuery, ResponseMessage<List<CategoryAttribute>>>
         {
             private readonly ICategoryAttributeRepository _categoryAttributeRepository;
             private readonly IReturnUtility _returnUtility;
+            private readonly IProductRepository _productRepository;
 
-            public GetMaterialDetailsQueryHandler(
-                ICategoryAttributeRepository categoryAttributeRepository, 
-                IReturnUtility returnUtility)
+            public GetLengthsQueryHandler(
+                ICategoryAttributeRepository categoryAttributeRepository,
+                IReturnUtility returnUtility,
+                IProductRepository productRepository)
             {
                 _categoryAttributeRepository = categoryAttributeRepository;
                 _returnUtility = returnUtility;
+                _productRepository = productRepository;
             }
 
 
 
             //[SecuredOperation(Priority = 1)]
-            public async Task<ResponseMessage<List<CategoryAttribute>>> Handle(GetMaterialDetailsQuery request, CancellationToken cancellationToken)
+            public async Task<ResponseMessage<List<CategoryAttribute>>> Handle(GetLengthsQuery request, CancellationToken cancellationToken)
             {
-                var category = await _categoryAttributeRepository.GetListAsync(s=>s.LinkedAttributeId == request.MaterialId && s.TypeCode == ((int)MaterialTypes.HammaddeCesit));
+                var product = await _productRepository.GetAsync(s => s.Id == request.ProductId);
+
+                var category = await _categoryAttributeRepository.GetListAsync(s => s.CategoryId == product.CategoryId && s.TypeCode == ((int)MaterialTypes.Length));
 
                 if (category == null)
                 {
                     return await _returnUtility.NoDataFound<List<CategoryAttribute>>(MessageDefinitions.KAYIT_BULUNAMADI);
                 }
 
+                category = category.OrderBy(s => s.Order).ToList();
                 return _returnUtility.SuccessData(category);
             }
         }

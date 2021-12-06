@@ -1,4 +1,5 @@
 ﻿using Circle.Core.Entities.Concrete;
+using Circle.Core.Entities.Enums;
 using Circle.Core.Utilities.Messages;
 using Circle.Core.Utilities.Results;
 using Circle.Library.Business.Helpers;
@@ -39,7 +40,7 @@ namespace Circle.Library.Business.Handlers.CategoryAttributes.Queries
             public async Task<ResponseMessage<List<CategoryAttribute>>> Handle(GetMaterialsQuery request, CancellationToken cancellationToken)
             {
                 var product = await _productRepository.GetAsync(s => s.Id == request.ProductId);
-                var category = await _categoryAttributeRepository.GetListAsync(s=>s.CategoryId == product.CategoryId && s.TypeCode == 1);
+                var category = await _categoryAttributeRepository.GetListAsync(s=>s.CategoryId == product.CategoryId && s.TypeCode == ((int)MaterialTypes.Hammadde));
 
                 if (category == null)
                 {

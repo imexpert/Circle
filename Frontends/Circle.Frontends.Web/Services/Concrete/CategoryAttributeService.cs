@@ -27,6 +27,19 @@ namespace Circle.Frontends.Web.Services.Concrete
             return JsonConvert.DeserializeObject<ResponseMessage<List<CategoryAttribute>>>(data);
         }
 
+        public async Task<ResponseMessage<List<CategoryAttribute>>> GetDiameters(Guid productId)
+        {
+            HttpResponseMessage response = await _client.GetAsync("CategoryAttributes/GetDiameters?productId=" + productId);
+            string data = await response.Content.ReadAsStringAsync();
+            return JsonConvert.DeserializeObject<ResponseMessage<List<CategoryAttribute>>>(data);
+        }
+
+        public async Task<ResponseMessage<List<CategoryAttribute>>> GetLengths(Guid productId)
+        {
+            HttpResponseMessage response = await _client.GetAsync("CategoryAttributes/GetLengths?productId=" + productId);
+            string data = await response.Content.ReadAsStringAsync();
+            return JsonConvert.DeserializeObject<ResponseMessage<List<CategoryAttribute>>>(data);
+        }
         public async Task<ResponseMessage<List<CategoryAttribute>>> GetMaterialDetails(Guid materialId)
         {
             HttpResponseMessage response = await _client.GetAsync("CategoryAttributes/GetMaterialDetails?materialId=" + materialId);

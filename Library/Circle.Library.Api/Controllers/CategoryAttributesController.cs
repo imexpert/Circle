@@ -44,5 +44,27 @@ namespace Circle.Library.Api.Controllers
         {
             return CreateActionResultInstance(await Mediator.Send(new GetMaterialDetailsQuery { MaterialId = materialId }));
         }
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="productId"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public async Task<IActionResult> GetDiameters(Guid productId)
+        {
+            return CreateActionResultInstance(await Mediator.Send(new GetDiametersQuery { ProductId = productId }));
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="productId"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public async Task<IActionResult> GetLengths(Guid productId)
+        {
+            return CreateActionResultInstance(await Mediator.Send(new GetLengthsQuery { ProductId = productId }));
+        }
     }
 }

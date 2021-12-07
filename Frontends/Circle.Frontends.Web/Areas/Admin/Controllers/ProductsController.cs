@@ -17,15 +17,18 @@ namespace Circle.Frontends.Web.Areas.Admin.Controllers
     {
         ICategoryService _categoryService;
         IProductService _productService;
+        IProductDetailService _productDetailService;
         ICategoryAttributeService _categoryAttributeService;
 
         public ProductsController(
             ICategoryService categoryService,
             IProductService productService,
+            IProductDetailService productDetailService,
             ICategoryAttributeService categoryAttributeService)
         {
             _categoryService = categoryService;
             _productService = productService;
+            _productDetailService = productDetailService;
             _categoryAttributeService = categoryAttributeService;
         }
 
@@ -120,6 +123,13 @@ namespace Circle.Frontends.Web.Areas.Admin.Controllers
             }
             
             var userResponse = await _productService.UpdateAsync(model);
+            return Json(userResponse);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddProductDetail(AddProuctDetailModel model)
+        {
+            var userResponse = await _productDetailService.AddAsync(model);
             return Json(userResponse);
         }
     }

@@ -225,7 +225,7 @@
             <!--begin::Modal body-->
             <div class="modal-body scroll-y px-10 px-lg-15 pt-0 pb-15">
                 <!--begin:Form-->
-                <form id="modalProduct_form" class="form fv-plugins-bootstrap5 fv-plugins-framework" action="#">
+                <form id="modalProductDetail_form" class="form fv-plugins-bootstrap5 fv-plugins-framework" action="#">
                     @*Head*@
                     <div class="mb-13 text-center">
                         <!--begin::Title-->
@@ -294,38 +294,14 @@
                                           PlaceHolder="Length Seçiniz">
                             </CircleSelect>
                         </div>
-                        @*Product Name*@
-                        <div class="col-md-6 mt-3 fv-row fv-plugins-icon-container">
-                            <label for="exampleFormControlInput1" class="required form-label">Size</label>
-                            <select class="form-select form-select-sm rounded-start-0" data-control="select2" data-placeholder="Select an option">
-                                <option></option>
-                                <option value="1">Option 1</option>
-                                <option value="2">Option 2</option>
-                                <option value="3">Option 3</option>
-                                <option value="4">Option 4</option>
-                                <option value="5">Option 5</option>
-                            </select>
-                        </div>
-                        @*Product Name*@
-                        <div class="col-md-6 mt-3 fv-row fv-plugins-icon-container">
-                            <label for="exampleFormControlInput1" class="required form-label">Weight</label>
-                            <select class="form-select form-select-sm rounded-start-0" data-control="select2" data-placeholder="Select an option">
-                                <option></option>
-                                <option value="1">Option 1</option>
-                                <option value="2">Option 2</option>
-                                <option value="3">Option 3</option>
-                                <option value="4">Option 4</option>
-                                <option value="5">Option 5</option>
-                            </select>
-                        </div>
                     </div>
                     <br />
                     @*Actions*@
                     <div class="text-center mt-3">
                         <input type="hidden" class="form-control form-control-solid" id="ProductCategoryId" value="@Model.CategoryId" name="ProductCategoryId">
                         <input type="hidden" class="form-control form-control-solid" id="ProductId" value="@Model.Id" name="ProductId">
-                        <button type="reset" id="modalProduct_cancel" data-dismiss="modal" class="btn btn-light me-3">@T.GetLocalizedHtmlString("Cancel")</button>
-                        <button type="submit" id="modalProduct_submit" class="btn btn-primary">
+                        <button type="reset" id="modalProductDetail_cancel" data-dismiss="modal" class="btn btn-light me-3">@T.GetLocalizedHtmlString("Cancel")</button>
+                        <button type="submit" id="modalProductDetail_submit" class="btn btn-primary">
                             <span class="indicator-label">@T.GetLocalizedHtmlString("Save")</span>
                             <span class="indicator-progress">
                                 Please wait...
@@ -345,4 +321,5 @@
 
 @section Scripts{
     <script src="~/assets/js/custom/productmanagement/product.js"></script>
+    <script src="~/assets/js/custom/productmanagement/productDetail.js"></script>
 }

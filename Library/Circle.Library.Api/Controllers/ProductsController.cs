@@ -2,6 +2,7 @@
 using Circle.Library.Business.Handlers.Categories.Commands;
 using Circle.Library.Business.Handlers.Categories.Queries;
 using Circle.Library.Business.Handlers.Groups.Commands;
+using Circle.Library.Business.Handlers.Products.Commands;
 using Circle.Library.Business.Handlers.Products.Queries;
 using Circle.Library.Entities.ComplexTypes;
 using Circle.Library.Entities.Concrete;

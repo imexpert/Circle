@@ -174,6 +174,11 @@ namespace Circle.Frontends.Web.Infrastructure.Extensions
                 s.BaseAddress = new Uri(configuration.GetValue<string>("ApiUrl"));
             }).AddHttpMessageHandler<ResourceOwnerPasswordTokenHandler>();
 
+            services.AddHttpClient<IProductDetailService, ProductDetailService>(s =>
+            {
+                s.BaseAddress = new Uri(configuration.GetValue<string>("ApiUrl"));
+            }).AddHttpMessageHandler<ResourceOwnerPasswordTokenHandler>();
+
             services.AddHttpClient<ICategoryAttributeService, CategoryAttributeService>(s =>
             {
                 s.BaseAddress = new Uri(configuration.GetValue<string>("ApiUrl"));

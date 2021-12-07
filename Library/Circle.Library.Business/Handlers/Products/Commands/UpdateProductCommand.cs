@@ -12,7 +12,7 @@ using Circle.Library.Entities.ComplexTypes;
 using Circle.Library.Entities.Concrete;
 using MediatR;
 
-namespace Circle.Library.Business.Handlers.Groups.Commands
+namespace Circle.Library.Business.Handlers.Products.Commands
 {
     public class UpdateProductCommand : IRequest<ResponseMessage<Product>>
     {

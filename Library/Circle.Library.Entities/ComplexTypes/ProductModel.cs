@@ -6,6 +6,12 @@ using System.Threading.Tasks;
 
 namespace Circle.Library.Entities.ComplexTypes
 {
+    public class ProductItem
+    {
+        public ProductModel Product { get; set; }
+        public List<ProductDetailModel> ProductDetailList { get; set; }
+    }
+
     public class ProductModel
     {
         public Guid Id { get; set; }

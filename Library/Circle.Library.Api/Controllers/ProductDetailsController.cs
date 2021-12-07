@@ -23,7 +23,7 @@ namespace Circle.Library.Api.Controllers
         /// <param name="productDetail"></param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<IActionResult> Add([FromBody] ProductDetail productDetail)
+        public async Task<IActionResult> Add([FromBody] AddProuctDetailModel productDetail)
         {
             return CreateActionResultInstance(await Mediator.Send(new CreateProductDetailCommand() { Model = productDetail }));
         }

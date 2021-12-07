@@ -39,7 +39,7 @@ namespace Circle.Frontends.Web.Areas.Admin.Controllers
 
         public async Task<IActionResult> Product(Guid productId)
         {
-            ProductModel product = new ProductModel();
+            ProductItem product = new ProductItem();
 
             var response = await _productService.GetAsync(productId);
             if (response != null && response.IsSuccess)

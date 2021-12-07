@@ -13,6 +13,6 @@ namespace Circle.Frontends.Web.Services.Abstract
     {
         Task<ResponseMessage<Product>> AddAsync(Product product);
         Task<ResponseMessage<Product>> UpdateAsync(UpdateProuctModel model);
-        Task<ResponseMessage<ProductModel>> GetAsync(Guid guid);
+        Task<ResponseMessage<ProductItem>> GetAsync(Guid guid);
     }
 }

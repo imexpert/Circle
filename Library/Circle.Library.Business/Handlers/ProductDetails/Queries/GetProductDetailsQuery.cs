@@ -19,21 +19,42 @@ namespace Circle.Library.Business.Handlers.ProductDetails.Queries
 
         public class GetProductDetailsQueryHandler : IRequestHandler<GetProductDetailsQuery, ResponseMessage<List<ProductDetailModel>>>
         {
-            private readonly IProductRepository _productRepository;
-            private readonly IMediator _mediator;
+            private readonly IProductDetailRepository _productDetailRepository;
+            private readonly ICategoryAttributeRepository _categoryAttributeRepository;
 
             public GetProductDetailsQueryHandler(
-                IProductRepository productRepository,
-                IMediator mediator)
+                IProductDetailRepository productDetailRepository,
+                ICategoryAttributeRepository categoryAttributeRepository)
             {
-                _productRepository = productRepository;
-                _mediator = mediator;
+                _productDetailRepository = productDetailRepository;
+                _categoryAttributeRepository = categoryAttributeRepository;
             }
 
             //[SecuredOperation(Priority = 1)]
             public async Task<ResponseMessage<List<ProductDetailModel>>> Handle(GetProductDetailsQuery request, CancellationToken cancellationToken)
             {
-                return ResponseMessage<List<ProductDetailModel>>.Success(new List<ProductDetailModel>());
+                List<ProductDetailModel> list = new List<ProductDetailModel>();
+
+                var productDetailList = await _productDetailRepository.GetListAsync(s => s.ProductId == request.ProductId);
+
+                foreach (var item in productDetailList)
+                {
+                    var material = await _categoryAttributeRepository.GetAsync(s => s.Id == item.Material);
+                    var materialDetail = await _categoryAttributeRepository.GetAsync(s => s.Id == item.MaterialDetail);
+                    var diameter = await _categoryAttributeRepository.GetAsync(s => s.Id == item.Diameter);
+                    var length = await _categoryAttributeRepository.GetAsync(s => s.Id == item.Length);
+
+                    list.Add(new ProductDetailModel()
+                    {
+                        Diameter = diameter != null ? diameter.Code : "",
+                        Length = length != null ? length.Code : "",
+                        Material = material != null ? material.Code : "",
+                        MaterialDetail = materialDetail != null ? materialDetail.Code : "",
+                        ProductDetailId = item.Id
+                    });
+                }
+
+                return ResponseMessage<List<ProductDetailModel>>.Success(list);
             }
         }
     }

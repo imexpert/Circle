@@ -43,11 +43,11 @@ namespace Circle.Frontends.Web.Services.Concrete
             }
         }
 
-        public async Task<ResponseMessage<ProductModel>> GetAsync(Guid productId)
+        public async Task<ResponseMessage<ProductItem>> GetAsync(Guid productId)
         {
             HttpResponseMessage response = await _client.GetAsync("Products/GetWithId?productId=" + productId);
             string data = await response.Content.ReadAsStringAsync();
-            return JsonConvert.DeserializeObject<ResponseMessage<ProductModel>>(data);
+            return JsonConvert.DeserializeObject<ResponseMessage<ProductItem>>(data);
         }
 
         public async Task<ResponseMessage<Product>> UpdateAsync(UpdateProuctModel model)

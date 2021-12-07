@@ -1,5 +1,6 @@
 ﻿using Circle.Core.Utilities.Results;
 using Circle.Library.Business.Handlers.Categories.Queries;
+using Circle.Library.Business.Handlers.ProductDetails.Queries;
 using Circle.Library.DataAccess.Abstract;
 using Circle.Library.Entities.ComplexTypes;
 using Circle.Library.Entities.Concrete;
@@ -13,11 +14,11 @@ using System.Threading.Tasks;
 
 namespace Circle.Library.Business.Handlers.Products.Queries
 {
-    public class GetProductQuery : IRequest<ResponseMessage<ProductModel>>
+    public class GetProductQuery : IRequest<ResponseMessage<ProductItem>>
     {
         public Guid Id { get; set; }
 
-        public class GetProductQueryHandler : IRequestHandler<GetProductQuery, ResponseMessage<ProductModel>>
+        public class GetProductQueryHandler : IRequestHandler<GetProductQuery, ResponseMessage<ProductItem>>
         {
             private readonly IProductRepository _productRepository;
             private readonly IMediator _mediator;
@@ -31,8 +32,10 @@ namespace Circle.Library.Business.Handlers.Products.Queries
             }
 
             //[SecuredOperation(Priority = 1)]
-            public async Task<ResponseMessage<ProductModel>> Handle(GetProductQuery request, CancellationToken cancellationToken)
+            public async Task<ResponseMessage<ProductItem>> Handle(GetProductQuery request, CancellationToken cancellationToken)
             {
+                ProductItem productItem = new ProductItem();
+
                 var product = await _productRepository.GetAsync(x => x.Id == request.Id);
 
                 var urunKodList = await _mediator.Send(new GetProductCodeQuery() { Id = product.CategoryId });
@@ -51,7 +54,15 @@ namespace Circle.Library.Business.Handlers.Products.Queries
                     Id = product.Id
                 };
 
-                return ResponseMessage<ProductModel>.Success(model);
+                productItem.Product = model;
+
+                var detailResponse = await _mediator.Send(new GetProductDetailsQuery() { ProductId = model.Id });
+                if (detailResponse.IsSuccess)
+                {
+                    productItem.ProductDetailList = detailResponse.Data;
+                }
+
+                return ResponseMessage<ProductItem>.Success(productItem);
             }
         }
     }

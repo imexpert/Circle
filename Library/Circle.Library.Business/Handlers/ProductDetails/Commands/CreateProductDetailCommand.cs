@@ -16,7 +16,7 @@ namespace Circle.Library.Business.Handlers.ProductDetails.Commands
 {
     public class CreateProductDetailCommand : IRequest<ResponseMessage<ProductDetail>>
     {
-        public ProductDetail Model { get; set; }
+        public AddProuctDetailModel Model { get; set; }
 
         public class CreateProductDetailCommandHandler : IRequestHandler<CreateProductDetailCommand, ResponseMessage<ProductDetail>>
         {
@@ -31,9 +31,19 @@ namespace Circle.Library.Business.Handlers.ProductDetails.Commands
             //[TransactionScopeAspect]
             public async Task<ResponseMessage<ProductDetail>> Handle(CreateProductDetailCommand request, CancellationToken cancellationToken)
             {
-                _productDetailRepository.Add(request.Model);
+                ProductDetail item = new ProductDetail()
+                {
+                    Diameter = request.Model.SelectDiameter,
+                    Length = request.Model.SelectLength,
+                    Material = request.Model.SelectMaterial,
+                    MaterialDetail = request.Model.SelectMaterialDetail,
+                    ProductId = request.Model.ProductId
+                };
+
+                _productDetailRepository.Add(item);
                 await _productDetailRepository.SaveChangesAsync();
-                return ResponseMessage<ProductDetail>.Success(request.Model);
+
+                return ResponseMessage<ProductDetail>.Success(item);
             }
         }
     }

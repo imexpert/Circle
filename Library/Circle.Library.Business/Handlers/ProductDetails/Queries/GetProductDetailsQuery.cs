@@ -46,6 +46,9 @@ namespace Circle.Library.Business.Handlers.ProductDetails.Queries
 
                     list.Add(new ProductDetailModel()
                     {
+                        MaterialName = material != null ? material.Name : "",
+                        MaterialDetailName = materialDetail != null ? materialDetail.Name : "",
+                        MaterialTypeCode = material != null ? material.TypeCode : 0,
                         Diameter = diameter != null ? diameter.Code : "",
                         Length = length != null ? length.Code : "",
                         Material = material != null ? material.Code : "",

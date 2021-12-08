@@ -1,0 +1,44 @@
+﻿@model List<Circle.Library.Entities.ComplexTypes.ProductModel>
+
+@using Microsoft.AspNetCore.Mvc.Localization
+
+@inject IViewLocalizer Localizer
+
+
+@using Circle.Frontends.Web.Resources
+
+@inject LocService T
+
+<div id="kt_content_container" class="container-xxl">
+    <div class="card shadow-sm">
+        <div class="card-body p-0">
+            <div class="row p-5">
+                <div class="col-m-12">
+                    <table class="table table-hover table-rounded table-striped border gy-7 gs-7">
+                        <thead>
+                            <tr class="fw-bold fs-6 text-gray-800 border-bottom-2 border-gray-200">
+                                <th>Ürün Adı</th>
+                                <th>Ürün Kodu</th>
+                                <th class="text-center">#</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>@item.Name</td>
+                                    <td>@item.ProductCode</td>
+                                    <td style="width:100px">
+                                        <div class="btn-group btn-group-sm" role="group" aria-label="Small button group">
+                                            <a class="btn btn-sm btn-info" asp-action="Product" asp-area="Admin" asp-controller="Products" asp-route-productId="@item.Id"><i class="fa fa-info"></i></a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

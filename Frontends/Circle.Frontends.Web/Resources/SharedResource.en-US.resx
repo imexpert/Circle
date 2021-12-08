@@ -258,6 +258,9 @@
   <data name="Product Image" xml:space="preserve">
     <value>Product Image</value>
   </data>
+  <data name="Product List" xml:space="preserve">
+    <value>Product List</value>
+  </data>
   <data name="Product Management" xml:space="preserve">
     <value>Product Management</value>
   </data>

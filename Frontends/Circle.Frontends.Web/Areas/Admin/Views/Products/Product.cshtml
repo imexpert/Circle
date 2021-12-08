@@ -71,22 +71,39 @@
                         </li>
                     </ul>
                     <div class="tab-content" id="myTabContent">
-                        <div class="tab-pane fade" id="urunListesi" role="tabpanel">
-                            @(Html.CircleTable(Model.ProductDetailList)
-                                .PKColumn(a => a.ProductDetailId)
-                                .HasFooter(false)
-                                .SetToolbarSearchInputPlaceHolder("Ara Ürün Detay")
-                                .Columns(s =>
-                                {
-                                    s.Add(t => t.Material).Title(@T.GetLocalizedHtmlString("Hammadde"));
-                                    s.Add(t => t.MaterialDetail).Title(@T.GetLocalizedHtmlString("Hammadde Çeşidi"));
-                                    s.Add(t => t.Diameter).Title(@T.GetLocalizedHtmlString("Çap"));
-                                    s.Add(t => t.Length).Title(@T.GetLocalizedHtmlString("Uzunluk"));
-                                })
-                                .RowButtons(s=>
-                                {
-                                    s.Add(Circle.Helper.Bootstrap.Grid.Button.GridButtonType.update).Icon("fa-user");
-                                }))
+                        <div class="tab-pane fade active show" id="urunListesi" role="tabpanel">
+                            <table class="table table-hover table-rounded table-striped border gy-7 gs-7">
+                                <thead>
+                                    <tr class="fw-bold fs-6 text-gray-800 border-bottom-2 border-gray-200">
+                                        <th>Hammadde</th>
+                                        <th>Hammadde Çeşidi</th>
+                                        <th>Çap</th>
+                                        <th>Uzunluk</th>
+                                        <th>Ürün Kodu</th>
+                                        <th class="text-center">#</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model.ProductDetailList)
+                                    {
+                                    <tr>
+                                        <td>@item.MaterialName</td>
+                                        <td>@item.MaterialDetailName</td>
+                                        <td>@item.Diameter</td>
+                                        <td>@item.Length</td>
+                                        <td>
+                                            @Model.Product.ProductCode@item.ProductCode
+                                        </td>
+                                        <td style="width:100px">
+                                            <div class="btn-group btn-group-sm" role="group" aria-label="Small button group">
+                                                <button type="button" class="btn btn-success btn-sm btn-outline-dark"><i class="fa fa-trash"></i></button>
+                                                <button type="button" class="btn btn-success btn-sm  btn-outline-dark"><i class="fa fa-edit"></i></button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    }
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>

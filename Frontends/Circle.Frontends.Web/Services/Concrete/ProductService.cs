@@ -50,6 +50,13 @@ namespace Circle.Frontends.Web.Services.Concrete
             return JsonConvert.DeserializeObject<ResponseMessage<ProductItem>>(data);
         }
 
+        public async Task<ResponseMessage<List<ProductModel>>> GetListAsync()
+        {
+            HttpResponseMessage response = await _client.GetAsync("Products/GetList");
+            string data = await response.Content.ReadAsStringAsync();
+            return JsonConvert.DeserializeObject<ResponseMessage<List<ProductModel>>>(data);
+        }
+
         public async Task<ResponseMessage<Product>> UpdateAsync(UpdateProuctModel model)
         {
             string json = JsonConvert.SerializeObject(model,

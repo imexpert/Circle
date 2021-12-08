@@ -49,6 +49,15 @@ namespace Circle.Library.Api.Controllers
             return CreateActionResultInstance(await Mediator.Send(new GetProductQuery { Id = productId }));
         }
 
-        
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public async Task<IActionResult> GetList()
+        {
+            return CreateActionResultInstance(await Mediator.Send(new GetProductsQuery()));
+        }
+
     }
 }

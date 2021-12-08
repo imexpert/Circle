@@ -49,6 +49,18 @@ namespace Circle.Frontends.Web.Areas.Admin.Controllers
             return View(product);
         }
 
+        public async Task<IActionResult> ProductList()
+        {
+            List<ProductModel> list = new List<ProductModel>();
+
+            var response = await _productService.GetListAsync();
+            if (response != null && response.IsSuccess)
+            {
+                list = response.Data;
+            }
+            return View(list);
+        }
+
         [HttpGet]
         public async Task<IActionResult> GetListMaterials(Guid productId)
         {

@@ -258,6 +258,9 @@
   <data name="Product Image" xml:space="preserve">
     <value>Ürün Resmi</value>
   </data>
+  <data name="Product List" xml:space="preserve">
+    <value>Ürün Listesi</value>
+  </data>
   <data name="Product Management" xml:space="preserve">
     <value>Ürün Yönetimi</value>
   </data>

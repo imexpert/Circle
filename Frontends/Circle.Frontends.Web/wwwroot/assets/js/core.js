@@ -177,11 +177,18 @@ function showModal(name) {
 }
 
 $(document).ready(function () {
-    $(document).ajaxStart(function () {
+    var target = document.getElementById("kt_body");
 
+    var blockUI = new KTBlockUI(target, {
+        message: '<div class="blockui-message"><span class="spinner-border text-primary"></span> Loading...</div>',
+    });
+
+    $(document).ajaxStart(function () {
+        console.log("geldi");
+        blockUI.block();
     });
     $(document).ajaxComplete(function () {
-        //KTApp.unblockPage();
+        //blockUI.release();
     });
 });
 

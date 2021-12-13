@@ -12,7 +12,7 @@ function productUpdateModal() {
                 console.error(error);
             });
     }
-    
+
     $("#modalProduct").modal("show");
 
     var currentImage = $("#divProductImage").css("background-image");
@@ -31,7 +31,6 @@ function productDetailModal() {
 
 (() => {
     "use strict";
-    var __webpack_exports__ = {};
 
     var KTModalNewCard = function () {
         var submitButton;
@@ -41,8 +40,6 @@ function productDetailModal() {
 
         // Handle form validation and submittion
         var handleForm = function () {
-
-
             // Action buttons
             submitButton.addEventListener('click', function (e) {
                 // Prevent default button action
@@ -86,6 +83,22 @@ function productDetailModal() {
             });
         }
 
+        var getProductDetail = function () {
+            console.log("id => " + getParameterByName("productId"));
+            var data = {
+                productId: getParameterByName("productId")
+            };
+
+            Get("/Admin/Products/GetProductWithId", data).done(function (response) {
+                if (response.IsSuccess) {
+                    $("#ProductName").text(response.Data.Product.Name);
+                    $("#spanProductName").text(response.Data.Product.ProductCode);
+                    $('#divProductImage').css('background-image', response.Data.Product.Image);
+                    console.log("GetProductWithId");
+                }
+            });
+        }
+
         return {
             // Public functions
             init: function () {
@@ -94,13 +107,15 @@ function productDetailModal() {
                 cancelButton = document.getElementById('modalProduct_cancel');
 
                 handleForm();
+
+                getProductDetail();
             }
         };
     }();
 
     // On document ready
     KTUtil.onDOMContentLoaded(function () {
-        console.log("geldi");
+
         KTModalNewCard.init();
     });
     /******/

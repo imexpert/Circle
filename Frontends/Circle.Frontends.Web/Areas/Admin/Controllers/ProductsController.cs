@@ -39,14 +39,7 @@ namespace Circle.Frontends.Web.Areas.Admin.Controllers
 
         public async Task<IActionResult> Product(Guid productId)
         {
-            ProductItem product = new ProductItem();
-
-            var response = await _productService.GetAsync(productId);
-            if (response != null && response.IsSuccess)
-            {
-                product = response.Data;
-            }
-            return View(product);
+            return View();
         }
 
         public async Task<IActionResult> ProductList()
@@ -59,6 +52,12 @@ namespace Circle.Frontends.Web.Areas.Admin.Controllers
                 list = response.Data;
             }
             return View(list);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetProductWithId(Guid productId)
+        {
+            return Json(await _productService.GetAsync(productId));
         }
 
         [HttpGet]

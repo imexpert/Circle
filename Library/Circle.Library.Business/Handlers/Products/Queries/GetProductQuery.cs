@@ -38,6 +38,9 @@ namespace Circle.Library.Business.Handlers.Products.Queries
 
                 var product = await _productRepository.GetAsync(x => x.Id == request.Id);
 
+                if(product == null)
+                    return ResponseMessage<ProductItem>.Fail("Ürün bulunamadı...");
+
                 var urunKodList = await _mediator.Send(new GetProductCodeQuery() { Id = product.CategoryId });
 
                 urunKodList.Reverse();

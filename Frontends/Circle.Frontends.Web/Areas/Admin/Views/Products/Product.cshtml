@@ -1,6 +1,4 @@
-﻿@model Circle.Library.Entities.ComplexTypes.ProductItem
-
-@using Microsoft.AspNetCore.Mvc.Localization
+﻿@using Microsoft.AspNetCore.Mvc.Localization
 
 @inject IViewLocalizer Localizer
 
@@ -12,7 +10,7 @@
 <div id="kt_content_container" class="container-xxl">
     <div class="card shadow-sm">
         <div class="card-header">
-            <h3 class="card-title" id="ProductName">@Model.Product.Name</h3>
+            <h3 class="card-title" id="ProductName"></h3>
             <div class="card-toolbar">
                 <div class="btn-group" role="group" aria-label="Basic example">
                     <button type="button" onclick="productUpdateModal()" class="btn btn-sm btn-secondary"><i class="fa fa-edit"></i>&nbsp; Düzenle</button>
@@ -24,7 +22,8 @@
             <div class="row p-4">
                 <div class="col-md-2 align-self-center text-center">
                     <div class="symbol symbol-125px">
-                        <div class="symbol-label" id="divProductImage" style="background-image: url(@Model.Product.ImageString)"></div>
+                        @*<div class="symbol-label" id="divProductImage" style="background-image: url(@Model.Product.ImageString)"></div>*@
+                        <div class="symbol-label" id="divProductImage"></div>
                     </div>
                 </div>
                 <div class="col-md-8">
@@ -33,14 +32,14 @@
                             Ana Ürün Kodu :
                         </div>
                         <div class="col-md-9">
-                            <span id="spanProductName">@Model.Product.ProductCode</span>
+                            <span id="spanProductName">@*@Model.Product.ProductCode*@</span>
 
                         </div>
                         <div class="col-md-12">
                             <hr />
                         </div>
                         <div class="col-md-12 mt-2">
-                            @Html.Raw(Model.Product.Description)
+                            @*@Html.Raw(Model.Product.Description)*@
                         </div>
                     </div>
                 </div>
@@ -84,7 +83,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach (var item in Model.ProductDetailList)
+                                    @*@foreach (var item in Model.ProductDetailList)
                                     {
                                     <tr>
                                         <td>@item.MaterialName</td>
@@ -101,7 +100,7 @@
                                             </div>
                                         </td>
                                     </tr>
-                                    }
+                                    }*@
                                 </tbody>
                             </table>
                         </div>
@@ -190,7 +189,7 @@
                                 <i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="" data-bs-original-title="@T.GetLocalizedHtmlString("Enter Product Name")"></i>
                             </label>
                             <!--end::Label-->
-                            <input type="text" class="form-control form-control-solid" placeholder="@T.GetLocalizedHtmlString("Enter Product Name")" id="ProductName" name="ProductName" autocomplete="off" value="@Model.Product.Name">
+                            <input type="text" class="form-control form-control-solid" placeholder="@T.GetLocalizedHtmlString("Enter Product Name")" id="ProductName" name="ProductName" autocomplete="off" >
                             <div class="fv-plugins-message-container invalid-feedback"></div>
                         </div>
 
@@ -203,7 +202,7 @@
                             </label>
                             <!--end::Label-->
                             <textarea id="ProductDescription" name="ProductDescription">
-                                @Model.Product.Description
+                                
                             </textarea>
                             <div class="fv-plugins-message-container invalid-feedback"></div>
                         </div>
@@ -211,8 +210,8 @@
                     <br />
                     @*Actions*@
                     <div class="text-center mt-3">
-                        <input type="hidden" class="form-control form-control-solid" id="ProductCategoryId" value="@Model.Product.CategoryId" name="ProductCategoryId">
-                        <input type="hidden" class="form-control form-control-solid" id="ProductId" value="@Model.Product.Id" name="ProductId">
+                        <input type="hidden" class="form-control form-control-solid" id="ProductCategoryId"  name="ProductCategoryId">
+                        <input type="hidden" class="form-control form-control-solid" id="ProductId" name="ProductId">
                         <button type="reset" id="modalProduct_cancel" data-dismiss="modal" class="btn btn-light me-3">@T.GetLocalizedHtmlString("Cancel")</button>
                         <button type="submit" id="modalProduct_submit" class="btn btn-primary">
                             <span class="indicator-label">@T.GetLocalizedHtmlString("Save")</span>
@@ -329,8 +328,8 @@
                     <br />
                     @*Actions*@
                     <div class="text-center mt-3">
-                        <input type="hidden" class="form-control form-control-solid" id="ProductCategoryId" value="@Model.Product.CategoryId" name="ProductCategoryId">
-                        <input type="hidden" class="form-control form-control-solid" id="ProductId" value="@Model.Product.Id" name="ProductId">
+                        <input type="hidden" class="form-control form-control-solid" id="ProductCategoryId" name="ProductCategoryId">
+                        <input type="hidden" class="form-control form-control-solid" id="ProductId" name="ProductId">
                         <button type="reset" id="modalProductDetail_cancel" data-dismiss="modal" class="btn btn-light me-3">@T.GetLocalizedHtmlString("Cancel")</button>
                         <button type="submit" id="modalProductDetail_submit" class="btn btn-primary">
                             <span class="indicator-label">@T.GetLocalizedHtmlString("Save")</span>
@@ -351,6 +350,5 @@
 </div>
 
 @section Scripts{
-    <script src="~/assets/js/custom/productmanagement/product.js"></script>
-    <script src="~/assets/js/custom/productmanagement/productDetail.js"></script>
+    <script src="~/assets/js/custom/productmanagement/product.js" asp-append-version="true"></script>
 }

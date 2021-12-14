@@ -188,7 +188,7 @@ $(document).ready(function () {
         blockUI.block();
     });
     $(document).ajaxComplete(function () {
-        //blockUI.release();
+        blockUI.release();
     });
 });
 

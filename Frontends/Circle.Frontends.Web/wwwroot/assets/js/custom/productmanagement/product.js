@@ -13,6 +13,8 @@ function productUpdateModal() {
             });
     }
 
+    $("#UpdateProductName").val($("#ProductName").text());
+
     $("#modalProduct").modal("show");
 
     var currentImage = $("#divProductImage").css("background-image");
@@ -20,8 +22,6 @@ function productUpdateModal() {
     if (currentImage != 'none') {
         $("#divUpdateProductImage").css("background-image", currentImage);
     }
-
-    $("#ProductName").val($("#ProductName").text());
 }
 
 function productDetailModal() {

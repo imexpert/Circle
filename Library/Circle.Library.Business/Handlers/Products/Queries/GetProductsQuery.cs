@@ -44,7 +44,10 @@ namespace Circle.Library.Business.Handlers.Products.Queries
 
                     urunKodList.Reverse();
 
-                    string productCode = urunKodList.Select(s => s.Code).Aggregate((i, j) => i + "" + j);
+                    string productCode = string.Empty;
+
+                    if (urunKodList.Count > 0)
+                        productCode = urunKodList.Select(s => s.Code).Aggregate((i, j) => i + "" + j);
 
                     ProductModel model = new ProductModel()
                     {

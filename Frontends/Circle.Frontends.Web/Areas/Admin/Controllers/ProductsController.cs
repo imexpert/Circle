@@ -1,4 +1,5 @@
 ﻿using Circle.Core.Entities.Concrete;
+using Circle.Core.Utilities.Results;
 using Circle.Frontends.Web.Controllers;
 using Circle.Frontends.Web.Infrastructure.Extensions;
 using Circle.Frontends.Web.Services.Abstract;
@@ -122,19 +123,30 @@ namespace Circle.Frontends.Web.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> UpdateProduct(UpdateProuctModel model)
         {
-            int dosyaSayisi = HttpContext.Request.Form.Files.Count;
-            if (dosyaSayisi > 0)
-            {
-                model.Image = await HttpContext.Request.Form.Files[0].GetBytes();
-            }
+            ResponseMessage<Product> response = new ResponseMessage<Product>();
 
-            if (HttpContext.Request.Form.ContainsKey("ProductDescription"))
+            try
             {
-                model.ProductDescription = HttpContext.Request.Form["ProductDescription"][1];
+                int dosyaSayisi = HttpContext.Request.Form.Files.Count;
+                if (dosyaSayisi > 0)
+                {
+                    model.Image = await HttpContext.Request.Form.Files[0].GetBytes();
+                }
+
+                if (HttpContext.Request.Form.ContainsKey("UpdateProductDescription"))
+                {
+                    model.UpdateProductDescription = HttpContext.Request.Form["UpdateProductDescription"][1];
+                }
+
+                response = await _productService.UpdateAsync(model);
+            }
+            catch (Exception ex)
+            {
+                response.IsSuccess = false;
+                response.Message = ex.Message;
             }
             
-            var userResponse = await _productService.UpdateAsync(model);
-            return Json(userResponse);
+            return Json(response);
         }
 
         [HttpPost]

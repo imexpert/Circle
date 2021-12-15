@@ -8,10 +8,11 @@ namespace Circle.Library.Entities.ComplexTypes
 {
     public class UpdateProuctModel
     {
-        public Guid ProductId { get; set; }
-        public Guid ProductCategoryId { get; set; }
-        public string ProductName { get; set; }
-        public string ProductDescription { get; set; }
+        public bool IsImageExist { get; set; }
+        public string UpdateProductId { get; set; }
+        public string UpdateProductCategoryId { get; set; }
+        public string UpdateProductName { get; set; }
+        public string UpdateProductDescription { get; set; }
         public byte[] Image { get; set; }
     }
 }

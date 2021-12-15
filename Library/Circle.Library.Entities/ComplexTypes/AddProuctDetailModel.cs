@@ -8,7 +8,7 @@ namespace Circle.Library.Entities.ComplexTypes
 {
     public class AddProuctDetailModel
     {
-        public Guid ProductId { get; set; }
+        public Guid UpdateProductId { get; set; }
         public Guid SelectMaterial { get; set; }
         public Guid SelectMaterialDetail { get; set; }
         public Guid SelectLength { get; set; }

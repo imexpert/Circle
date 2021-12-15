@@ -31,11 +31,11 @@ namespace Circle.Library.Business.Handlers.Products.Commands
             //[TransactionScopeAspect]
             public async Task<ResponseMessage<Product>> Handle(UpdateProductCommand request, CancellationToken cancellationToken)
             {
-                Product product = await _productRepository.GetAsync(s => s.Id == request.Model.ProductId);
-                product.CategoryId = request.Model.ProductCategoryId;
-                product.Description = request.Model.ProductDescription;
+                Product product = await _productRepository.GetAsync(s => s.Id == new System.Guid(request.Model.UpdateProductId));
+                product.CategoryId = new System.Guid(request.Model.UpdateProductCategoryId);
+                product.Description = request.Model.UpdateProductDescription;
                 product.Image = request.Model.Image;
-                product.Name = request.Model.ProductName;
+                product.Name = request.Model.UpdateProductName;
 
                 _productRepository.Update(product);
                 await _productRepository.SaveChangesAsync();

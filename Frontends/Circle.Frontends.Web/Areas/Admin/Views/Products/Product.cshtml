@@ -10,11 +10,11 @@
 <div id="kt_content_container" class="container-xxl">
     <div class="card shadow-sm">
         <div class="card-header">
-            <h3 class="card-title" id="ProductName"></h3>
+            <h3 class="card-title" id="h3ProductName"></h3>
             <div class="card-toolbar">
                 <div class="btn-group" role="group" aria-label="Basic example">
-                    <button type="button" onclick="productUpdateModal()" class="btn btn-sm btn-secondary"><i class="fa fa-edit"></i>&nbsp; Düzenle</button>
-                    <button type="button" onclick="productDetailModal()" class="btn btn-sm btn-secondary"><i class="fa fa-plus"></i>&nbsp; Yeni Ürün Ekle</button>
+                    <button type="button" id="btnShowProductModal" class="btn btn-sm btn-secondary"><i class="fa fa-edit"></i>&nbsp; Düzenle</button>
+                    <button type="button" id="btnAddProductDetail" class="btn btn-sm btn-secondary"><i class="fa fa-plus"></i>&nbsp; Yeni Ürün Ekle</button>
                 </div>
             </div>
         </div>
@@ -22,7 +22,6 @@
             <div class="row p-4">
                 <div class="col-md-2 align-self-center text-center">
                     <div class="symbol symbol-125px">
-                        @*<div class="symbol-label" id="divProductImage" style="background-image: url(@Model.Product.ImageString)"></div>*@
                         <div class="symbol-label" id="divProductImage"></div>
                     </div>
                 </div>
@@ -32,15 +31,13 @@
                             Ana Ürün Kodu :
                         </div>
                         <div class="col-md-9">
-                            <span id="spanProductName">@*@Model.Product.ProductCode*@</span>
-
+                            <span id="spanProductCode"></span>
                         </div>
                         <div class="col-md-12">
                             <hr />
                         </div>
                         <div class="col-md-12 mt-2">
                             <span id="spanProductDescription"></span>
-                            @*@Html.Raw(Model.Product.Description)*@
                         </div>
                     </div>
                 </div>
@@ -135,7 +132,7 @@
             <!--begin::Modal body-->
             <div class="modal-body scroll-y px-10 px-lg-15 pt-0 pb-15">
                 <!--begin:Form-->
-                <form id="modalProduct_form" enctype="multipart/form-data" class="form fv-plugins-bootstrap5 fv-plugins-framework" action="#">
+                <form id="updateProduct_form" enctype="multipart/form-data" class="form fv-plugins-bootstrap5 fv-plugins-framework" action="#">
                     @*Head*@
                     <div class="mb-13 text-center">
                         <!--begin::Title-->
@@ -189,7 +186,7 @@
                                 <i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="" data-bs-original-title="@T.GetLocalizedHtmlString("Enter Product Name")"></i>
                             </label>
                             <!--end::Label-->
-                            <input type="text" class="form-control form-control-solid" placeholder="@T.GetLocalizedHtmlString("Enter Product Name")" id="UpdateProductName" name="UpdateProductName" autocomplete="off">
+                            <input type="text" class="form-control form-control-solid" placeholder="@T.GetLocalizedHtmlString("Enter Product Name")" id="ProductName" name="ProductName" autocomplete="off">
                             <div class="fv-plugins-message-container invalid-feedback"></div>
                         </div>
 
@@ -201,7 +198,7 @@
                                 <i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="" data-bs-original-title="@T.GetLocalizedHtmlString("Enter Product Name")"></i>
                             </label>
                             <!--end::Label-->
-                            <textarea id="UpdateProductDescription" name="UpdateProductDescription">
+                            <textarea id="ProductDescription" name="ProductDescription">
 
                             </textarea>
                             <div class="fv-plugins-message-container invalid-feedback"></div>
@@ -211,8 +208,8 @@
                     @*Actions*@
                     <div class="text-center mt-3">
                         
-                        <button type="reset" id="modalProduct_cancel" data-dismiss="modal" class="btn btn-light me-3">@T.GetLocalizedHtmlString("Cancel")</button>
-                        <button type="submit" id="modalProduct_submit" class="btn btn-primary">
+                        <button type="reset" id="btnCancelUpdateProduct" data-dismiss="modal" class="btn btn-light me-3">@T.GetLocalizedHtmlString("Cancel")</button>
+                        <button type="submit" id="btnUpdateProduct" class="btn btn-primary">
                             <span class="indicator-label">@T.GetLocalizedHtmlString("Save")</span>
                             <span class="indicator-progress">
                                 Please wait...
@@ -347,8 +344,8 @@
     <!--end::Modal dialog-->
 </div>
 
-<input type="hidden" class="form-control form-control-solid" id="UpdateProductCategoryId" name="UpdateProductCategoryId">
-<input type="hidden" class="form-control form-control-solid" id="UpdateProductId" name="UpdateProductId">
+<input type="hidden" class="form-control form-control-solid" id="ProductCategoryId" name="ProductCategoryId">
+<input type="hidden" class="form-control form-control-solid" id="ProductId" name="ProductId">
 
 @section Scripts{
 <script src="~/assets/js/custom/productmanagement/product.js" asp-append-version="true"></script>

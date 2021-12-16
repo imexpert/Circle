@@ -5,6 +5,7 @@ using Circle.Frontends.Web.Infrastructure.Extensions;
 using Circle.Frontends.Web.Services.Abstract;
 using Circle.Library.Entities.ComplexTypes;
 using Circle.Library.Entities.Concrete;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -67,7 +68,7 @@ namespace Circle.Frontends.Web.Areas.Admin.Controllers
             var response = await _categoryAttributeService.GetMaterials(productId);
             return Json(response);
         }
-        
+
         [HttpGet]
         public async Task<IActionResult> GetListMaterialDetails(Guid materialId)
         {
@@ -127,15 +128,33 @@ namespace Circle.Frontends.Web.Areas.Admin.Controllers
 
             try
             {
+                IFormCollection form;
+
+                form = await HttpContext.Request.ReadFormAsync();
+
                 int dosyaSayisi = HttpContext.Request.Form.Files.Count;
                 if (dosyaSayisi > 0)
                 {
                     model.Image = await HttpContext.Request.Form.Files[0].GetBytes();
                 }
-
-                if (HttpContext.Request.Form.ContainsKey("UpdateProductDescription"))
+                else
                 {
-                    model.UpdateProductDescription = HttpContext.Request.Form["UpdateProductDescription"][1];
+                    if (form["avatar_remove"][0] == "1")
+                    {
+                        model.Image = null;
+                    }
+                }
+
+                if (form.ContainsKey("ProductDescription"))
+                {
+                    if (form["ProductDescription"].Count == 2)
+                    {
+                        model.ProductDescription = form["ProductDescription"][1];
+                    }
+                    else
+                    {
+                        model.ProductDescription = form["ProductDescription"][0];
+                    }
                 }
 
                 response = await _productService.UpdateAsync(model);
@@ -145,7 +164,7 @@ namespace Circle.Frontends.Web.Areas.Admin.Controllers
                 response.IsSuccess = false;
                 response.Message = ex.Message;
             }
-            
+
             return Json(response);
         }
 

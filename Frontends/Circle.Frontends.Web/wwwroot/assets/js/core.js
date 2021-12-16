@@ -176,20 +176,28 @@ function showModal(name) {
     $('#' + name).modal('show');
 }
 
-$(document).ready(function () {
-    var target = document.getElementById("kt_body");
+function hideModal(name) {
+    $('#' + name).modal('hide');
+}
 
-    var blockUI = new KTBlockUI(target, {
+var blockUI;
+var target;
+
+$(document).ready(function () {
+    target = document.getElementById("kt_body");
+
+    blockUI = new KTBlockUI(target, {
         message: '<div class="blockui-message"><span class="spinner-border text-primary"></span> Loading...</div>',
     });
 
     $(document).ajaxStart(function () {
-        console.log("geldi");
         blockUI.block();
     });
-    $(document).ajaxComplete(function () {
+    $(document).ajaxComplete(function (event, xhr, options) {
         blockUI.release();
     });
+
+    
 });
 
 function setLanguage(lang) {

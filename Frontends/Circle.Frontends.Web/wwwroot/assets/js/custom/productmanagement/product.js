@@ -1,70 +1,54 @@
-var ckeditor;
-
-function productUpdateModal() {
-
-    var data = {
-        productId: getParameterByName("productId")
-    };
-
-    Get("/Admin/Products/GetProductWithId", data).done(function (response) {
-        if (response.IsSuccess) {
-            $("#UpdateProductName").val(response.Data.Product.Name);
-            $("#UpdateProductId").val(response.Data.Product.Id);
-            $("#UpdateProductCategoryId").val(response.Data.Product.CategoryId);
-            ckeditor.setData(response.Data.Product.Description);
-            $("#modalProduct").modal("show");
-
-            var currentImage = $("#divProductImage").css("background-image");
-
-            if (currentImage != 'none') {
-                $("#divUpdateProductImage").css("background-image", currentImage);
-                $("#divUpdateProductImage").css("background-position-x", "center");
-                $("#divUpdateProductImage").css("background-position-y", "center");
-            }
-        }
-    });
-
-
-}
-
-function productDetailModal() {
-    $("#h1ProductTitle").text($("#ProductName").text());
-    $("#UpdateProductId").val(getParameterByName("productId"));
-    $("#modalProductDetail").modal("show");
-}
-
 (() => {
     "use strict";
 
-    var KTModalNewCard = function () {
-        var submitButton;
-        var cancelButton;
-        var submitDetailButton;
-        var cancelDetailButton;
-        var form;
-        var formDetail;
-        var modal;
+    var ckeditor;
 
-        // Handle form validation and submittion
-        var handleForm = function () {
-            // Action buttons
-            submitButton.addEventListener('click', function (e) {
-                // Prevent default button action
+    var KTProductPage = function () {
+
+        var formUpdateProduct;
+        var btnShowProductModal;
+        var btnUpdateProduct;
+        var btnCancelUpdateProduct;
+
+        var handleProductPageEvent = function () {
+
+            btnShowProductModal.addEventListener('click', function (e) {
+                $("#ProductName").val(null);
+                ckeditor.setData("");
+                $('#divUpdateProductImage').css('background', "");
+
+                var data = {
+                    productId: getParameterByName("productId")
+                };
+
+                Get("/Admin/Products/GetProductWithId", data).done(function (response) {
+                    if (response.IsSuccess) {
+                        $("#ProductName").val(response.Data.Product.Name);
+
+                        ckeditor.setData(response.Data.Product.Description);
+
+                        if (response.Data.Product.ImageString != null && response.Data.Product.ImageString != "") {
+                            $('#divUpdateProductImage').css('background', "url(" + response.Data.Product.ImageString + ")");
+                            $("#divUpdateProductImage").css("background-position-x", "center");
+                            $("#divUpdateProductImage").css("background-position-y", "center");
+                            $("#divUpdateProductImage").css("background-size", "100%");
+                        }
+                    }
+                });
+
+                showModal("modalProduct");
+            });
+
+            btnUpdateProduct.addEventListener('click', function (e) {
                 e.preventDefault();
 
-                // Show loading indication
-                submitButton.setAttribute('data-kt-indicator', 'on');
+                btnUpdateProduct.setAttribute('data-kt-indicator', 'on');
+                btnUpdateProduct.disabled = true;
 
-                // Disable button to avoid multiple click 
-                submitButton.disabled = true;
-
-                var formData = new FormData(form);
-                formData.append("UpdateProductDescription", ckeditor.getData());
-
-                var currentImage = $("#divUpdateProductImage").css("background-image");
-
-                formData.append("IsImageExist", currentImage != 'none');
-
+                var formData = new FormData(formUpdateProduct);
+                formData.append("ProductId", $("#ProductId").val());
+                formData.append("ProductCategoryId", $("#ProductCategoryId").val());
+                formData.append("ProductDescription", ckeditor.getData());
 
                 PostFormWithFile("/Admin/Products/UpdateProduct", formData).done(function (response) {
                     if (response.IsSuccess) {
@@ -72,72 +56,35 @@ function productDetailModal() {
                     }
                     else {
                         // Show loading indication
-                        submitButton.setAttribute('data-kt-indicator', 'off');
+                        btnUpdateProduct.setAttribute('data-kt-indicator', 'off');
 
                         // Disable button to avoid multiple click 
-                        submitButton.disabled = false;
+                        btnUpdateProduct.disabled = false;
 
                         ShowErrorMessage(response.Message);
                     }
                 });
             });
 
-            cancelButton.addEventListener('click', function (e) {
-                e.preventDefault();
-                modal.hide(); // Hide modal	
+            btnCancelUpdateProduct.addEventListener('click', function (e) {
+                hideModal("modalProduct");
             });
         }
 
-        var handleDetailForm = function () {
-            // Action buttons
-            submitDetailButton.addEventListener('click', function (e) {
-                // Prevent default button action
-                e.preventDefault();
+        var handleProductPageLoad = function () {
 
-                // Show loading indication
-                submitDetailButton.setAttribute('data-kt-indicator', 'on');
-
-                // Disable button to avoid multiple click 
-                submitDetailButton.disabled = true;
-
-                PostForm("/Admin/Products/AddProductDetail", "modalProductDetail_form").done(function (response) {
-                    if (response.IsSuccess) {
-                        ShowSuccessMessage(response.Message, "/Admin/Products/Product?productId=" + response.Data.ProductId);
-                    }
-                    else {
-                        // Show loading indication
-                        submitDetailButton.setAttribute('data-kt-indicator', 'off');
-
-                        // Disable button to avoid multiple click 
-                        submitDetailButton.disabled = false;
-
-                        ShowErrorMessage(response.Message);
-                    }
-                });
-            });
-
-            cancelDetailButton.addEventListener('click', function (e) {
-                e.preventDefault();
-                modal.hide(); // Hide modal	
-            });
-        }
-        var getProductDetail = function () {
-            console.log("id => " + getParameterByName("productId"));
             var data = {
                 productId: getParameterByName("productId")
             };
 
             Get("/Admin/Products/GetProductWithId", data).done(function (response) {
                 if (response.IsSuccess) {
-                    debugger;
-                    $("#ProductName").text(response.Data.Product.Name);
-                    $("#UpdateProductCategoryId").text(response.Data.Product.CategoryId);
-                    $("#UpdateProductId").text(response.Data.Product.Id);
+                    $("#ProductId").val(response.Data.Product.Id);
+                    $("#ProductCategoryId").val(response.Data.Product.CategoryId);
 
+                    $("#h3ProductName").text(response.Data.Product.Name);
+                    $("#spanProductCode").text(response.Data.Product.ProductCode);
                     $("#spanProductDescription").html(response.Data.Product.Description);
-
-                    $("#UpdateProductDescription").text(response.Data.Product.Description);
-                    $("#spanProductName").text(response.Data.Product.ProductCode);
 
                     if (response.Data.Product.ImageString != null && response.Data.Product.ImageString != "") {
                         $('#divProductImage').css('background', "url(" + response.Data.Product.ImageString + ")");
@@ -160,36 +107,29 @@ function productDetailModal() {
                         }
 
                     }
-                    console.log("GetProductWithId");
                 }
             });
         }
 
         return {
-            // Public functions
             init: function () {
-                form = document.querySelector('#modalProduct_form');
-                formDetail = document.querySelector('#modalProductDetail_form');
-                submitButton = document.getElementById('modalProduct_submit');
-                cancelButton = document.getElementById('modalProduct_cancel');
+                formUpdateProduct = document.getElementById('updateProduct_form');
 
-                submitDetailButton = document.getElementById('modalProductDetail_submit');
-                cancelDetailButton = document.getElementById('modalProductDetail_cancel');
+                btnShowProductModal = document.getElementById('btnShowProductModal');
+                btnUpdateProduct = document.getElementById('btnUpdateProduct');
+                btnCancelUpdateProduct = document.getElementById('btnCancelUpdateProduct');
 
-                handleForm();
+                handleProductPageLoad();
 
-                handleDetailForm();
-
-                getProductDetail();
+                handleProductPageEvent();
             }
         };
     }();
 
-    // On document ready
     KTUtil.onDOMContentLoaded(function () {
         if (ckeditor == undefined) {
             ClassicEditor
-                .create(document.querySelector('#UpdateProductDescription '))
+                .create(document.querySelector('#ProductDescription '))
                 .then(editor => {
                     ckeditor = editor;
                 })
@@ -197,8 +137,7 @@ function productDetailModal() {
                     console.error(error);
                 });
         }
-        KTModalNewCard.init();
+
+        KTProductPage.init();
     });
-    /******/
 })();
-//# sourceMappingURL=new-card.js.map

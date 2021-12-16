@@ -6,9 +6,14 @@
     var KTProductPage = function () {
 
         var formUpdateProduct;
+        var formAddProductDetail;
         var btnShowProductModal;
         var btnUpdateProduct;
         var btnCancelUpdateProduct;
+        var btnShowProductDetailModal;
+        var btnCancelAddProductDetail;
+        var btnAddProductDetail;
+
 
         var handleProductPageEvent = function () {
 
@@ -69,6 +74,44 @@
             btnCancelUpdateProduct.addEventListener('click', function (e) {
                 hideModal("modalProduct");
             });
+
+            btnShowProductDetailModal.addEventListener('click', function (e) {
+                showModal("modalProductDetail");
+            });
+
+            btnCancelAddProductDetail.addEventListener('click', function (e) {
+                hideModal("modalProductDetail");
+            });
+
+            btnAddProductDetail.addEventListener('click', function (e) {
+                // Prevent default button action
+                e.preventDefault();
+
+                // Show loading indication
+                btnAddProductDetail.setAttribute('data-kt-indicator', 'on');
+
+                // Disable button to avoid multiple click 
+                btnAddProductDetail.disabled = true;
+
+                var formData = new FormData(formAddProductDetail);
+                formData.append("ProductId", $("#ProductId").val());
+                formData.append("ProductCategoryId", $("#ProductCategoryId").val());
+
+                PostFormWithFile("/Admin/Products/AddProductDetail", formData).done(function (response) {
+                    if (response.IsSuccess) {
+                        ShowSuccessMessage(response.Message, "/Admin/Products/Product?productId=" + response.Data.ProductId);
+                    }
+                    else {
+                        // Show loading indication
+                        btnAddProductDetail.setAttribute('data-kt-indicator', 'off');
+
+                        // Disable button to avoid multiple click 
+                        btnAddProductDetail.disabled = false;
+
+                        ShowErrorMessage(response.Message);
+                    }
+                });
+            });
         }
 
         var handleProductPageLoad = function () {
@@ -114,10 +157,14 @@
         return {
             init: function () {
                 formUpdateProduct = document.getElementById('updateProduct_form');
+                formAddProductDetail = document.getElementById('addProductDetail_form');
 
                 btnShowProductModal = document.getElementById('btnShowProductModal');
                 btnUpdateProduct = document.getElementById('btnUpdateProduct');
                 btnCancelUpdateProduct = document.getElementById('btnCancelUpdateProduct');
+                btnShowProductDetailModal = document.getElementById('btnShowProductDetailModal');
+                btnCancelAddProductDetail = document.getElementById('btnCancelAddProductDetail');
+                btnAddProductDetail = document.getElementById('btnAddProductDetail');
 
                 handleProductPageLoad();
 

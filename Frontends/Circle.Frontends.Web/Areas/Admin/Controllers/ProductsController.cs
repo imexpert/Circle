@@ -137,13 +137,6 @@ namespace Circle.Frontends.Web.Areas.Admin.Controllers
                 {
                     model.Image = await HttpContext.Request.Form.Files[0].GetBytes();
                 }
-                else
-                {
-                    if (form["avatar_remove"][0] == "1")
-                    {
-                        model.Image = null;
-                    }
-                }
 
                 if (form.ContainsKey("ProductDescription"))
                 {

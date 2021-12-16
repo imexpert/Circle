@@ -37,7 +37,7 @@ namespace Circle.Library.Business.Handlers.ProductDetails.Commands
                     Length = request.Model.SelectLength,
                     Material = request.Model.SelectMaterial,
                     MaterialDetail = request.Model.SelectMaterialDetail,
-                    ProductId = request.Model.UpdateProductId
+                    ProductId = request.Model.ProductId
                 };
 
                 _productDetailRepository.Add(item);

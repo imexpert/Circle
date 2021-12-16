@@ -14,7 +14,7 @@
             <div class="card-toolbar">
                 <div class="btn-group" role="group" aria-label="Basic example">
                     <button type="button" id="btnShowProductModal" class="btn btn-sm btn-secondary"><i class="fa fa-edit"></i>&nbsp; Düzenle</button>
-                    <button type="button" id="btnAddProductDetail" class="btn btn-sm btn-secondary"><i class="fa fa-plus"></i>&nbsp; Yeni Ürün Ekle</button>
+                    <button type="button" id="btnShowProductDetailModal" class="btn btn-sm btn-secondary"><i class="fa fa-plus"></i>&nbsp; Yeni Ürün Ekle</button>
                 </div>
             </div>
         </div>
@@ -251,7 +251,7 @@
             <!--begin::Modal body-->
             <div class="modal-body scroll-y px-10 px-lg-15 pt-0 pb-15">
                 <!--begin:Form-->
-                <form id="modalProductDetail_form" class="form fv-plugins-bootstrap5 fv-plugins-framework" action="#">
+                <form id="addProductDetail_form" class="form fv-plugins-bootstrap5 fv-plugins-framework" action="#">
                     @*Head*@
                     <div class="mb-13 text-center">
                         <!--begin::Title-->
@@ -324,9 +324,8 @@
                     <br />
                     @*Actions*@
                     <div class="text-center mt-3">
-                        <input type="hidden" class="form-control form-control-solid" id="UpdateProductId" name="UpdateProductId">
-                        <button type="reset" id="modalProductDetail_cancel" data-dismiss="modal" class="btn btn-light me-3">@T.GetLocalizedHtmlString("Cancel")</button>
-                        <button type="submit" id="modalProductDetail_submit" class="btn btn-primary">
+                        <button type="reset" id="btnCancelAddProductDetail" data-dismiss="modal" class="btn btn-light me-3">@T.GetLocalizedHtmlString("Cancel")</button>
+                        <button type="submit" id="btnAddProductDetail" class="btn btn-primary">
                             <span class="indicator-label">@T.GetLocalizedHtmlString("Save")</span>
                             <span class="indicator-progress">
                                 Please wait...

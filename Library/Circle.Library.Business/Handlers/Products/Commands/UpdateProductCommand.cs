@@ -32,9 +32,14 @@ namespace Circle.Library.Business.Handlers.Products.Commands
             public async Task<ResponseMessage<Product>> Handle(UpdateProductCommand request, CancellationToken cancellationToken)
             {
                 Product product = await _productRepository.GetAsync(s => s.Id == new System.Guid(request.Model.ProductId));
+
+                if (request.Model.Image != null)
+                {
+                    product.Image = request.Model.Image;
+                }
+
                 product.CategoryId = new System.Guid(request.Model.ProductCategoryId);
                 product.Description = request.Model.ProductDescription;
-                product.Image = request.Model.Image;
                 product.Name = request.Model.ProductName;
 
                 _productRepository.Update(product);

@@ -33,5 +33,6 @@ namespace Circle.Library.Entities.ComplexTypes
             set { }
         }
         public string Description { get; set; }
+        public int SubProductCount { get; set; }
     }
 }

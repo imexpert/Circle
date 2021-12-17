@@ -21,13 +21,16 @@ namespace Circle.Library.Business.Handlers.Products.Queries
         public class GetProductsQueryHandler : IRequestHandler<GetProductsQuery, ResponseMessage<List<ProductModel>>>
         {
             private readonly IProductRepository _productRepository;
+            private readonly IProductDetailRepository _productDetailRepository;
             private readonly IMediator _mediator;
 
             public GetProductsQueryHandler(
                 IProductRepository productRepository,
+                IProductDetailRepository productDetailRepository,
                 IMediator mediator)
             {
                 _productRepository = productRepository;
+                _productDetailRepository = productDetailRepository;
                 _mediator = mediator;
             }
 
@@ -56,7 +59,8 @@ namespace Circle.Library.Business.Handlers.Products.Queries
                         Image = item.Image,
                         Name = item.Name,
                         ProductCode = productCode,
-                        Id = item.Id
+                        Id = item.Id,
+                        SubProductCount = (await _productDetailRepository.GetListAsync(s=>s.ProductId == item.Id)).Count
                     };
 
                     productModelList.Add(model);
